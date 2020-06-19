@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Metafoodie</title>
+    <link rel="stylesheet" media="all"
+          href="/assets/application-937e34a6cb7aa5469b6f55ba51bac38bf5e0e0b91ab63829931dd74afbb62fa1.css"/>
+    <script src="main.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">MetaFOODIE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+            </li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4">
+    <style>
+        #description {
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 10px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            font-family: Roboto;
+        }
+
+        #pac-container {
+            padding-bottom: 12px;
+            margin-right: 12px;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 20px;
+            font-weight: 300;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+        #title {
+            color: #fff;
+            background-color: #4d90fe;
+            font-size: 25px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+
+        #target {
+            width: 345px;
+        }
+    </style>
+
+    <div class="alert alert-info d-none" role="alert">
+        Please select a food place, like a restaurant or a bar
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-8 m-auto">
+            <input id="pac-input" class="controls" type="text" placeholder="Find a restaurant">
+        </div>
+    </div>
+    <div class="mt-3"></div>
+    <div class="row">
+        <div class="col-12 col-lg-8 m-auto">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-8 m-auto">
+            <p class="rating_summary m-auto text-center">
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-8 m-auto">
+            <table id="results" class="table">
+                <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>Rating</th>
+                    <th>Ratings count</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="google_results">
+                    <td><img class="icon"
+                             src="/assets/google_icon-27c00523a9a6a10a7fef7cf2853444c122d6e8ddcd5d3b09c4752622b501a7c1.png"/>
+                        google
+                    </td>
+                    <td class="rating"></td>
+                    <td class="rating-count"></td>
+                    <td class="name"></td>
+                </tr>
+                <tr id="facebook_results">
+                    <td><img class="icon"
+                             src="/assets/facebook_icon-fba65482cea099ff739bf13d5c9c145c0c415c2a5d6557ddc7e75a5845901856.png"/>
+                        facebook
+                    </td>
+                    <td class="rating"></td>
+                    <td class="rating-count"></td>
+                    <td class="name"></td>
+                </tr>
+                <tr id="yelp_results">
+                    <td><img class="icon"
+                             src="/assets/yelp_icon-dbfec197198ace01aab7fe6b332d95716e797ca9f061fdc2fb3739197a1ea14e.png"/>
+                        yelp
+                    </td>
+                    <td class="rating"></td>
+                    <td class="rating-count"></td>
+                    <td class="name"></td>
+                </tr>
+                <tr id="zomato_results">
+                    <td><img class="icon"
+                             src="/assets/zomato_icon-21c88c92e80e861daf2f41f0fcc430401d1d949eee2f198dc4c62b9a16c05f47.png"/>
+                        zomato
+                    </td>
+                    <td class="rating"></td>
+                    <td class="rating-count"></td>
+                    <td class="name"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&libraries=places&callback=App.initAutocomplete"
+            async defer></script>
+
+</div>
+
+</body>
+</html>
