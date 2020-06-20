@@ -1,0 +1,12 @@
+#map {
+    height: 400px;
+}
+
+img.icon {
+    height: 24px;
+    width: 24px;
+}
+
+.rating_summary {
+    font-size: 40px;
+}
