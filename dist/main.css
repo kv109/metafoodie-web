@@ -1,5 +1,5 @@
 #map {
-    height: 400px;
+    height: 600px;
 }
 
 img.icon {
@@ -7,8 +7,10 @@ img.icon {
     width: 24px;
 }
 
-.rating_summary {
-    font-size: 40px;
+.rating-summary {
+    font-family: Roboto;
+    font-size: 30px;
+    color: white;
 }
 
 #pac-input {

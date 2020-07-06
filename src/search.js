@@ -36,7 +36,21 @@ function appendResults(results) {
             ratingsCount += 1;
             summary += rating;
             const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
-            $(".rating_summary").html(percentage + "%");
+            let textColor = "#ffffff";
+            let backgroundColor;
+            if (percentage > 85) {
+                backgroundColor = "#24aa24"
+            } else if (percentage > 70) {
+                backgroundColor = "#ddee07"
+                textColor = "#444444"
+            } else if (percentage > 50) {
+                backgroundColor = "#d49520"
+            } else {
+                backgroundColor = "red"
+            }
+            console.log("color", backgroundColor)
+            $(".rating-summary").css({"backgroundColor": backgroundColor, "color": textColor});
+            $(".rating-summary").html(percentage + "%");
         }
     } else {
     }
