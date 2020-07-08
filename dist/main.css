@@ -7,6 +7,16 @@ img.icon {
     width: 24px;
 }
 
+#results {
+    font-size: smaller;
+}
+
+@media (min-width: 768px) {
+    #results {
+        font-size: initial;
+    }
+}
+
 .rating-summary {
     font-family: Roboto;
     font-size: 30px;
