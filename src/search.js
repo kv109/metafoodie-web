@@ -28,8 +28,7 @@ function appendResults(results) {
 
     if (place) {
         const rating = parseFloat(place.rating)
-        $providerRow.find("td.rating").html(rating);
-        $providerRow.find("td.rating-count").html(place.rating_count);
+        $providerRow.find("td.rating").html(`${rating} (${place.rating_count})`);
         $providerRow.find("td.name").html(place.name);
 
         if (!isNaN(rating)) {
