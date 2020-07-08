@@ -81,8 +81,8 @@ function fetchResultsForGooglePlace(place) {
 // pick list containing a mix of places and predicted search terms.
 window.App.initAutocomplete = function () {
     let map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -33.8688, lng: 151.2195},
-        zoom: 13,
+        center: {lat: 52.2688369, lng: 20.9829954},
+        zoom: 16,
         mapTypeId: 'roadmap'
     });
 
