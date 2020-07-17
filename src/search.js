@@ -36,7 +36,7 @@ function appendResults(results) {
     const $providerRow = $(providerRowSelector);
 
     if (place) {
-        const rating = parseFloat(null)
+        const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
 
         const $rating = $providerRow.find("td.rating");
