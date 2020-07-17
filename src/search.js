@@ -15,9 +15,18 @@ function fetchResults(lat, lng, name, provider) {
     const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
 
-    $.get(apiUrl, function (results) {
-        appendResults(JSON.parse(results));
-    })
+    $.ajax(
+        {
+            url: apiUrl,
+            error: function () {
+                $(`#${provider}_results td.name`).html(":( ");
+                $(`#${provider}_results td.rating`).html("Sth went wrong");
+            },
+            success: function (results) {
+                appendResults(JSON.parse(results));
+            }
+        }
+    )
 }
 
 function appendResults(results) {
@@ -27,11 +36,20 @@ function appendResults(results) {
     const $providerRow = $(providerRowSelector);
 
     if (place) {
-        const rating = parseFloat(place.rating)
-        $providerRow.find("td.rating").html(`${rating} (${place.rating_count})`);
+        const rating = parseFloat(null)
+        const isRatingNumber = !isNaN(rating);
+
+        const $rating = $providerRow.find("td.rating");
+
+        if (isRatingNumber) {
+            $rating.html(`${rating} (${place.rating_count})`);
+        } else {
+            $rating.html("? / 0");
+        }
+
         $providerRow.find("td.name").html(place.name);
 
-        if (!isNaN(rating)) {
+        if (isRatingNumber) {
             ratingsCount += 1;
             summary += rating;
             const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
@@ -52,6 +70,8 @@ function appendResults(results) {
             $(".rating-summary").html(percentage + "%");
         }
     } else {
+        $(`#${provider}_results td.name`).html(":( ");
+        $(`#${provider}_results td.rating`).html("Couldn't find");
     }
 }
 
