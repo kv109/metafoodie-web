@@ -1,4 +1,4 @@
-import {tdNameEl} from '../src/domimport'
+// import {tdNameEl} from '../src/domimport'
 
 const providers = ["facebook", "yelp", "zomato"]
 
@@ -94,9 +94,9 @@ function fetchResultsForGooglePlace(place) {
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
-        $(".alert").removeClass("d-none");
+        document.querySelector(".alert").classList.remove('d-none');
     } else {
-        $(".alert").addClass("d-none");
+        document.querySelector(".alert").classList.add('d-none');
         const name = place.name;
         const location = place.geometry.location;
         const lat = location.lat();
