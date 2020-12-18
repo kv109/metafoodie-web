@@ -1,18 +1,24 @@
+import {tdNameEl} from '../src/domimport'
+
 const providers = ["facebook", "yelp", "zomato"]
 
 let summary = 0;
 let ratingsCount = 0;
 
+const printPreloader = (provider, tagClass) => {
+    document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = "MIKLoading...";
+}
+
 function fetchResults(lat, lng, name, provider) {
 
-// PRELOADER
+    // PRELOADER
 
-    providers.forEach(function (provider) {
-        $(`#${provider}_results td.name`).html("Loading...");
-        $(`#${provider}_results td.rating`).html("Loading...");
+    providers.forEach(provider => {
+        printPreloader(provider, 'name');
+        printPreloader(provider, 'rating');
     })
 
-// AMAZON SERVERLESS STORAGE REQUEST [???]
+    // AMAZON SERVERLESS STORAGE REQUEST [???]
 
     summary = 0;
     ratingsCount = 0;
@@ -20,18 +26,16 @@ function fetchResults(lat, lng, name, provider) {
     const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
 
-    $.ajax(
-        {
-            url: apiUrl,
-            error: function () {
-                $(`#${provider}_results td.name`).html(":( ");
-                $(`#${provider}_results td.rating`).html("Sth went wrong");
-            },
-            success: function (results) {
-                appendResults(JSON.parse(results));
-            }
+    $.ajax({
+        url: apiUrl,
+        error: function () {
+            $(`#${provider}_results td.name`).html(":( ");
+            $(`#${provider}_results td.rating`).html("Sth went wrong");
+        },
+        success: function (results) {
+            appendResults(JSON.parse(results));
         }
-    )
+    })
 }
 
 //
@@ -56,7 +60,7 @@ function appendResults(results) {
 
         $providerRow.find("td.name").html(place.name);
 
-// AVERAGE SCORE PRESENTATION
+        // AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
             ratingsCount += 1;
@@ -75,11 +79,14 @@ function appendResults(results) {
                 backgroundColor = "red"
             }
             console.log("color", backgroundColor)
-            $(".rating-summary").css({"backgroundColor": backgroundColor, "color": textColor});
+            $(".rating-summary").css({
+                "backgroundColor": backgroundColor,
+                "color": textColor
+            });
             $(".rating-summary").html(percentage + "%");
         }
 
-// IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
+        // IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
 
     } else {
         $(`#${provider}_results td.name`).html(":( ");
@@ -102,7 +109,10 @@ function fetchResultsForGooglePlace(place) {
         const lat = location.lat();
         const lng = location.lng();
         place.rating_count = place.user_ratings_total;
-        appendResults({data: [place], provider: "google"})
+        appendResults({
+            data: [place],
+            provider: "google"
+        })
 
         providers.forEach(function (provider) {
             fetchResults(lat, lng, name, provider);
@@ -115,7 +125,10 @@ function fetchResultsForGooglePlace(place) {
 // pick list containing a mix of places and predicted search terms.
 window.App.initAutocomplete = function () {
     let map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 52.2688369, lng: 20.9829954},
+        center: {
+            lat: 52.2688369,
+            lng: 20.9829954
+        },
         zoom: 16,
         mapTypeId: 'roadmap',
         mapTypeControl: false,
@@ -136,7 +149,9 @@ window.App.initAutocomplete = function () {
 
     map.addListener('click', function (event) {
         if (event.placeId) {
-            placesService.getDetails({placeId: event.placeId}, function (place, status) {
+            placesService.getDetails({
+                placeId: event.placeId
+            }, function (place, status) {
                 fetchResultsForGooglePlace(place);
             });
         }

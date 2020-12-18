@@ -10636,11 +10636,6 @@ img.icon {
   font-size: smaller;
 }
 
-@media (min-width: 768px) {
-  #results {
-    font-size: initial;
-  }
-}
 .rating-summary {
   font-family: Roboto;
   font-size: 30px;
@@ -10679,6 +10674,11 @@ img.icon {
   display: inline;
 }
 
+@media (min-width: 768px) {
+  #results {
+    font-size: initial;
+  }
+}
 /*.pac-card {*/
 /*    margin: 10px 10px 0 0;*/
 /*    border-radius: 2px 0 0 2px;*/
