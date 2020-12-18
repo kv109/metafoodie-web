@@ -2,57 +2,84 @@ const providers = ["facebook", "yelp", "zomato"]
 
 let summary = 0;
 let ratingsCount = 0;
+let scoresArr = [];
+let totalRatingCount = 0;
+
+const printOutput = (provider, tagClass, info) => {
+    document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
+}
 
 function fetchResults(lat, lng, name, provider) {
-    providers.forEach(function (provider) {
-        $(`#${provider}_results td.name`).html("Loading...");
-        $(`#${provider}_results td.rating`).html("Loading...");
+
+    // PRELOADER
+
+    providers.forEach(provider => {
+        printOutput(provider, 'name', 'Loading...');
+        printOutput(provider, 'rating', 'Loading...');
     })
 
-    summary = 0;
-    ratingsCount = 0;
+    // AMAZON SERVERLESS STORAGE REQUEST
 
     const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
 
-    $.ajax(
-        {
-            url: apiUrl,
-            error: function () {
-                $(`#${provider}_results td.name`).html(":( ");
-                $(`#${provider}_results td.rating`).html("Sth went wrong");
-            },
-            success: function (results) {
-                appendResults(JSON.parse(results));
-            }
-        }
-    )
+    fetch(apiUrl)
+        .then(resolve => resolve.json())
+        .then(resolve => appendResults(resolve))
+        .catch(err => console.log(err))
+
 }
+
+// SCORES TABLE GENERATION
 
 function appendResults(results) {
     const place = results.data[0];
     const provider = results.provider;
-    const providerRowSelector = `#${provider}_results`;
-    const $providerRow = $(providerRowSelector);
+    const providerRowSelectorEl = document.querySelector(`#${provider}_results`);
+    const providerRatingTagEl = providerRowSelectorEl.firstElementChild.nextElementSibling;
+    const providerNameTagEl = providerRowSelectorEl.lastElementChild;
+    const ratingSummaryEl = document.querySelector(".rating-summary");
+    const restaurantTitle = document.querySelector(".restaurant-title");
 
     if (place) {
         const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
 
-        const $rating = $providerRow.find("td.rating");
-
         if (isRatingNumber) {
-            $rating.html(`${rating} (${place.rating_count})`);
+            providerRatingTagEl.innerHTML = `${rating} (${place.rating_count})`;
         } else {
-            $rating.html("? / 0");
+            providerRatingTagEl.innerHTML = ("? / 0");
         }
 
-        $providerRow.find("td.name").html(place.name);
+        restaurantTitle.innerHTML = place.name;
+        providerNameTagEl.innerHTML = place.name;
+
+        // AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
             ratingsCount += 1;
             summary += rating;
-            const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
+            // CALCULATING ARITMETIC AVERAGE
+            // const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
+
+            // CALCULATING WEIGTHED AVERAGE
+
+            scoresArr.push(Math.round(rating * place.rating_count));
+            totalRatingCount += place.rating_count;
+
+            let numerator = 0;
+            let denumerator = totalRatingCount;
+
+            scoresArr.forEach(score => {
+                numerator += score;
+            });
+
+            const percentage = Math.round(numerator / denumerator / 5 * 100);
+
+            console.log(provider, rating, place.rating_count);
+            console.log(scoresArr);
+            console.log(numerator, denumerator);
+
             let textColor = "#ffffff";
             let backgroundColor;
             if (percentage > 85) {
@@ -65,30 +92,39 @@ function appendResults(results) {
             } else {
                 backgroundColor = "red"
             }
-            console.log("color", backgroundColor)
-            $(".rating-summary").css({"backgroundColor": backgroundColor, "color": textColor});
-            $(".rating-summary").html(percentage + "%");
+
+            ratingSummaryEl.style.backgroundColor = backgroundColor;
+            ratingSummaryEl.style.color = textColor;
+            ratingSummaryEl.innerHTML = `${percentage}%`
         }
+
+        // IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
+
     } else {
-        $(`#${provider}_results td.name`).html(":( ");
-        $(`#${provider}_results td.rating`).html("Couldn't find");
+        printOutput(provider, 'name', ':(');
+        printOutput(provider, 'rating', `Couldn't find`);
     }
 }
 
+
 function fetchResultsForGooglePlace(place) {
-    console.log("place", place)
+    console.log("place:", place)
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
-        $(".alert").removeClass("d-none");
+        document.querySelector(".alert").classList.remove('d-none');
+
     } else {
-        $(".alert").addClass("d-none");
+        document.querySelector(".alert").classList.add('d-none');
         const name = place.name;
         const location = place.geometry.location;
         const lat = location.lat();
         const lng = location.lng();
         place.rating_count = place.user_ratings_total;
-        appendResults({data: [place], provider: "google"})
+        appendResults({
+            data: [place],
+            provider: "google"
+        })
 
         providers.forEach(function (provider) {
             fetchResults(lat, lng, name, provider);
@@ -101,11 +137,15 @@ function fetchResultsForGooglePlace(place) {
 // pick list containing a mix of places and predicted search terms.
 window.App.initAutocomplete = function () {
     let map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 52.2688369, lng: 20.9829954},
+        center: {
+            lat: 52.2688369,
+            lng: 20.9829954
+        },
         zoom: 16,
         mapTypeId: 'roadmap',
         mapTypeControl: false,
-        streetViewControl: false
+        streetViewControl: false,
+        mapId: '33280f2f68566682'
     });
 
     let placesService = new google.maps.places.PlacesService(map);
@@ -120,19 +160,27 @@ window.App.initAutocomplete = function () {
         searchBox.setBounds(map.getBounds());
     });
 
+    // Getting results after clicking marker
     map.addListener('click', function (event) {
         if (event.placeId) {
-            placesService.getDetails({placeId: event.placeId}, function (place, status) {
+            placesService.getDetails({
+                placeId: event.placeId
+            }, function (place, status) {
                 fetchResultsForGooglePlace(place);
             });
+            scoresArr = [];
+            totalRatingCount = 0;
         }
     });
 
     let markers = [];
 
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+
     searchBox.addListener('places_changed', function () {
         let places = searchBox.getPlaces();
-
+        console.log("places:", places)
         if (places.length == 0) {
             return;
         }
@@ -151,21 +199,33 @@ window.App.initAutocomplete = function () {
             console.log("Returned place contains no geometry");
             return;
         }
-        // let icon = {
-        //     url: place.icon,
-        //     size: new google.maps.Size(71, 71),
-        //     origin: new google.maps.Point(0, 0),
-        //     anchor: new google.maps.Point(17, 34),
-        //     scaledSize: new google.maps.Size(25, 25)
-        // };
+
+        // Custom marker
+
+        let icon = {
+            url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
+            size: new google.maps.Size(100, 132),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(50, 66)
+        };
 
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
             map: map,
-            // icon: icon,
+            icon: icon,
             title: place.name,
             position: place.geometry.location
         }));
+
+        console.log("markers:", markers);
+
+        // MARKER CLUSTERING (doesn't work)
+
+        // const clustersPath = '/home/thiefunny/Desktop/metafoodie-web/dist/img/google-maps-marker-clusters'
+        // // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        // new MarkerClusterer(map, markers, {imagePath: `https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m`});
+
 
         if (place.geometry.viewport) {
             // Only geocodes have viewport.
