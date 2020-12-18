@@ -5,8 +5,8 @@ const providers = ["facebook", "yelp", "zomato"]
 let summary = 0;
 let ratingsCount = 0;
 
-const printPreloader = (provider, tagClass) => {
-    document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = "MIKLoading...";
+const printOutput = (provider, tagClass, info) => {
+    document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
 }
 
 function fetchResults(lat, lng, name, provider) {
@@ -14,11 +14,11 @@ function fetchResults(lat, lng, name, provider) {
     // PRELOADER
 
     providers.forEach(provider => {
-        printPreloader(provider, 'name');
-        printPreloader(provider, 'rating');
+        printOutput(provider, 'name', 'Loading...');
+        printOutput(provider, 'rating', 'Loading...');
     })
 
-    // AMAZON SERVERLESS STORAGE REQUEST [???]
+    // AMAZON SERVERLESS STORAGE REQUEST
 
     summary = 0;
     ratingsCount = 0;
@@ -26,22 +26,18 @@ function fetchResults(lat, lng, name, provider) {
     const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
 
-    $.ajax({
-        url: apiUrl,
-        error: function () {
-            $(`#${provider}_results td.name`).html(":( ");
-            $(`#${provider}_results td.rating`).html("Sth went wrong");
-        },
-        success: function (results) {
-            appendResults(JSON.parse(results));
-        }
-    })
+    fetch(apiUrl)
+    .then(resolve => resolve.json())
+    .then(resolve => appendResults(resolve))
+    .catch(err => console.log(err))
+
 }
 
-//
+// SCORES TABLE GENERATION
 
 function appendResults(results) {
     const place = results.data[0];
+    console.log(results)
     const provider = results.provider;
     const providerRowSelector = `#${provider}_results`;
     const $providerRow = $(providerRowSelector);
@@ -58,6 +54,7 @@ function appendResults(results) {
             $rating.html("? / 0");
         }
 
+        document.querySelectorAll
         $providerRow.find("td.name").html(place.name);
 
         // AVERAGE SCORE PRESENTATION
@@ -89,8 +86,8 @@ function appendResults(results) {
         // IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
 
     } else {
-        $(`#${provider}_results td.name`).html(":( ");
-        $(`#${provider}_results td.rating`).html("Couldn't find");
+        printOutput(provider, 'name', ':(');
+        printOutput(provider, 'rating', `Couldn't find`);
     }
 }
 
