@@ -37,25 +37,24 @@ function fetchResults(lat, lng, name, provider) {
 
 function appendResults(results) {
     const place = results.data[0];
-    console.log(results)
     const provider = results.provider;
-    const providerRowSelector = `#${provider}_results`;
-    const $providerRow = $(providerRowSelector);
+    const providerRowSelectorEl = document.querySelector(`#${provider}_results`);
+    const providerRatingTagEl = providerRowSelectorEl.firstElementChild.nextElementSibling;
+    const providerNameTagEl = providerRowSelectorEl.lastElementChild;
+    const ratingSummaryEl = document.querySelector(".rating-summary");
+
 
     if (place) {
         const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
 
-        const $rating = $providerRow.find("td.rating");
-
         if (isRatingNumber) {
-            $rating.html(`${rating} (${place.rating_count})`);
+            providerRatingTagEl.innerHTML = `${rating} (${place.rating_count})`;
         } else {
-            $rating.html("? / 0");
+            providerRatingTagEl.innerHTML = ("? / 0");
         }
 
-        document.querySelectorAll
-        $providerRow.find("td.name").html(place.name);
+        providerNameTagEl.innerHTML = place.name;
 
         // AVERAGE SCORE PRESENTATION
 
@@ -75,12 +74,10 @@ function appendResults(results) {
             } else {
                 backgroundColor = "red"
             }
-            console.log("color", backgroundColor)
-            $(".rating-summary").css({
-                "backgroundColor": backgroundColor,
-                "color": textColor
-            });
-            $(".rating-summary").html(percentage + "%");
+            
+            ratingSummaryEl.style.backgroundColor = backgroundColor;
+            ratingSummaryEl.style.color = textColor;
+            ratingSummaryEl.innerHTML = `${percentage}%`
         }
 
         // IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
@@ -90,7 +87,6 @@ function appendResults(results) {
         printOutput(provider, 'rating', `Couldn't find`);
     }
 }
-
 
 
 function fetchResultsForGooglePlace(place) {
