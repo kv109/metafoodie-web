@@ -4,10 +4,15 @@ let summary = 0;
 let ratingsCount = 0;
 
 function fetchResults(lat, lng, name, provider) {
+
+// PRELOADER
+
     providers.forEach(function (provider) {
         $(`#${provider}_results td.name`).html("Loading...");
         $(`#${provider}_results td.rating`).html("Loading...");
     })
+
+// AMAZON SERVERLESS STORAGE REQUEST [???]
 
     summary = 0;
     ratingsCount = 0;
@@ -29,6 +34,8 @@ function fetchResults(lat, lng, name, provider) {
     )
 }
 
+//
+
 function appendResults(results) {
     const place = results.data[0];
     const provider = results.provider;
@@ -48,6 +55,8 @@ function appendResults(results) {
         }
 
         $providerRow.find("td.name").html(place.name);
+
+// AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
             ratingsCount += 1;
@@ -69,11 +78,16 @@ function appendResults(results) {
             $(".rating-summary").css({"backgroundColor": backgroundColor, "color": textColor});
             $(".rating-summary").html(percentage + "%");
         }
+
+// IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
+
     } else {
         $(`#${provider}_results td.name`).html(":( ");
         $(`#${provider}_results td.rating`).html("Couldn't find");
     }
 }
+
+
 
 function fetchResultsForGooglePlace(place) {
     console.log("place", place)
