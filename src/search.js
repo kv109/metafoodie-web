@@ -90,12 +90,15 @@ function appendResults(results) {
 
 
 function fetchResultsForGooglePlace(place) {
-    console.log("place", place)
+    console.log("place:", place)
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
         document.querySelector(".alert").classList.remove('d-none');
-    } else {
+
+    } 
+      
+    else {
         document.querySelector(".alert").classList.add('d-none');
         const name = place.name;
         const location = place.geometry.location;
@@ -125,7 +128,8 @@ window.App.initAutocomplete = function () {
         zoom: 16,
         mapTypeId: 'roadmap',
         mapTypeControl: false,
-        streetViewControl: false
+        streetViewControl: false,
+        mapId: '33280f2f68566682'
     });
 
     let placesService = new google.maps.places.PlacesService(map);
@@ -139,7 +143,8 @@ window.App.initAutocomplete = function () {
     map.addListener('bounds_changed', function () {
         searchBox.setBounds(map.getBounds());
     });
-
+    
+    // Getting results after clicking marker
     map.addListener('click', function (event) {
         if (event.placeId) {
             placesService.getDetails({
@@ -152,9 +157,12 @@ window.App.initAutocomplete = function () {
 
     let markers = [];
 
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+
     searchBox.addListener('places_changed', function () {
         let places = searchBox.getPlaces();
-
+        console.log("places:", places)
         if (places.length == 0) {
             return;
         }
@@ -173,21 +181,31 @@ window.App.initAutocomplete = function () {
             console.log("Returned place contains no geometry");
             return;
         }
-        // let icon = {
-        //     url: place.icon,
-        //     size: new google.maps.Size(71, 71),
-        //     origin: new google.maps.Point(0, 0),
-        //     anchor: new google.maps.Point(17, 34),
-        //     scaledSize: new google.maps.Size(25, 25)
-        // };
+
+        let icon = {
+            url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
+            size: new google.maps.Size(100, 132),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(50, 66)
+        };
 
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
             map: map,
-            // icon: icon,
+            icon: icon,
             title: place.name,
             position: place.geometry.location
         }));
+
+        console.log("markers:", markers);
+
+// MARKER CLUSTERING (doesn't work)
+
+        // const clustersPath = '/home/thiefunny/Desktop/metafoodie-web/dist/img/google-maps-marker-clusters'
+        // // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        // new MarkerClusterer(map, markers, {imagePath: `https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m`});
+
 
         if (place.geometry.viewport) {
             // Only geocodes have viewport.
