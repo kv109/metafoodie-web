@@ -1,5 +1,3 @@
-// import {tdNameEl} from '../src/domimport'
-
 const providers = ["facebook", "yelp", "zomato"]
 
 let summary = 0;
@@ -42,7 +40,7 @@ function appendResults(results) {
     const providerRatingTagEl = providerRowSelectorEl.firstElementChild.nextElementSibling;
     const providerNameTagEl = providerRowSelectorEl.lastElementChild;
     const ratingSummaryEl = document.querySelector(".rating-summary");
-
+    const restaurantTitle = document.querySelector(".restaurant-title");
 
     if (place) {
         const rating = parseFloat(place.rating)
@@ -54,6 +52,7 @@ function appendResults(results) {
             providerRatingTagEl.innerHTML = ("? / 0");
         }
 
+        restaurantTitle.innerHTML = place.name;
         providerNameTagEl.innerHTML = place.name;
 
         // AVERAGE SCORE PRESENTATION
@@ -181,6 +180,8 @@ window.App.initAutocomplete = function () {
             console.log("Returned place contains no geometry");
             return;
         }
+
+        // Custom marker
 
         let icon = {
             url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',

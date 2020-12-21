@@ -58,6 +58,12 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12 col-lg-8 m-auto mb-3">
+                <div class="restaurant-title h3">NAZWA RESTAURACJI</div>
+            </div>
+        </div>
+
         <!-- AVERAGE SCORE -->
 
         <div class="row">
@@ -117,9 +123,8 @@
             async defer></script>
 
 <!-- MARKER CLUSTERING (don't work) -->
+
         <!-- <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script> -->
-
-
 
 <!-- TESTS OF FINDPLACEFROMTEXT API [DOESN'T WORK -> CORS] -->
 
@@ -127,12 +132,10 @@
             // const tempUrl =
             //     'http://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=warszawa&inputtype=textquery&key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo'
 
-
             const tempUrl =
                 'http://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJgUbEo8cfqokR5lP9_Wh_DaM&key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo'
 
             // https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=mongolian%20grill&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,rating&locationbias=circle:2000@47.6918452,-122.2226413&key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo
-
 
             fetch(tempUrl)
                 .then(resolve => resolve.text())
