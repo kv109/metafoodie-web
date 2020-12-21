@@ -77,6 +77,10 @@ function appendResults(results) {
 
             const percentage = Math.round(numerator / denumerator /5 *100);
 
+            console.log(provider, rating, place.rating_count);
+            console.log(scoresArr);
+            console.log(numerator, denumerator);
+
             let textColor = "#ffffff";
             let backgroundColor;
             if (percentage > 85) {
@@ -165,6 +169,7 @@ window.App.initAutocomplete = function () {
             }, function (place, status) {
                 fetchResultsForGooglePlace(place);
             });
+            scoresArr = [];
         }
     });
 
