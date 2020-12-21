@@ -1,9 +1,9 @@
-// import {tdNameEl} from '../src/domimport'
-
 const providers = ["facebook", "yelp", "zomato"]
 
 let summary = 0;
 let ratingsCount = 0;
+let scoresArr = [];
+let totalRatingCount = 0;
 
 const printOutput = (provider, tagClass, info) => {
     document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
@@ -20,16 +20,13 @@ function fetchResults(lat, lng, name, provider) {
 
     // AMAZON SERVERLESS STORAGE REQUEST
 
-    summary = 0;
-    ratingsCount = 0;
-
     const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
 
     fetch(apiUrl)
-    .then(resolve => resolve.json())
-    .then(resolve => appendResults(resolve))
-    .catch(err => console.log(err))
+        .then(resolve => resolve.json())
+        .then(resolve => appendResults(resolve))
+        .catch(err => console.log(err))
 
 }
 
@@ -42,7 +39,7 @@ function appendResults(results) {
     const providerRatingTagEl = providerRowSelectorEl.firstElementChild.nextElementSibling;
     const providerNameTagEl = providerRowSelectorEl.lastElementChild;
     const ratingSummaryEl = document.querySelector(".rating-summary");
-
+    const restaurantTitle = document.querySelector(".restaurant-title");
 
     if (place) {
         const rating = parseFloat(place.rating)
@@ -54,6 +51,7 @@ function appendResults(results) {
             providerRatingTagEl.innerHTML = ("? / 0");
         }
 
+        restaurantTitle.innerHTML = place.name;
         providerNameTagEl.innerHTML = place.name;
 
         // AVERAGE SCORE PRESENTATION
@@ -61,7 +59,28 @@ function appendResults(results) {
         if (isRatingNumber) {
             ratingsCount += 1;
             summary += rating;
-            const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
+
+            // CALCULATING ARITMETIC AVERAGE
+            // const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
+
+            // CALCULATING WEIGTHED AVERAGE
+
+            scoresArr.push(Math.round(rating * place.rating_count));
+            totalRatingCount += place.rating_count;
+
+            let numerator = 0;
+            let denumerator = totalRatingCount;
+
+            scoresArr.forEach(score => {
+                numerator += score;
+            });
+
+            const percentage = Math.round(numerator / denumerator / 5 * 100);
+
+            console.log(provider, rating, place.rating_count);
+            console.log(scoresArr);
+            console.log(numerator, denumerator);
+
             let textColor = "#ffffff";
             let backgroundColor;
             if (percentage > 85) {
@@ -74,7 +93,7 @@ function appendResults(results) {
             } else {
                 backgroundColor = "red"
             }
-            
+
             ratingSummaryEl.style.backgroundColor = backgroundColor;
             ratingSummaryEl.style.color = textColor;
             ratingSummaryEl.innerHTML = `${percentage}%`
@@ -96,9 +115,7 @@ function fetchResultsForGooglePlace(place) {
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
         document.querySelector(".alert").classList.remove('d-none');
 
-    } 
-      
-    else {
+    } else {
         document.querySelector(".alert").classList.add('d-none');
         const name = place.name;
         const location = place.geometry.location;
@@ -143,7 +160,7 @@ window.App.initAutocomplete = function () {
     map.addListener('bounds_changed', function () {
         searchBox.setBounds(map.getBounds());
     });
-    
+
     // Getting results after clicking marker
     map.addListener('click', function (event) {
         if (event.placeId) {
@@ -152,13 +169,15 @@ window.App.initAutocomplete = function () {
             }, function (place, status) {
                 fetchResultsForGooglePlace(place);
             });
+            scoresArr = [];
+            totalRatingCount = 0;
         }
     });
 
     let markers = [];
 
-  // Listen for the event fired when the user selects a prediction and retrieve
-  // more details for that place.
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
 
     searchBox.addListener('places_changed', function () {
         let places = searchBox.getPlaces();
@@ -182,6 +201,8 @@ window.App.initAutocomplete = function () {
             return;
         }
 
+        // Custom marker
+
         let icon = {
             url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
             size: new google.maps.Size(100, 132),
@@ -200,7 +221,7 @@ window.App.initAutocomplete = function () {
 
         console.log("markers:", markers);
 
-// MARKER CLUSTERING (doesn't work)
+        // MARKER CLUSTERING (doesn't work)
 
         // const clustersPath = '/home/thiefunny/Desktop/metafoodie-web/dist/img/google-maps-marker-clusters'
         // // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
