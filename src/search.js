@@ -1,9 +1,30 @@
+// import {searchForUserQuery} from './user-query.js'
+
 const providers = ["facebook", "yelp", "zomato"]
 
 let summary = 0;
 let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
+
+//  searchForUserQuery
+
+const searchForUserQuery = _ => {
+    let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
+    if (userQuery !== '') {
+        let decodedUserQuery = decodeURIComponent(userQuery);
+        console.log(decodedUserQuery);
+  
+        // appendResults(decodedUserQuery);
+        // fetchResultsForGooglePlace(decodedUserQuery)
+    } else {
+        console.log('string null')
+    }
+}
+
+searchForUserQuery();
+
+// END OF searchForUserQuery
 
 const printOutput = (provider, tagClass, info) => {
     document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
@@ -77,9 +98,9 @@ function appendResults(results) {
 
             const percentage = Math.round(numerator / denumerator / 5 * 100);
 
-            console.log(provider, rating, place.rating_count);
-            console.log(scoresArr);
-            console.log(numerator, denumerator);
+            // console.log(provider, rating, place.rating_count);
+            // console.log(scoresArr);
+            // console.log(numerator, denumerator);
 
             let textColor = "#ffffff";
             let backgroundColor;
@@ -109,7 +130,7 @@ function appendResults(results) {
 
 
 function fetchResultsForGooglePlace(place) {
-    console.log("place:", place)
+    // console.log("place:", place)
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
@@ -181,7 +202,7 @@ window.App.initAutocomplete = function () {
 
     searchBox.addListener('places_changed', function () {
         let places = searchBox.getPlaces();
-        console.log("places:", places)
+        // console.log("places:", places)
         if (places.length == 0) {
             return;
         }
@@ -195,6 +216,7 @@ window.App.initAutocomplete = function () {
         // For each place, get the icon, name and location.
         let bounds = new google.maps.LatLngBounds();
         let place = places[0];
+        console.log(place);
         // places.forEach(function (place) {
         if (!place.geometry) {
             console.log("Returned place contains no geometry");
@@ -219,7 +241,7 @@ window.App.initAutocomplete = function () {
             position: place.geometry.location
         }));
 
-        console.log("markers:", markers);
+        // console.log("markers:", markers);
 
         // MARKER CLUSTERING (doesn't work)
 
@@ -239,3 +261,4 @@ window.App.initAutocomplete = function () {
         fetchResultsForGooglePlace(place)
     });
 }
+
