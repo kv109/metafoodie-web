@@ -6,6 +6,7 @@ let summary = 0;
 let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
+let markers = []
 
 //  searchForUserQuery
 
@@ -160,6 +161,8 @@ function fetchResultsForGooglePlace(place) {
 window.App.initAutocomplete = function () {
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
+    let shareLinkEl = document.querySelector(".results-share")
+    let shareEndpoint = 'localhost:5500/dist/?query='
 
     // Custom marker
 
@@ -171,8 +174,7 @@ window.App.initAutocomplete = function () {
         scaledSize: new google.maps.Size(50, 66)
     };
 
-// USER DON'T ENTER QUERY IN WEB ADDRESS
-
+    // USER DON'T ENTER QUERY IN WEB ADDRESS
 
     if (userQuery == '') {
 
@@ -193,7 +195,6 @@ window.App.initAutocomplete = function () {
         // Create the search box and link it to the UI element.
         let input = document.getElementById('pac-input');
         let searchBox = new google.maps.places.SearchBox(input);
-        // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function () {
@@ -260,7 +261,7 @@ window.App.initAutocomplete = function () {
             fetchResultsForGooglePlace(place)
         });
 
-// USER ENTER QUERY IN WEB ADDRESS
+        // USER ENTER QUERY IN WEB ADDRESS
 
     } else {
 
@@ -280,6 +281,7 @@ window.App.initAutocomplete = function () {
         });
 
         let placesService = new google.maps.places.PlacesService(map);
+        // Create the search box and link it to the UI element.
 
         const request = {
             query: decodedUserQuery,
@@ -302,11 +304,8 @@ window.App.initAutocomplete = function () {
 
             // Create Share link
 
-            let shareLinkEl = document.querySelector(".results-share")
-            console.log(shareLinkEl);
-            let shareEndpoint = 'localhost:5500/dist/?query='
             let shareLink = `${shareEndpoint}${results[0].name}, ${results[0].formatted_address}`
-            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">link</a>`;
+            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
             // END of Create Share link
 
@@ -321,5 +320,101 @@ window.App.initAutocomplete = function () {
                 icon
             });
         }
+
+        // WORKING SEARCHBOX
+
+        let input = document.getElementById('pac-input');
+        let searchBox = new google.maps.places.SearchBox(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        // Getting results after clicking marker
+        map.addListener('click', function (event) {
+            if (event.placeId) {
+                placesService.getDetails({
+                    placeId: event.placeId
+                }, function (place, status) {
+
+            // Create Share link
+
+            shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
+
+            // END of Create Share link
+
+                    fetchResultsForGooglePlace(place);
+                });
+                scoresArr = [];
+                totalRatingCount = 0;
+
+
+
+            }
+        });
+
+        let markers = [];
+
+
+        searchBox.addListener('places_changed', function () {
+            let places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            let bounds = new google.maps.LatLngBounds();
+            let place = places[0];
+
+            // Create Share link
+
+            shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
+
+            // END of Create Share link
+
+
+            console.log(place);
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map,
+                icon,
+                title: place.name,
+                position: place.geometry.location
+            }));
+
+            // console.log("markers:", markers);
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+            // });
+
+
+
+            map.fitBounds(bounds);
+            fetchResultsForGooglePlace(place)
+            
+
+        });
+
+
+
     }
 }
