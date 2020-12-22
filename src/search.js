@@ -160,7 +160,7 @@ function fetchResultsForGooglePlace(place) {
 window.App.initAutocomplete = function () {
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
-    
+
     // Custom marker
 
     let icon = {
@@ -170,6 +170,9 @@ window.App.initAutocomplete = function () {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(50, 66)
     };
+
+// USER DON'T ENTER QUERY IN WEB ADDRESS
+
 
     if (userQuery == '') {
 
@@ -246,15 +249,8 @@ window.App.initAutocomplete = function () {
 
             // console.log("markers:", markers);
 
-            // MARKER CLUSTERING (doesn't work)
-
-            // const clustersPath = '/home/thiefunny/Desktop/metafoodie-web/dist/img/google-maps-marker-clusters'
-            // // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            // new MarkerClusterer(map, markers, {imagePath: `https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m`});
-
-
             if (place.geometry.viewport) {
-                // Only geocodes have viewport.
+                // Only geocodes have viewport
                 bounds.union(place.geometry.viewport);
             } else {
                 bounds.extend(place.geometry.location);
@@ -263,6 +259,8 @@ window.App.initAutocomplete = function () {
             map.fitBounds(bounds);
             fetchResultsForGooglePlace(place)
         });
+
+// USER ENTER QUERY IN WEB ADDRESS
 
     } else {
 
@@ -285,7 +283,7 @@ window.App.initAutocomplete = function () {
 
         const request = {
             query: decodedUserQuery,
-            fields: ["name", "geometry", "type", "rating", "user_ratings_total"]
+            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
         };
 
         console.log(request)
@@ -301,6 +299,16 @@ window.App.initAutocomplete = function () {
 
                 map.setCenter(results[0].geometry.location);
             }
+
+            // Create Share link
+
+            let shareLinkEl = document.querySelector(".results-share")
+            console.log(shareLinkEl);
+            let shareEndpoint = 'localhost:5500/dist/?query='
+            let shareLink = `${shareEndpoint}${results[0].name}, ${results[0].formatted_address}`
+            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">link</a>`;
+
+            // END of Create Share link
 
             fetchResultsForGooglePlace(results[0])
 
