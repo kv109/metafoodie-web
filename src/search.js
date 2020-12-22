@@ -59,15 +59,15 @@ function appendResults(results) {
         if (isRatingNumber) {
             ratingsCount += 1;
             summary += rating;
-            
+
             // CALCULATING ARITMETIC AVERAGE
             // const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
 
             // CALCULATING WEIGTHED AVERAGE
-            
+
             scoresArr.push(Math.round(rating * place.rating_count));
             totalRatingCount += place.rating_count;
-            
+
             let numerator = 0;
             let denumerator = totalRatingCount;
 
@@ -75,7 +75,7 @@ function appendResults(results) {
                 numerator += score;
             });
 
-            const percentage = Math.round(numerator / denumerator /5 *100);
+            const percentage = Math.round(numerator / denumerator / 5 * 100);
 
             console.log(provider, rating, place.rating_count);
             console.log(scoresArr);
@@ -170,6 +170,7 @@ window.App.initAutocomplete = function () {
                 fetchResultsForGooglePlace(place);
             });
             scoresArr = [];
+            totalRatingCount = 0;
         }
     });
 
