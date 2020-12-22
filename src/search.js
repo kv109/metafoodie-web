@@ -6,30 +6,21 @@ let summary = 0;
 let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
-let markers = []
 
-//  searchForUserQuery
+const createShareLink = place => {
 
-// const searchForUserQuery = _ => {
-//     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
-//     if (userQuery !== '') {
-//         let decodedUserQuery = decodeURIComponent(userQuery);
-//         console.log(decodedUserQuery);
+    let shareLinkEl = document.querySelector(".results-share")
+    let shareEndpoint = 'localhost:5500/dist/?query='
+    shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+    shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
-//         // appendResults(decodedUserQuery);
-//         // fetchResultsForGooglePlace(decodedUserQuery)
-//     } else {
-//         console.log('string null')
-//     }
-// }
-
-// searchForUserQuery();
-
-// END OF searchForUserQuery
+}
 
 const printOutput = (provider, tagClass, info) => {
     document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
 }
+
+// FETCH SCORES FROM PROVIDERS
 
 function fetchResults(lat, lng, name, provider) {
 
@@ -79,10 +70,12 @@ function appendResults(results) {
         // AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
-            ratingsCount += 1;
-            summary += rating;
+
 
             // CALCULATING ARITMETIC AVERAGE
+
+            // ratingsCount += 1;
+            // summary += rating;
             // const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
 
             // CALCULATING WEIGTHED AVERAGE
@@ -99,9 +92,7 @@ function appendResults(results) {
 
             const percentage = Math.round(numerator / denumerator / 5 * 100);
 
-            // console.log(provider, rating, place.rating_count);
-            // console.log(scoresArr);
-            // console.log(numerator, denumerator);
+            // PRINTING AVERAGE SCORE BAR
 
             let textColor = "#ffffff";
             let backgroundColor;
@@ -121,7 +112,7 @@ function appendResults(results) {
             ratingSummaryEl.innerHTML = `${percentage}%`
         }
 
-        // IF SCORE NOT AVAILABLE FOR PLACE, PRINTS "Couldn't find"
+        // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
 
     } else {
         printOutput(provider, 'name', ':(');
@@ -129,9 +120,9 @@ function appendResults(results) {
     }
 }
 
+// FETCH SCORE FROM GOOGLE AND THEN FROM OTHER PROVIDERS
 
 function fetchResultsForGooglePlace(place) {
-    // console.log("place:", place)
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
@@ -158,13 +149,13 @@ function fetchResultsForGooglePlace(place) {
 // This example adds a search box to a map, using the Google Place Autocomplete
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
+
 window.App.initAutocomplete = function () {
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
-    let shareLinkEl = document.querySelector(".results-share")
-    let shareEndpoint = 'localhost:5500/dist/?query='
+    let markers = [];
 
-    // Custom marker
+    // CUSTOM MARKER
 
     let icon = {
         url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
@@ -174,121 +165,109 @@ window.App.initAutocomplete = function () {
         scaledSize: new google.maps.Size(50, 66)
     };
 
-    // USER DON'T ENTER QUERY IN WEB ADDRESS
+    // INITIALIZING GOOGLE MAP
 
-    if (userQuery == '') {
+    let map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: 52.2688369,
+            lng: 20.9829954
+        },
+        zoom: 16,
+        mapTypeId: 'roadmap',
+        mapTypeControl: false,
+        streetViewControl: false,
+        mapId: '33280f2f68566682'
+    });
 
-        let map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 52.2688369,
-                lng: 20.9829954
-            },
-            zoom: 16,
-            mapTypeId: 'roadmap',
-            mapTypeControl: false,
-            streetViewControl: false,
-            mapId: '33280f2f68566682'
-        });
+    // INITIALIZING GOOGLE PLACES SERVICE
 
-        let placesService = new google.maps.places.PlacesService(map);
+    let placesService = new google.maps.places.PlacesService(map);
 
-        // Create the search box and link it to the UI element.
-        let input = document.getElementById('pac-input');
-        let searchBox = new google.maps.places.SearchBox(input);
+    // Create the search box and link it to the UI element.
 
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function () {
-            searchBox.setBounds(map.getBounds());
-        });
+    let input = document.getElementById('pac-input');
+    let searchBox = new google.maps.places.SearchBox(input);
 
-        // Getting results after clicking marker
-        map.addListener('click', function (event) {
-            if (event.placeId) {
-                placesService.getDetails({
-                    placeId: event.placeId
-                }, function (place, status) {
-                    fetchResultsForGooglePlace(place);
-                });
-                scoresArr = [];
-                totalRatingCount = 0;
-            }
-        });
+    // Bias the SearchBox results towards current map's viewport.
 
-        let markers = [];
+    map.addListener('bounds_changed', function () {
+        searchBox.setBounds(map.getBounds());
+    });
 
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
+    // FETCH RESULTS AFTER CLICK ON MARKER
 
-        searchBox.addListener('places_changed', function () {
-            let places = searchBox.getPlaces();
-            if (places.length == 0) {
-                return;
-            }
-
-            // Clear out the old markers.
-            markers.forEach(function (marker) {
-                marker.setMap(null);
+    map.addListener('click', function (event) {
+        if (event.placeId) {
+            placesService.getDetails({
+                placeId: event.placeId
+            }, function (place, status) {
+                createShareLink(place);
+                fetchResultsForGooglePlace(place);
             });
-            markers = [];
 
-            // For each place, get the icon, name and location.
-            let bounds = new google.maps.LatLngBounds();
-            let place = places[0];
-            console.log(place);
-            if (!place.geometry) {
-                console.log("Returned place contains no geometry");
-                return;
-            }
+            // RESET OF WEIGHTED AVERAGE CALCULATIONS
 
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-                map,
-                icon,
-                title: place.name,
-                position: place.geometry.location
-            }));
+            scoresArr = [];
+            totalRatingCount = 0;
+        }
+    });
 
-            // console.log("markers:", markers);
+    searchBox.addListener('places_changed', function () {
+        let places = searchBox.getPlaces();
+        if (places.length == 0) {
+            return;
+        }
 
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
-            // });
-            map.fitBounds(bounds);
-            fetchResultsForGooglePlace(place)
+        // Clear out the old markers.
+        markers.forEach(function (marker) {
+            marker.setMap(null);
         });
+        markers = [];
 
-        // USER ENTER QUERY IN WEB ADDRESS
+        // For each place, get the icon, name and location.
+        let bounds = new google.maps.LatLngBounds();
+        let place = places[0];
 
-    } else {
+        createShareLink(place);
+
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+        }
+
+        // Create a marker for each place.
+        markers.push(new google.maps.Marker({
+            map,
+            icon,
+            title: place.name,
+            position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+            // Only geocodes have viewport
+            bounds.union(place.geometry.viewport);
+        } else {
+            bounds.extend(place.geometry.location);
+        }
+
+        map.fitBounds(bounds);
+        fetchResultsForGooglePlace(place)
+    });
+
+    // IF USER ENTERS QUERY IN WEB ADDRESS
+
+    if (userQuery) {
+
+        // DECODING OF URL QUERY
 
         let decodedUserQuery = decodeURIComponent(userQuery);
-        console.log(decodedUserQuery);
 
-        let map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 52.2688369,
-                lng: 20.9829954
-            },
-            zoom: 16,
-            mapTypeId: 'roadmap',
-            mapTypeControl: false,
-            streetViewControl: false,
-            mapId: '33280f2f68566682'
-        });
-
-        let placesService = new google.maps.places.PlacesService(map);
-        // Create the search box and link it to the UI element.
+        // FIND PLACE FROM QUERY INTERFACE
 
         const request = {
             query: decodedUserQuery,
             fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
         };
-
-        console.log(request)
 
         placesService.findPlaceFromQuery(request, (results, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -296,21 +275,11 @@ window.App.initAutocomplete = function () {
                     createMarker(results[i]);
                 }
 
-                console.log('results[0]:')
-                console.log(results[0])
-
-                map.setCenter(results[0].geometry.location);
+                let place = results[0];
+                map.setCenter(place.geometry.location);
+                createShareLink(place);
+                fetchResultsForGooglePlace(place);
             }
-
-            // Create Share link
-
-            let shareLink = `${shareEndpoint}${results[0].name}, ${results[0].formatted_address}`
-            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
-
-            // END of Create Share link
-
-            fetchResultsForGooglePlace(results[0])
-
         });
 
         function createMarker(place) {
@@ -320,101 +289,5 @@ window.App.initAutocomplete = function () {
                 icon
             });
         }
-
-        // WORKING SEARCHBOX
-
-        let input = document.getElementById('pac-input');
-        let searchBox = new google.maps.places.SearchBox(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function () {
-            searchBox.setBounds(map.getBounds());
-        });
-
-        // Getting results after clicking marker
-        map.addListener('click', function (event) {
-            if (event.placeId) {
-                placesService.getDetails({
-                    placeId: event.placeId
-                }, function (place, status) {
-
-            // Create Share link
-
-            shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
-            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
-
-            // END of Create Share link
-
-                    fetchResultsForGooglePlace(place);
-                });
-                scoresArr = [];
-                totalRatingCount = 0;
-
-
-
-            }
-        });
-
-        let markers = [];
-
-
-        searchBox.addListener('places_changed', function () {
-            let places = searchBox.getPlaces();
-            if (places.length == 0) {
-                return;
-            }
-
-            // Clear out the old markers.
-            markers.forEach(function (marker) {
-                marker.setMap(null);
-            });
-            markers = [];
-
-            // For each place, get the icon, name and location.
-            let bounds = new google.maps.LatLngBounds();
-            let place = places[0];
-
-            // Create Share link
-
-            shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
-            shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
-
-            // END of Create Share link
-
-
-            console.log(place);
-            if (!place.geometry) {
-                console.log("Returned place contains no geometry");
-                return;
-            }
-
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-                map,
-                icon,
-                title: place.name,
-                position: place.geometry.location
-            }));
-
-            // console.log("markers:", markers);
-
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
-            // });
-
-
-
-            map.fitBounds(bounds);
-            fetchResultsForGooglePlace(place)
-            
-
-        });
-
-
-
     }
 }
