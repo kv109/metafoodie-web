@@ -9,20 +9,20 @@ let totalRatingCount = 0;
 
 //  searchForUserQuery
 
-const searchForUserQuery = _ => {
-    let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
-    if (userQuery !== '') {
-        let decodedUserQuery = decodeURIComponent(userQuery);
-        console.log(decodedUserQuery);
-  
-        // appendResults(decodedUserQuery);
-        // fetchResultsForGooglePlace(decodedUserQuery)
-    } else {
-        console.log('string null')
-    }
-}
+// const searchForUserQuery = _ => {
+//     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
+//     if (userQuery !== '') {
+//         let decodedUserQuery = decodeURIComponent(userQuery);
+//         console.log(decodedUserQuery);
 
-searchForUserQuery();
+//         // appendResults(decodedUserQuery);
+//         // fetchResultsForGooglePlace(decodedUserQuery)
+//     } else {
+//         console.log('string null')
+//     }
+// }
+
+// searchForUserQuery();
 
 // END OF searchForUserQuery
 
@@ -158,107 +158,160 @@ function fetchResultsForGooglePlace(place) {
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 window.App.initAutocomplete = function () {
-    let map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-            lat: 52.2688369,
-            lng: 20.9829954
-        },
-        zoom: 16,
-        mapTypeId: 'roadmap',
-        mapTypeControl: false,
-        streetViewControl: false,
-        mapId: '33280f2f68566682'
-    });
 
-    let placesService = new google.maps.places.PlacesService(map);
+    let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
+    
+    // Custom marker
 
-    // Create the search box and link it to the UI element.
-    let input = document.getElementById('pac-input');
-    let searchBox = new google.maps.places.SearchBox(input);
-    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    let icon = {
+        url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
+        size: new google.maps.Size(100, 132),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 66)
+    };
 
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function () {
-        searchBox.setBounds(map.getBounds());
-    });
+    if (userQuery == '') {
 
-    // Getting results after clicking marker
-    map.addListener('click', function (event) {
-        if (event.placeId) {
-            placesService.getDetails({
-                placeId: event.placeId
-            }, function (place, status) {
-                fetchResultsForGooglePlace(place);
-            });
-            scoresArr = [];
-            totalRatingCount = 0;
-        }
-    });
-
-    let markers = [];
-
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-
-    searchBox.addListener('places_changed', function () {
-        let places = searchBox.getPlaces();
-        // console.log("places:", places)
-        if (places.length == 0) {
-            return;
-        }
-
-        // Clear out the old markers.
-        markers.forEach(function (marker) {
-            marker.setMap(null);
+        let map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 52.2688369,
+                lng: 20.9829954
+            },
+            zoom: 16,
+            mapTypeId: 'roadmap',
+            mapTypeControl: false,
+            streetViewControl: false,
+            mapId: '33280f2f68566682'
         });
-        markers = [];
 
-        // For each place, get the icon, name and location.
-        let bounds = new google.maps.LatLngBounds();
-        let place = places[0];
-        console.log(place);
-        // places.forEach(function (place) {
-        if (!place.geometry) {
-            console.log("Returned place contains no geometry");
-            return;
-        }
+        let placesService = new google.maps.places.PlacesService(map);
 
-        // Custom marker
+        // Create the search box and link it to the UI element.
+        let input = document.getElementById('pac-input');
+        let searchBox = new google.maps.places.SearchBox(input);
+        // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-        let icon = {
-            url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
-            size: new google.maps.Size(100, 132),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(50, 66)
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        // Getting results after clicking marker
+        map.addListener('click', function (event) {
+            if (event.placeId) {
+                placesService.getDetails({
+                    placeId: event.placeId
+                }, function (place, status) {
+                    fetchResultsForGooglePlace(place);
+                });
+                scoresArr = [];
+                totalRatingCount = 0;
+            }
+        });
+
+        let markers = [];
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+
+        searchBox.addListener('places_changed', function () {
+            let places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            let bounds = new google.maps.LatLngBounds();
+            let place = places[0];
+            console.log(place);
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map,
+                icon,
+                title: place.name,
+                position: place.geometry.location
+            }));
+
+            // console.log("markers:", markers);
+
+            // MARKER CLUSTERING (doesn't work)
+
+            // const clustersPath = '/home/thiefunny/Desktop/metafoodie-web/dist/img/google-maps-marker-clusters'
+            // // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            // new MarkerClusterer(map, markers, {imagePath: `https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m`});
+
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+            // });
+            map.fitBounds(bounds);
+            fetchResultsForGooglePlace(place)
+        });
+
+    } else {
+
+        let decodedUserQuery = decodeURIComponent(userQuery);
+        console.log(decodedUserQuery);
+
+        let map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 52.2688369,
+                lng: 20.9829954
+            },
+            zoom: 16,
+            mapTypeId: 'roadmap',
+            mapTypeControl: false,
+            streetViewControl: false,
+            mapId: '33280f2f68566682'
+        });
+
+        let placesService = new google.maps.places.PlacesService(map);
+
+        const request = {
+            query: decodedUserQuery,
+            fields: ["name", "geometry", "type", "rating", "user_ratings_total"]
         };
 
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-            map: map,
-            icon: icon,
-            title: place.name,
-            position: place.geometry.location
-        }));
+        console.log(request)
 
-        // console.log("markers:", markers);
+        placesService.findPlaceFromQuery(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (let i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
 
-        // MARKER CLUSTERING (doesn't work)
+                console.log('results[0]:')
+                console.log(results[0])
 
-        // const clustersPath = '/home/thiefunny/Desktop/metafoodie-web/dist/img/google-maps-marker-clusters'
-        // // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        // new MarkerClusterer(map, markers, {imagePath: `https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m`});
+                map.setCenter(results[0].geometry.location);
+            }
 
+            fetchResultsForGooglePlace(results[0])
 
-        if (place.geometry.viewport) {
-            // Only geocodes have viewport.
-            bounds.union(place.geometry.viewport);
-        } else {
-            bounds.extend(place.geometry.location);
+        });
+
+        function createMarker(place) {
+            const marker = new google.maps.Marker({
+                map,
+                position: place.geometry.location,
+                icon
+            });
         }
-        // });
-        map.fitBounds(bounds);
-        fetchResultsForGooglePlace(place)
-    });
+    }
 }
-
