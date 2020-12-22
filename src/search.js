@@ -22,7 +22,7 @@ const printOutput = (provider, tagClass, info) => {
 
 // FETCH SCORES FROM PROVIDERS
 
-function fetchResults(lat, lng, name, provider) {
+const fetchResults = (lat, lng, name, provider) => {
 
     // PRELOADER
 
@@ -45,7 +45,7 @@ function fetchResults(lat, lng, name, provider) {
 
 // SCORES TABLE GENERATION
 
-function appendResults(results) {
+const appendResults = results => {
     const place = results.data[0];
     const provider = results.provider;
     const providerRowSelectorEl = document.querySelector(`#${provider}_results`);
@@ -122,7 +122,7 @@ function appendResults(results) {
 
 // FETCH SCORE FROM GOOGLE AND THEN FROM OTHER PROVIDERS
 
-function fetchResultsForGooglePlace(place) {
+const fetchResultsForGooglePlace = place => {
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
@@ -140,7 +140,7 @@ function fetchResultsForGooglePlace(place) {
             provider: "google"
         })
 
-        providers.forEach(function (provider) {
+        providers.forEach(provider => {
             fetchResults(lat, lng, name, provider);
         })
     }
@@ -150,7 +150,7 @@ function fetchResultsForGooglePlace(place) {
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
-window.App.initAutocomplete = function () {
+window.App.initAutocomplete = _ => {
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
@@ -190,17 +190,17 @@ window.App.initAutocomplete = function () {
 
     // Bias the SearchBox results towards current map's viewport.
 
-    map.addListener('bounds_changed', function () {
+    map.addListener('bounds_changed', _ => {
         searchBox.setBounds(map.getBounds());
     });
 
     // FETCH RESULTS AFTER CLICK ON MARKER
 
-    map.addListener('click', function (event) {
+    map.addListener('click', event => {
         if (event.placeId) {
             placesService.getDetails({
                 placeId: event.placeId
-            }, function (place, status) {
+            }, (place, status) => {
                 createShareLink(place);
                 fetchResultsForGooglePlace(place);
             });
@@ -212,14 +212,14 @@ window.App.initAutocomplete = function () {
         }
     });
 
-    searchBox.addListener('places_changed', function () {
+    searchBox.addListener('places_changed', _ => {
         let places = searchBox.getPlaces();
         if (places.length == 0) {
             return;
         }
 
         // Clear out the old markers.
-        markers.forEach(function (marker) {
+        markers.forEach(marker => {
             marker.setMap(null);
         });
         markers = [];
@@ -282,7 +282,7 @@ window.App.initAutocomplete = function () {
             }
         });
 
-        function createMarker(place) {
+        const createMarker = place => {
             const marker = new google.maps.Marker({
                 map,
                 position: place.geometry.location,
