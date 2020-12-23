@@ -1,17 +1,20 @@
 // import {searchForUserQuery} from './user-query.js'
 
-const providers = ["facebook", "yelp", "zomato"]
+const providers = ["yelp", "zomato"]
+// const providers = ["facebook", "yelp", "zomato"]
 
 let summary = 0;
 let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
+let formattedAddress;
+
 const createShareLink = place => {
 
     let shareLinkEl = document.querySelector(".results-share")
     let shareEndpoint = 'localhost:5500/dist/?query='
-    shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+    let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
     shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
 }
@@ -54,6 +57,16 @@ const appendResults = results => {
     const ratingSummaryEl = document.querySelector(".rating-summary");
     const restaurantTitle = document.querySelector(".restaurant-title");
 
+    // PROVIDER LINKS TO ITS WEBSITE
+
+    console.log(provider)
+    console.log(place)
+    console.log(formattedAddress)
+
+    const providerEL = document.querySelector(`#${provider}_results span.link_to_details`);
+    let providerLinkQuery = `${place.name} ${formattedAddress}`;
+    providerEL.innerHTML = `<a href="https://google.com/maps/search/${providerLinkQuery}" target="_blank">${provider}</a>`
+    
     if (place) {
         const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
@@ -134,12 +147,14 @@ const fetchResultsForGooglePlace = place => {
         const location = place.geometry.location;
         const lat = location.lat();
         const lng = location.lng();
+        
+        formattedAddress = place.formatted_address;
+
         place.rating_count = place.user_ratings_total;
         appendResults({
             data: [place],
             provider: "google"
         })
-
         providers.forEach(provider => {
             fetchResults(lat, lng, name, provider);
         })
