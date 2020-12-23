@@ -57,16 +57,6 @@ const appendResults = results => {
     const ratingSummaryEl = document.querySelector(".rating-summary");
     const restaurantTitle = document.querySelector(".restaurant-title");
 
-    // PROVIDER LINKS TO ITS WEBSITE
-
-    console.log(provider)
-    console.log(place)
-    console.log(formattedAddress)
-
-    const providerEL = document.querySelector(`#${provider}_results span.link_to_details`);
-    let providerLinkQuery = `${place.name} ${formattedAddress}`;
-    providerEL.innerHTML = `<a href="https://google.com/maps/search/${providerLinkQuery}" target="_blank">${provider}</a>`
-    
     if (place) {
         const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
@@ -147,8 +137,19 @@ const fetchResultsForGooglePlace = place => {
         const location = place.geometry.location;
         const lat = location.lat();
         const lng = location.lng();
-        
+
+        // PROVIDER LINKS TO ITS WEBSITE (only to google maps at this moment)
+
         formattedAddress = place.formatted_address;
+        // console.log(provider)
+        console.log(place)
+        console.log(formattedAddress)
+
+        const providerEL = document.querySelector(`#google_results span.link_to_details`);
+        let providerLinkQuery = `${place.name} ${formattedAddress}`;
+        providerEL.innerHTML = `<a href="https://google.com/maps/search/${providerLinkQuery}" target="_blank">google</a>`
+
+        // END - PROVIDER LINKS TO ITS WEBSITE (only to google maps at this moment)
 
         place.rating_count = place.user_ratings_total;
         appendResults({
