@@ -10,7 +10,7 @@ let totalRatingCount = 0;
 const createShareLink = place => {
 
     let shareLinkEl = document.querySelector(".results-share")
-    let shareEndpoint = 'localhost:5500/dist/?query='
+    let shareEndpoint = 'https://metafoodie.netlify.app/?query='
     shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
     shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
@@ -70,8 +70,8 @@ const appendResults = results => {
         // AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
-
-
+            ratingsCount += 1;
+            summary += rating;
             // CALCULATING ARITMETIC AVERAGE
 
             // ratingsCount += 1;
