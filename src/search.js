@@ -70,8 +70,7 @@ const appendResults = results => {
         // AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
-            ratingsCount += 1;
-            summary += rating;
+
             // CALCULATING ARITMETIC AVERAGE
 
             // ratingsCount += 1;
