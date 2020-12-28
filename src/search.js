@@ -10,7 +10,7 @@ let totalRatingCount = 0;
 const createShareLink = place => {
 
     let shareLinkEl = document.querySelector(".results-share")
-    let shareEndpoint = 'https://metafoodie.netlify.app/?query='
+    let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}?query=`
     shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
     shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
