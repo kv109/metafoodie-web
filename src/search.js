@@ -121,11 +121,7 @@ const appendResults = results => {
 
 // FETCH SCORE FROM GOOGLE AND THEN FROM OTHER PROVIDERS
 
-<<<<<<< HEAD
-const fetchResultsForGooglePlace = place => { 
-=======
 const fetchResultsForGooglePlace = place => {
->>>>>>> parent of 02e934a... added language parameter to google maps api request
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
