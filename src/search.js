@@ -121,12 +121,7 @@ const appendResults = results => {
 
 // FETCH SCORE FROM GOOGLE AND THEN FROM OTHER PROVIDERS
 
-const fetchResultsForGooglePlace = place => {
-
-    console.log('\n'.repeat('5'));
-    console.log('place:');
-    console.log(place);
-    
+const fetchResultsForGooglePlace = place => { 
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
@@ -147,22 +142,6 @@ const fetchResultsForGooglePlace = place => {
         providers.forEach(provider => {
             fetchResults(lat, lng, name, provider);
         })
-
-    // ZOMATO FETCH
-
-    // const nameZomato = ''
-    // fetch(`https://developers.zomato.com/api/v2.1/search?q=${name}&count=3&lat=${lat}&lon=${lng}`, {
-    //         headers: {
-    //             'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-    //         }
-    //     })
-    //     .then(response => response.json())
-    //     .then(json => console.log(json));
-
-    // END ZOMATO FETCH
-
-
-
     }
 }
 
@@ -221,8 +200,6 @@ window.App.initAutocomplete = _ => {
             placesService.getDetails({
                 placeId: event.placeId
             }, (place, status) => {
-                console.log('place google:')
-                console.log(place)
                 createShareLink(place);
                 fetchResultsForGooglePlace(place);
 
