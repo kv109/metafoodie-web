@@ -38,7 +38,11 @@ const fetchResults = (lat, lng, name, provider) => {
 
     fetch(apiUrl)
         .then(resolve => resolve.json())
-        .then(resolve => appendResults(resolve))
+        .then(resolve => {
+            
+            console.log(resolve);
+            appendResults(resolve)
+        })
         .catch(err => console.log(err))
 
 }
@@ -123,9 +127,9 @@ const appendResults = results => {
 
 const fetchResultsForGooglePlace = place => {
 
-    console.log('\n'.repeat('5'));
-    console.log('place:');
-    console.log(place);
+    // console.log('\n'.repeat('5'));
+    // console.log('place:');
+    // console.log(place);
     
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
@@ -150,9 +154,60 @@ const fetchResultsForGooglePlace = place => {
 
     // ZOMATO FETCH
 
-    const nameZomato = 'Basiliana Italian Bistro';
-    const nameZomatoEnc = encodeURI(nameZomato);
+    const nameZomato = place.name;
+    const regex = /'/i
+    const nameZomatoRegEx = nameZomato.replace(regex, '').toLowerCase();
+    console.log(nameZomatoRegEx);
+    const nameZomatoEnc = encodeURI(nameZomatoRegEx);
     console.log(nameZomatoEnc);
+
+// GET CITY ID VIA COORDINATES
+
+//https://developers.zomato.com/api/v2.1/search?entity_id=265&entity_type=city&q=jeffs&count=10&lat=50.2719995&lon=19.0013386&radius=100
+
+        const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
+
+fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
+            headers: {
+                'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            // let city = json.location_suggestions[0].name;
+            let cityId = json.location_suggestions[0].id;
+            return fetch (`${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${nameZomatoEnc}&count=10&lat=${lat}&lon=${lng}&radius=100`, {
+                // &sort=real_distance&order=asc
+                headers: {
+                    'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+                }
+            })
+        })
+        .then(response => response.json())
+        .then(zomatoObject => {
+            console.log(zomatoObject);
+            console.log(zomatoObject.restaurants[0].restaurant.name);
+            console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
+            console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
+
+            const zomatoData = {
+                data: [{
+                    name: zomatoObject.restaurants[0].restaurant.name,
+                    rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
+                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
+                }]
+            , 
+            provider: 'zomato'}
+    
+            appendResults(zomatoData);
+
+        })
+        .catch(err => console.log(err));
+
+
+
+// https://developers.zomato.com/api/v2.1/cities?lat=50.27&lon=19.00
+
     // fetch(`https://developers.zomato.com/api/v2.1/search?q=${name}&count=3&lat=${lat}&lon=${lng}`, {
     //         headers: {
     //             'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
@@ -223,8 +278,8 @@ window.App.initAutocomplete = _ => {
             placesService.getDetails({
                 placeId: event.placeId
             }, (place, status) => {
-                console.log('place google:')
-                console.log(place)
+                // console.log('place google:')
+                // console.log(place)
                 createShareLink(place);
                 fetchResultsForGooglePlace(place);
 
