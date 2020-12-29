@@ -121,7 +121,11 @@ const appendResults = results => {
 
 // FETCH SCORE FROM GOOGLE AND THEN FROM OTHER PROVIDERS
 
+<<<<<<< HEAD
 const fetchResultsForGooglePlace = place => { 
+=======
+const fetchResultsForGooglePlace = place => {
+>>>>>>> parent of 02e934a... added language parameter to google maps api request
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
@@ -202,7 +206,6 @@ window.App.initAutocomplete = _ => {
             }, (place, status) => {
                 createShareLink(place);
                 fetchResultsForGooglePlace(place);
-
             });
 
             // RESET OF WEIGHTED AVERAGE CALCULATIONS
@@ -227,6 +230,7 @@ window.App.initAutocomplete = _ => {
         // For each place, get the icon, name and location.
         let bounds = new google.maps.LatLngBounds();
         let place = places[0];
+
         createShareLink(place);
 
         if (!place.geometry) {
