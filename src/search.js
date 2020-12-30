@@ -22,60 +22,102 @@ const printOutput = (provider, tagClass, info) => {
 
 const zomatoFetch = (name, lat, lng) => {
 
-    // // GET CITY ID VIA COORDINATES
-    // //https://developers.zomato.com/api/v2.1/search?entity_id=265&entity_type=city&q=jeffs&count=10&lat=50.2719995&lon=19.0013386&radius=100
+    // GET CITY ID VIA COORDINATES
+    //https://developers.zomato.com/api/v2.1/search?entity_id=265&entity_type=city&q=jeffs&count=10&lat=50.2719995&lon=19.0013386&radius=100
 
 
-    // // CORRECTING PLACE NAME
+    // CORRECTING PLACE NAME
+
+    // name = `Craft Beereeeeee Muranów - Piwny Św'iat`
+    // let zomatoTempName = name;
+    let zomatoTempName = name;
+
+    // let regEx = /(bistro|restauracja|cantine)/ig;
+    // zomatoTempName = zomatoTempName.replace(regEx, '');
+    // console.log('/bistro|restauracja/')
+    // console.log(zomatoTempName)
+    
+    // regEx = /\s\[^0-9]*\s/i;
+
+///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
+    
+    // [\u{1F600}-\u{1F64F}]
+
+///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
 
 
-    // const nameZomato = name;
-    // const regex = /'/i
-    // const nameZomatoRegEx = nameZomato.replace(regex, '').toLowerCase();
-    // // console.log(nameZomatoRegEx);
-    // const nameZomatoEnc = encodeURI(nameZomatoRegEx);
-    // // console.log(nameZomatoEnc);
+    regEx = /\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s/i;
+    // console.log(zomatoTempName.indexOf(regEx.exec(zomatoTempName))+regEx.exec(zomatoTempName)[0].length);
+    // console.log(regEx.exec(zomatoTempName));
+    if (regEx.exec(zomatoTempName) != null) {
+        zomatoTempName = zomatoTempName.slice(0, zomatoTempName.indexOf(regEx.exec(zomatoTempName)) + regEx.exec(zomatoTempName)[0].length);
+    };
+    
+    console.log(`\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s`)
+    console.log(zomatoTempName)
+ 
+     
+    regEx = /(\-|\.|\')/ig;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+    console.log('/znaki specjalne/')
+    console.log(zomatoTempName)
 
+    regEx = /^ /i;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+    console.log('/^ /')
+    console.log(zomatoTempName)
 
-    // // END CORRECTING PLACE NAME
+    regEx = / +$/i;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+    console.log('/ +$/')
+    console.log(zomatoTempName)
+    
+    // zomatoTempName = encodeURI(zomatoTempName);
+    // console.log('encodeURI')
+    console.log(zomatoTempName)
 
+    let zomatoName = zomatoTempName;
 
-    // const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
+    // END CORRECTING PLACE NAME
 
-    // fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
-    //         headers: {
-    //             'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-    //         }
-    //     })
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         let cityId = json.location_suggestions[0].id;
-    //         return fetch(`${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${nameZomatoEnc}&count=10&lat=${lat}&lon=${lng}&radius=100`, {
-    //             headers: {
-    //                 'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-    //             }
-    //         })
-    //     })
-    //     .then(response => response.json())
-    //     .then(zomatoObject => {
-    //         console.log(zomatoObject);
-    //         console.log(zomatoObject.restaurants[0].restaurant.name);
-    //         console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
-    //         console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
+    const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
 
-    //         const zomatoData = {
-    //             data: [{
-    //                 name: zomatoObject.restaurants[0].restaurant.name,
-    //                 rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
-    //                 rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
-    //             }],
-    //             provider: 'zomato'
-    //         }
+    fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
+            headers: {
+                'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            let cityId = json.location_suggestions[0].id;
+            let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100`
+            console.log(URL);
+            return fetch(URL, {
+                headers: {
+                    'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+                }
+            })
+        })
+        .then(response => response.json())
+        .then(zomatoObject => {
+            console.log(zomatoObject);
+            console.log(zomatoObject.restaurants[0].restaurant.name);
+            console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
+            console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
 
-    //         appendResults(zomatoData);
+            const zomatoData = {
+                data: [{
+                    name: zomatoObject.restaurants[0].restaurant.name,
+                    rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
+                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
+                }],
+                provider: 'zomato'
+            }
 
-    //     })
-    //     .catch(err => console.log(err));
+            appendResults(zomatoData);
+
+        })
+        .catch(err => console.log(err));
 }
 
 // END ZOMATO FETCH
@@ -86,7 +128,7 @@ const zomatoFetch = (name, lat, lng) => {
 
 // YELP FETCH
 
-const yelpFetch = (name, lat, lng, address) => {
+const yelpFetch = (name, lat, lng) => {
 
     const yelpEndpoint = 'https://api.yelp.com/v3'
     const CORS = 'https://cors-anywhere.herokuapp.com/'
@@ -323,7 +365,7 @@ const fetchResultsForGooglePlace = place => {
         })
 
         zomatoFetch(name, lat, lng);
-        yelpFetch(name, lat, lng, place.formatted_address);
+        // yelpFetch(name, lat, lng);
 
     }
 }
