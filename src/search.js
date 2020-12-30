@@ -40,7 +40,7 @@ const fetchResults = (lat, lng, name, provider) => {
         .then(resolve => resolve.json())
         .then(resolve => {
             
-            console.log(resolve);
+            // console.log(resolve);
             appendResults(resolve)
         })
         .catch(err => console.log(err))
@@ -157,9 +157,9 @@ const fetchResultsForGooglePlace = place => {
     const nameZomato = place.name;
     const regex = /'/i
     const nameZomatoRegEx = nameZomato.replace(regex, '').toLowerCase();
-    console.log(nameZomatoRegEx);
+    // console.log(nameZomatoRegEx);
     const nameZomatoEnc = encodeURI(nameZomatoRegEx);
-    console.log(nameZomatoEnc);
+    // console.log(nameZomatoEnc);
 
 // GET CITY ID VIA COORDINATES
 
@@ -167,42 +167,42 @@ const fetchResultsForGooglePlace = place => {
 
         const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
 
-fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
-            headers: {
-                'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-            }
-        })
-        .then(response => response.json())
-        .then(json => {
-            // let city = json.location_suggestions[0].name;
-            let cityId = json.location_suggestions[0].id;
-            return fetch (`${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${nameZomatoEnc}&count=10&lat=${lat}&lon=${lng}&radius=100`, {
-                // &sort=real_distance&order=asc
-                headers: {
-                    'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-                }
-            })
-        })
-        .then(response => response.json())
-        .then(zomatoObject => {
-            console.log(zomatoObject);
-            console.log(zomatoObject.restaurants[0].restaurant.name);
-            console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
-            console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
+// fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
+//             headers: {
+//                 'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+//             }
+//         })
+//         .then(response => response.json())
+//         .then(json => {
+//             // let city = json.location_suggestions[0].name;
+//             let cityId = json.location_suggestions[0].id;
+//             return fetch (`${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${nameZomatoEnc}&count=10&lat=${lat}&lon=${lng}&radius=100`, {
+//                 // &sort=real_distance&order=asc
+//                 headers: {
+//                     'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+//                 }
+//             })
+//         })
+//         .then(response => response.json())
+//         .then(zomatoObject => {
+//             console.log(zomatoObject);
+//             console.log(zomatoObject.restaurants[0].restaurant.name);
+//             console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
+//             console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
 
-            const zomatoData = {
-                data: [{
-                    name: zomatoObject.restaurants[0].restaurant.name,
-                    rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
-                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
-                }]
-            , 
-            provider: 'zomato'}
+//             const zomatoData = {
+//                 data: [{
+//                     name: zomatoObject.restaurants[0].restaurant.name,
+//                     rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
+//                     rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
+//                 }]
+//             , 
+//             provider: 'zomato'}
     
-            appendResults(zomatoData);
+//             appendResults(zomatoData);
 
-        })
-        .catch(err => console.log(err));
+//         })
+//         .catch(err => console.log(err));
 
 
 
@@ -218,7 +218,21 @@ fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
 
     // END ZOMATO FETCH
 
+// YELP FETCH
 
+const yelpEndpoint = 'https://api.yelp.com/v3'
+const yelpURL = `https://cors-anywhere.herokuapp.com/${yelpEndpoint}/businesses/search?term=${name}&latitude=${lat}&longitude=${lng}&limit=3`
+
+fetch(yelpURL, {
+    headers: {
+        'Authorization': 'Bearer eUOzyXXUDELRannD8wqSnnZPs9cyKPqOsJBaFoBELGTTyghw1gL47dIPKLGb2HpFd_tDo0Z4TxJrd2Tv39b4dG_qjf7wMBU-sqUnjQY5kHOdXXDM-R50tLY5tETrX3Yx'
+    }
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(err => console.log(err));
+
+// END YELP FETCH
 
     }
 }
