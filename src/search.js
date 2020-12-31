@@ -31,20 +31,39 @@ const zomatoFetch = (name, lat, lng) => {
     // name = `Craft Beereeeeee Muranów - Piwny Św'iat`
     // let zomatoTempName = name;
     let zomatoTempName = name;
+    // let zomatoTempName = 'Muranóąęśłćóźżńw Craft Beer';
 
     // let regEx = /(bistro|restauracja|cantine)/ig;
     // zomatoTempName = zomatoTempName.replace(regEx, '');
     // console.log('/bistro|restauracja/')
     // console.log(zomatoTempName)
-    
+
     // regEx = /\s\[^0-9]*\s/i;
 
-///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
+    ///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
+
+    // Aa
+
+    nonLatinCharArr = []
+
+    regEx = /[\u00c0-\u00c6]|[\u00e0-\u00e6]/ig;
+    zomatoTempName = zomatoTempName.replace(regEx, 'a');
     
+    // Ii
+
+    regEx = /[\u00ec-\u00ef]|[\u00cc-\u00cf]/ig;
+    zomatoTempName = zomatoTempName.replace(regEx, 'i');
+    
+    //
+
+    console.log('/zamieniam obce znaki na łacińskie znaki/')
+    console.log(zomatoTempName)
+
     // [\u{1F600}-\u{1F64F}]
 
-///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
+    ///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych END
 
+    // LEAVE ONLY 3 FIRST WORDS
 
     regEx = /\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s/i;
     // console.log(zomatoTempName.indexOf(regEx.exec(zomatoTempName))+regEx.exec(zomatoTempName)[0].length);
@@ -52,26 +71,47 @@ const zomatoFetch = (name, lat, lng) => {
     if (regEx.exec(zomatoTempName) != null) {
         zomatoTempName = zomatoTempName.slice(0, zomatoTempName.indexOf(regEx.exec(zomatoTempName)) + regEx.exec(zomatoTempName)[0].length);
     };
-    
-    console.log(`\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s`)
+    console.log(`\s[\wąęśćółźżń]+\s[\wąęśćółźżń]+\s`)
     console.log(zomatoTempName)
- 
-     
+
+    // CHANGE POLISH CHARACTERS TO LATIN ONES
+
+    const changePLToLA = (text, character, newCharacter) => {
+        let regEx = new RegExp(character, 'ig');
+        return text.replace(regEx, newCharacter);
+    }
+
+    const plArr = ['ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ż', 'ź']
+    const laArr = ['a', 'c', 'e', 'l', 'n', 'o', 's', 'z', 'z']
+
+    plArr.forEach(character => {
+        zomatoTempName = changePLToLA(zomatoTempName, character, laArr[plArr.indexOf(character)]);
+    })
+
+    console.log('/zamieniam obce znaki na łacińskie znaki/')
+    console.log(zomatoTempName)
+
+    // REMOVE SPECIAL CHARACTERS - TO BE UPDATED
+
     regEx = /(\-|\.|\')/ig;
     zomatoTempName = zomatoTempName.replace(regEx, '');
     console.log('/znaki specjalne/')
     console.log(zomatoTempName)
+
+    // REMOVE WHITE SPACE AT THE BEGINNING
 
     regEx = /^ /i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
     console.log('/^ /')
     console.log(zomatoTempName)
 
+    // REMOVE WHITE SPACE AT THE END
+
     regEx = / +$/i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
     console.log('/ +$/')
     console.log(zomatoTempName)
-    
+
     // zomatoTempName = encodeURI(zomatoTempName);
     // console.log('encodeURI')
     console.log(zomatoTempName)
@@ -82,42 +122,42 @@ const zomatoFetch = (name, lat, lng) => {
 
     const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
 
-    fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
-            headers: {
-                'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-            }
-        })
-        .then(response => response.json())
-        .then(json => {
-            let cityId = json.location_suggestions[0].id;
-            let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100`
-            console.log(URL);
-            return fetch(URL, {
-                headers: {
-                    'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-                }
-            })
-        })
-        .then(response => response.json())
-        .then(zomatoObject => {
-            console.log(zomatoObject);
-            console.log(zomatoObject.restaurants[0].restaurant.name);
-            console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
-            console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
+    // fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
+    //         headers: {
+    //             'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+    //         }
+    //     })
+    //     .then(response => response.json())
+    //     .then(json => {
+    //         let cityId = json.location_suggestions[0].id;
+    //         let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100`
+    //         console.log(URL);
+    //         return fetch(URL, {
+    //             headers: {
+    //                 'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+    //             }
+    //         })
+    //     })
+    //     .then(response => response.json())
+    //     .then(zomatoObject => {
+    //         console.log(zomatoObject);
+    //         console.log(zomatoObject.restaurants[0].restaurant.name);
+    //         console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
+    //         console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
 
-            const zomatoData = {
-                data: [{
-                    name: zomatoObject.restaurants[0].restaurant.name,
-                    rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
-                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
-                }],
-                provider: 'zomato'
-            }
+    //         const zomatoData = {
+    //             data: [{
+    //                 name: zomatoObject.restaurants[0].restaurant.name,
+    //                 rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
+    //                 rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
+    //             }],
+    //             provider: 'zomato'
+    //         }
 
-            appendResults(zomatoData);
+    //         appendResults(zomatoData);
 
-        })
-        .catch(err => console.log(err));
+    //     })
+    //     .catch(err => console.log(err));
 }
 
 // END ZOMATO FETCH
