@@ -18,6 +18,47 @@ const printOutput = (provider, tagClass, info) => {
     document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
 }
 
+// FOURSQUARE FETCH
+
+const foursquareFetch = (name, lat, lng) => {
+
+    const foursquareClientId = 'N0G1TES0V3ME5GSZA4GLP0E2FABY3R5PY32M11NJ0NJ00R51'
+    const foursquareClientSecret = 'WJXVCJN22MA2N2F5EMBU0YOQY1ILPGHAF4O23DQZOJJUZP3S'
+    const foursquareEndPoint = `https://api.foursquare.com/v2/venues/search?client_id=${foursquareClientId}&client_secret=${foursquareClientSecret}&v=20210101`
+    const foursquareGetIdURL = `${foursquareEndPoint}&ll=${lat},${lng}&radius=100&limit=1&query=${name}`
+
+    fetch(foursquareGetIdURL)
+        .then(response => response.json())
+        .then(getIdObject => {
+            // console.log(getIdObject);
+            console.log(getIdObject.response.venues[0].name);
+            console.log(getIdObject.response.venues[0].id);
+            const foursquareRestaurantURL = `https://api.foursquare.com/v2/venues/${getIdObject.response.venues[0].id}?client_id=${foursquareClientId}&client_secret=${foursquareClientSecret}&v=20210101`
+
+            return fetch(foursquareRestaurantURL)
+
+        })
+        .then(response => response.json())
+        .then(foursquareObject => {
+
+            console.log(foursquareObject);
+            console.log(foursquareObject.response.venue.rating/2);
+            console.log(foursquareObject.response.venue.ratingSignals);
+
+            const foursquareData = {
+                data: [{
+                    name: foursquareObject.response.venue.name,
+                    rating: foursquareObject.response.venue.rating/2,
+                    rating_count: foursquareObject.response.venue.ratingSignals
+                }],
+                provider: 'foursquare'
+            }
+            appendResults(foursquareData);
+        })
+        .catch(err => console.log(err))
+
+}
+
 // ZOMATO FETCH
 
 const zomatoFetch = (name, lat, lng) => {
@@ -31,7 +72,7 @@ const zomatoFetch = (name, lat, lng) => {
     let zomatoTempName = name;
     // let zomatoTempName = 'Muranóąęśłćóźżńw Craft Beer';
     // let zomatoTempName = 'ÄÆËÇâçêßÿðÚ';
-    // console.log(zomatoTempName);
+    // // console.log(zomatoTempName);
 
     ///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
 
@@ -61,20 +102,6 @@ const zomatoFetch = (name, lat, lng) => {
     console.log('/zamieniam obce znaki na łacińskie znaki/')
     console.log(zomatoTempName)
 
-    // regEx = /[\u00c0-\u00c6]|[\u00e0-\u00e6]/ig;
-    // zomatoTempName = zomatoTempName.replace(regEx, 'a');
-
-    // Ii
-
-    // regEx = /[\u00ec-\u00ef]|[\u00cc-\u00cf]/ig;
-    // zomatoTempName = zomatoTempName.replace(regEx, 'i');
-
-    //
-
-
-
-    // [\u{1F600}-\u{1F64F}]
-
     ///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych END
 
     // LEAVE ONLY 3 FIRST WORDS
@@ -85,7 +112,7 @@ const zomatoFetch = (name, lat, lng) => {
     if (regEx.exec(zomatoTempName) != null) {
         zomatoTempName = zomatoTempName.slice(0, zomatoTempName.indexOf(regEx.exec(zomatoTempName)) + regEx.exec(zomatoTempName)[0].length);
     };
-    console.log(`\s[\wąęśćółźżń]+\s[\wąęśćółźżń]+\s`)
+    console.log(`zostawiam tylko 3 wyrazy`)
     console.log(zomatoTempName)
 
     // CHANGE POLISH CHARACTERS TO LATIN ONES
@@ -102,33 +129,43 @@ const zomatoFetch = (name, lat, lng) => {
         zomatoTempName = changePLToLA(zomatoTempName, character, laArr[plArr.indexOf(character)]);
     })
 
-    console.log('/zamieniam obce znaki na łacińskie znaki/')
+    console.log('zamieniam polskie znaki diakr. na łacińskie litery')
     console.log(zomatoTempName)
 
     // REMOVE SPECIAL CHARACTERS - TO BE UPDATED
 
-    regEx = /(\-|\.|\')/ig;
+    regEx = /(\-|\.|\'|\,|\"|\&)/ig;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    console.log('/znaki specjalne/')
+    console.log('wywalam znaki specjalne')
+    console.log(zomatoTempName)
+
+    // regEx = /\w\s/i;
+    // zomatoTempName = zomatoTempName.replace(regEx, '');
+    // console.log('pojedyncza litera na początku')
+    // console.log(zomatoTempName)
+
+    regEx = /\s\w\w\s/i;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+    console.log('/dwie litery w środku/')
     console.log(zomatoTempName)
 
     // REMOVE WHITE SPACE AT THE BEGINNING
 
     regEx = /^ /i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    console.log('/^ /')
-    console.log(zomatoTempName)
+    // console.log('/^ /')
+    // console.log(zomatoTempName)
 
     // REMOVE WHITE SPACE AT THE END
 
     regEx = / +$/i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    console.log('/ +$/')
-    console.log(zomatoTempName)
+    // console.log('/ +$/')
+    // console.log(zomatoTempName)
 
     // zomatoTempName = encodeURI(zomatoTempName);
     // console.log('encodeURI')
-    console.log(zomatoTempName)
+    // console.log(zomatoTempName)
 
     let zomatoName = zomatoTempName;
 
@@ -141,8 +178,11 @@ const zomatoFetch = (name, lat, lng) => {
                 'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            return response.json()
+        })
         .then(json => {
+            console.log(json)
             let cityId = json.location_suggestions[0].id;
             let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100&sort=real_distance`
             console.log(URL);
@@ -152,7 +192,9 @@ const zomatoFetch = (name, lat, lng) => {
                 }
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            return response.json()
+        })
         .then(zomatoObject => {
             console.log(zomatoObject);
             console.log(zomatoObject.restaurants[0].restaurant.name);
@@ -420,6 +462,7 @@ const fetchResultsForGooglePlace = place => {
 
         zomatoFetch(name, lat, lng);
         yelpFetch(name, lat, lng);
+        foursquareFetch(name, lat, lng);
 
     }
 }
