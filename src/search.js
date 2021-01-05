@@ -1,6 +1,4 @@
-// import {searchForUserQuery} from './user-query.js'
-
-const providers = ["facebook", "yelp", "zomato"]
+const providers = ["facebook"]
 
 let summary = 0;
 let ratingsCount = 0;
@@ -10,7 +8,7 @@ let totalRatingCount = 0;
 const createShareLink = place => {
 
     let shareLinkEl = document.querySelector(".results-share")
-    let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}?query=`
+    let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
     shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
     shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
@@ -20,7 +18,242 @@ const printOutput = (provider, tagClass, info) => {
     document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
 }
 
-// FETCH SCORES FROM PROVIDERS
+// FETCH FOURSQUARE FUNCTION
+
+const foursquareFetch = (name, lat, lng) => {
+
+    const foursquareClientId = 'N0G1TES0V3ME5GSZA4GLP0E2FABY3R5PY32M11NJ0NJ00R51'
+    const foursquareClientSecret = 'WJXVCJN22MA2N2F5EMBU0YOQY1ILPGHAF4O23DQZOJJUZP3S'
+    const foursquareEndPoint = `https://api.foursquare.com/v2/venues/`
+    const foursquareRequiredURLPart = `client_id=${foursquareClientId}&client_secret=${foursquareClientSecret}&v=20210101`
+    const foursquareGetVenueIdURL = `${foursquareEndPoint}search?${foursquareRequiredURLPart}&ll=${lat},${lng}&radius=100&limit=1&query=${name}`
+
+    fetch(foursquareGetVenueIdURL)
+        .then(response => response.json())
+        .then(getIdObject => {
+            console.log(getIdObject.response.venues[0].name);
+            console.log(getIdObject.response.venues[0].id);
+            const foursquareRestaurantURL = `${foursquareEndPoint}${getIdObject.response.venues[0].id}?${foursquareRequiredURLPart}`
+            return fetch(foursquareRestaurantURL)
+        })
+        .then(response => response.json())
+        .then(foursquareObject => {
+
+            const foursquareData = {
+                data: [{
+                    name: foursquareObject.response.venue.name,
+                    rating: foursquareObject.response.venue.rating / 2,
+                    rating_count: foursquareObject.response.venue.ratingSignals
+                }],
+                provider: 'foursquare'
+            }
+            appendResults(foursquareData);
+        })
+        .catch(err => console.log(err))
+}
+
+
+
+// FETCH ZOMATO FUNCTION
+
+const zomatoFetch = (name, lat, lng) => {
+
+    //// CORRECTING PLACE NAME
+
+    let zomatoTempName = name;
+
+    // CHANGING FOREIGN CHARACTERS TO LATIN ONES
+
+    let nonLatinCharSwitchArr = [
+        ['a', '00c0', '00c6', '00e0', '00e6'],
+        ['c', '00c7', '00c7', '00e7', '00e7'],
+        ['e', '00c8', '00cb', '00e8', '00eb'],
+        ['i', '00cc', '00cf', '00ec', '00ef'],
+        ['d', '00d0', '00d0', '00f0', '00f0'],
+        ['n', '00d1', '00d1', '00f1', '00f1'],
+        ['o', '00d2', '00d6', '00f2', '00f6'],
+        ['o', '00d8', '00d8', '00f8', '00f8'],
+        ['u', '00d9', '00dc', '00f9', '00fc'],
+        ['y', '00dd', '00dd', '00fd', '00ff'],
+        ['s', '00df', '00df', '00df', '00df'],
+
+    ]
+
+    nonLatinCharSwitchArr.forEach(range => {
+        let charRange = `([\\u${range[1]}-\\u${range[2]}]|[\\u${range[3]}-\\u${range[4]}])`
+        let regEx = new RegExp(charRange, 'ig');
+        zomatoTempName = zomatoTempName.replace(regEx, nonLatinCharSwitchArr[nonLatinCharSwitchArr.indexOf(range)][0]);
+    })
+
+    // LEAVE ONLY 3 WORDS AT THE BEGINNING OF THE NAME
+
+    regEx = /\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s/i;
+    if (regEx.exec(zomatoTempName) != null) {
+        zomatoTempName = zomatoTempName.slice(0, zomatoTempName.indexOf(regEx.exec(zomatoTempName)) + regEx.exec(zomatoTempName)[0].length);
+    };
+
+    // CHANGE POLISH CHARACTERS TO LATIN ONES
+
+    const changePLToLA = (text, character, newCharacter) => {
+        let regEx = new RegExp(character, 'ig');
+        return text.replace(regEx, newCharacter);
+    }
+
+    const plArr = ['ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ż', 'ź']
+    const laArr = ['a', 'c', 'e', 'l', 'n', 'o', 's', 'z', 'z']
+
+    plArr.forEach(character => {
+        zomatoTempName = changePLToLA(zomatoTempName, character, laArr[plArr.indexOf(character)]);
+    })
+
+    // REMOVING SOME SPECIAL CHARACTERS
+
+    regEx = /(\-|\.|\'|\,|\"|\&)/ig;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+
+    // REMOVING WORDS CONTAING ONLY TWO LETTERS
+
+    regEx = /\s\w\w\s/i;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+
+    // REMOVE WHITE SPACE AT THE BEGINNING
+
+    regEx = /^ /i;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+
+    // REMOVE WHITE SPACE AT THE END
+
+    regEx = / +$/i;
+    zomatoTempName = zomatoTempName.replace(regEx, '');
+
+    let zomatoName = zomatoTempName;
+
+    //// END CORRECTING PLACE NAME
+
+    //// FETCH 
+
+    const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
+
+    // 1. GET CITY ID OF PROVIDED LAT & LNG
+
+    fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
+            headers: {
+                'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+            }
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(json => {
+
+            // 2. GET RESTAURANT DATA BASED ON RECIEVED CITY ID AND NAME, LAT & LNG
+
+            let cityId = json.location_suggestions[0].id;
+            let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100&sort=real_distance`
+            return fetch(URL, {
+                headers: {
+                    'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+                }
+            })
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(zomatoObject => {
+            const zomatoData = {
+                data: [{
+                    name: zomatoObject.restaurants[0].restaurant.name,
+                    rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
+                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
+                }],
+                provider: 'zomato'
+            }
+            appendResults(zomatoData);
+        })
+        .catch(err => console.log(err));
+}
+
+// END FETCH ZOMATO FUNCTION
+
+
+// FETCH YELP FUNCTION
+
+const yelpFetch = (name, lat, lng) => {
+
+    const yelpEndpoint = 'https://api.yelp.com/v3'
+    const CORS = 'https://cors-anywhere.herokuapp.com/'
+
+    //// CORRECTING PLACE NAME
+
+    let yelpTempName = name;
+
+    // REMOVING SPECIFIC WORDS
+
+    let regEx = /(bistro|restauracja|cantine)/ig;
+    yelpTempName = yelpTempName.replace(regEx, '');
+
+    // REMOVE WHITE SPACE AT THE BEGINNING
+
+    regEx = /^ /i;
+    yelpTempName = yelpTempName.replace(regEx, '');
+
+    // REMOVING SOME SPECIAL CHARACTERS
+
+    regEx = /(\-|\.)/ig;
+    yelpTempName = yelpTempName.replace(regEx, '');
+
+    // LEAVE ONLY 2 WORDS FROM THE BEGINNING OF THE NAME
+
+    regEx = /\s\w*\s/i
+    if (regEx.exec(yelpTempName) != null) {
+        yelpTempName = yelpTempName.slice(0, yelpTempName.indexOf(regEx.exec(yelpTempName)) + regEx.exec(yelpTempName)[0].length);
+    };
+
+    // REMOVE WHITE SPACE AT THE END
+
+    regEx = / +$/i;
+    yelpTempName = yelpTempName.replace(regEx, '');
+
+    const yelpName = yelpTempName;
+
+    //// END CORRECTING PLACE NAME
+
+    const yelpURL = `${CORS}${yelpEndpoint}/businesses/search?term=${yelpName}&latitude=${lat}&longitude=${lng}&limit=3&radius=100`
+
+    fetch(yelpURL, {
+            headers: {
+                'Authorization': 'Bearer eUOzyXXUDELRannD8wqSnnZPs9cyKPqOsJBaFoBELGTTyghw1gL47dIPKLGb2HpFd_tDo0Z4TxJrd2Tv39b4dG_qjf7wMBU-sqUnjQY5kHOdXXDM-R50tLY5tETrX3Yx'
+            }
+        })
+        .then(response => response.json())
+        .then(yelpObject => {
+            const yelpData = {
+                data: [{
+                    name: yelpObject.businesses[0].name,
+                    rating: yelpObject.businesses[0].rating,
+                    rating_count: yelpObject.businesses[0].review_count
+                }],
+                provider: 'yelp'
+            }
+            appendResults(yelpData);
+        })
+        .catch(err => {
+            const yelpData = {
+                data: [{
+                    name: 'no restaurant in my database',
+                    rating: '',
+                    rating_count: ''
+                }],
+                provider: 'yelp'
+            }
+            appendResults(yelpData);
+        });
+}
+
+// END YELP FETCH
+
+
+// FETCH SCORES FROM PROVIDERS - REQUEST TO BACKEND, CURRENTLY WORKS ONLY FOR FACEBOOK
 
 const fetchResults = (lat, lng, name, provider) => {
 
@@ -38,7 +271,9 @@ const fetchResults = (lat, lng, name, provider) => {
 
     fetch(apiUrl)
         .then(resolve => resolve.json())
-        .then(resolve => appendResults(resolve))
+        .then(resolve => {
+            appendResults(resolve)
+        })
         .catch(err => console.log(err))
 
 }
@@ -142,6 +377,11 @@ const fetchResultsForGooglePlace = place => {
         providers.forEach(provider => {
             fetchResults(lat, lng, name, provider);
         })
+
+        zomatoFetch(name, lat, lng); // 1000 API calls daily
+        yelpFetch(name, lat, lng); // 5000 API calls daily
+        foursquareFetch(name, lat, lng); // 500 API calls daily
+
     }
 }
 
@@ -185,6 +425,7 @@ window.App.initAutocomplete = _ => {
     // Create the search box and link it to the UI element.
 
     let input = document.getElementById('pac-input');
+    input.focus();
     let searchBox = new google.maps.places.SearchBox(input);
 
     // Bias the SearchBox results towards current map's viewport.
@@ -200,8 +441,11 @@ window.App.initAutocomplete = _ => {
             placesService.getDetails({
                 placeId: event.placeId
             }, (place, status) => {
+                // console.log('place google:')
+                // console.log(place)
                 createShareLink(place);
                 fetchResultsForGooglePlace(place);
+
             });
 
             // RESET OF WEIGHTED AVERAGE CALCULATIONS
