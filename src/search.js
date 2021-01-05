@@ -9,7 +9,7 @@ const createShareLink = place => {
 
     let shareLinkEl = document.querySelector(".results-share")
     let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
-    shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+    let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
     shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
 
 }
@@ -31,14 +31,11 @@ const foursquareFetch = (name, lat, lng) => {
     fetch(foursquareGetVenueIdURL)
         .then(response => response.json())
         .then(getIdObject => {
-            console.log(getIdObject.response.venues[0].name);
-            console.log(getIdObject.response.venues[0].id);
             const foursquareRestaurantURL = `${foursquareEndPoint}${getIdObject.response.venues[0].id}?${foursquareRequiredURLPart}`
             return fetch(foursquareRestaurantURL)
         })
         .then(response => response.json())
         .then(foursquareObject => {
-
             const foursquareData = {
                 data: [{
                     name: foursquareObject.response.venue.name,
@@ -47,6 +44,15 @@ const foursquareFetch = (name, lat, lng) => {
                 }],
                 provider: 'foursquare'
             }
+
+            // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
+            
+            const detailsLinkFoursquare = foursquareObject.response.venue.canonicalUrl;
+            const providerProviderTagEl = document.querySelector(`#foursquare_results .foursquare_name`);
+            providerProviderTagEl.innerHTML = `<a href='${detailsLinkFoursquare}' target="_blank">foursquare</a>`
+
+            // APPEND RESULTS
+
             appendResults(foursquareData);
         })
         .catch(err => console.log(err))
@@ -87,7 +93,7 @@ const zomatoFetch = (name, lat, lng) => {
 
     // LEAVE ONLY 3 WORDS AT THE BEGINNING OF THE NAME
 
-    regEx = /\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s/i;
+    let regEx = /\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s/i;
     if (regEx.exec(zomatoTempName) != null) {
         zomatoTempName = zomatoTempName.slice(0, zomatoTempName.indexOf(regEx.exec(zomatoTempName)) + regEx.exec(zomatoTempName)[0].length);
     };
@@ -168,6 +174,15 @@ const zomatoFetch = (name, lat, lng) => {
                 }],
                 provider: 'zomato'
             }
+
+            // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
+
+            const detailsLinkZomato = zomatoObject.restaurants[0].restaurant.url;
+            const providerProviderTagEl = document.querySelector(`#zomato_results .zomato_name`);
+            providerProviderTagEl.innerHTML = `<a href='${detailsLinkZomato}' target="_blank">zomato</a>`
+
+            // APPEND RESULTS
+
             appendResults(zomatoData);
         })
         .catch(err => console.log(err));
@@ -235,7 +250,17 @@ const yelpFetch = (name, lat, lng) => {
                 }],
                 provider: 'yelp'
             }
+
+            // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
+
+            const detailsLinkYelp = `${yelpObject.businesses[0].url}`;
+            const providerProviderTagEl = document.querySelector(`#yelp_results .yelp_name`);
+            providerProviderTagEl.innerHTML = `<a href='${detailsLinkYelp}' target="_blank">yelp</a>`
+
+            // APPEND RESULTS
+
             appendResults(yelpData);
+
         })
         .catch(err => {
             const yelpData = {
@@ -286,6 +311,7 @@ const appendResults = results => {
     const providerRowSelectorEl = document.querySelector(`#${provider}_results`);
     const providerRatingTagEl = providerRowSelectorEl.firstElementChild.nextElementSibling;
     const providerNameTagEl = providerRowSelectorEl.lastElementChild;
+    const providerProviderTagEl = document.querySelector(`#${provider}_results .${provider}_name`);
     const ratingSummaryEl = document.querySelector(".rating-summary");
     const restaurantTitle = document.querySelector(".restaurant-title");
 
@@ -382,6 +408,12 @@ const fetchResultsForGooglePlace = place => {
         yelpFetch(name, lat, lng); // 5000 API calls daily
         foursquareFetch(name, lat, lng); // 500 API calls daily
 
+
+        // GOOGLE NAME AS LINK TO DETAILS
+
+        const providerProviderTagEl = document.querySelector(`#google_results .google_name`);
+        providerProviderTagEl.innerHTML = `<a href='https://www.google.pl/maps/search/${place.name}%20${place.formatted_address}' target="_blank">google</a>`
+
     }
 }
 
@@ -441,8 +473,6 @@ window.App.initAutocomplete = _ => {
             placesService.getDetails({
                 placeId: event.placeId
             }, (place, status) => {
-                // console.log('place google:')
-                // console.log(place)
                 createShareLink(place);
                 fetchResultsForGooglePlace(place);
 
