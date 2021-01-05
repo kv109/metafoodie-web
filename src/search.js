@@ -18,37 +18,31 @@ const printOutput = (provider, tagClass, info) => {
     document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
 }
 
-// FOURSQUARE FETCH
+// FETCH FOURSQUARE FUNCTION
 
 const foursquareFetch = (name, lat, lng) => {
 
     const foursquareClientId = 'N0G1TES0V3ME5GSZA4GLP0E2FABY3R5PY32M11NJ0NJ00R51'
     const foursquareClientSecret = 'WJXVCJN22MA2N2F5EMBU0YOQY1ILPGHAF4O23DQZOJJUZP3S'
-    const foursquareEndPoint = `https://api.foursquare.com/v2/venues/search?client_id=${foursquareClientId}&client_secret=${foursquareClientSecret}&v=20210101`
-    const foursquareGetIdURL = `${foursquareEndPoint}&ll=${lat},${lng}&radius=100&limit=1&query=${name}`
+    const foursquareEndPoint = `https://api.foursquare.com/v2/venues/`
+    const foursquareRequiredURLPart = `client_id=${foursquareClientId}&client_secret=${foursquareClientSecret}&v=20210101`
+    const foursquareGetVenueIdURL = `${foursquareEndPoint}search?${foursquareRequiredURLPart}&ll=${lat},${lng}&radius=100&limit=1&query=${name}`
 
-    fetch(foursquareGetIdURL)
+    fetch(foursquareGetVenueIdURL)
         .then(response => response.json())
         .then(getIdObject => {
-            // console.log(getIdObject);
             console.log(getIdObject.response.venues[0].name);
             console.log(getIdObject.response.venues[0].id);
-            const foursquareRestaurantURL = `https://api.foursquare.com/v2/venues/${getIdObject.response.venues[0].id}?client_id=${foursquareClientId}&client_secret=${foursquareClientSecret}&v=20210101`
-
+            const foursquareRestaurantURL = `${foursquareEndPoint}${getIdObject.response.venues[0].id}?${foursquareRequiredURLPart}`
             return fetch(foursquareRestaurantURL)
-
         })
         .then(response => response.json())
         .then(foursquareObject => {
 
-            console.log(foursquareObject);
-            console.log(foursquareObject.response.venue.rating/2);
-            console.log(foursquareObject.response.venue.ratingSignals);
-
             const foursquareData = {
                 data: [{
                     name: foursquareObject.response.venue.name,
-                    rating: foursquareObject.response.venue.rating/2,
+                    rating: foursquareObject.response.venue.rating / 2,
                     rating_count: foursquareObject.response.venue.ratingSignals
                 }],
                 provider: 'foursquare'
@@ -56,27 +50,19 @@ const foursquareFetch = (name, lat, lng) => {
             appendResults(foursquareData);
         })
         .catch(err => console.log(err))
-
 }
 
-// ZOMATO FETCH
+
+
+// FETCH ZOMATO FUNCTION
 
 const zomatoFetch = (name, lat, lng) => {
 
-    // GET CITY ID VIA COORDINATES
-    //https://developers.zomato.com/api/v2.1/search?entity_id=265&entity_type=city&q=jeffs&count=10&lat=50.2719995&lon=19.0013386&radius=100
-
-
-    // CORRECTING PLACE NAME
+    //// CORRECTING PLACE NAME
 
     let zomatoTempName = name;
-    // let zomatoTempName = 'Muranóąęśłćóźżńw Craft Beer';
-    // let zomatoTempName = 'ÄÆËÇâçêßÿðÚ';
-    // // console.log(zomatoTempName);
 
-    ///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych
-
-    // Aa
+    // CHANGING FOREIGN CHARACTERS TO LATIN ONES
 
     let nonLatinCharSwitchArr = [
         ['a', '00c0', '00c6', '00e0', '00e6'],
@@ -99,21 +85,12 @@ const zomatoFetch = (name, lat, lng) => {
         zomatoTempName = zomatoTempName.replace(regEx, nonLatinCharSwitchArr[nonLatinCharSwitchArr.indexOf(range)][0]);
     })
 
-    console.log('/zamieniam obce znaki na łacińskie znaki/')
-    console.log(zomatoTempName)
-
-    ///////////////////////////////////////////////////////// usuwanie znaków obcojęzycznych END
-
-    // LEAVE ONLY 3 FIRST WORDS
+    // LEAVE ONLY 3 WORDS AT THE BEGINNING OF THE NAME
 
     regEx = /\s[\wąęśółźżń]+\s[\wąęśółźżń]+\s/i;
-    // console.log(zomatoTempName.indexOf(regEx.exec(zomatoTempName))+regEx.exec(zomatoTempName)[0].length);
-    // console.log(regEx.exec(zomatoTempName));
     if (regEx.exec(zomatoTempName) != null) {
         zomatoTempName = zomatoTempName.slice(0, zomatoTempName.indexOf(regEx.exec(zomatoTempName)) + regEx.exec(zomatoTempName)[0].length);
     };
-    console.log(`zostawiam tylko 3 wyrazy`)
-    console.log(zomatoTempName)
 
     // CHANGE POLISH CHARACTERS TO LATIN ONES
 
@@ -129,49 +106,35 @@ const zomatoFetch = (name, lat, lng) => {
         zomatoTempName = changePLToLA(zomatoTempName, character, laArr[plArr.indexOf(character)]);
     })
 
-    console.log('zamieniam polskie znaki diakr. na łacińskie litery')
-    console.log(zomatoTempName)
-
-    // REMOVE SPECIAL CHARACTERS - TO BE UPDATED
+    // REMOVING SOME SPECIAL CHARACTERS
 
     regEx = /(\-|\.|\'|\,|\"|\&)/ig;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    console.log('wywalam znaki specjalne')
-    console.log(zomatoTempName)
 
-    // regEx = /\w\s/i;
-    // zomatoTempName = zomatoTempName.replace(regEx, '');
-    // console.log('pojedyncza litera na początku')
-    // console.log(zomatoTempName)
+    // REMOVING WORDS CONTAING ONLY TWO LETTERS
 
     regEx = /\s\w\w\s/i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    console.log('/dwie litery w środku/')
-    console.log(zomatoTempName)
 
     // REMOVE WHITE SPACE AT THE BEGINNING
 
     regEx = /^ /i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    // console.log('/^ /')
-    // console.log(zomatoTempName)
 
     // REMOVE WHITE SPACE AT THE END
 
     regEx = / +$/i;
     zomatoTempName = zomatoTempName.replace(regEx, '');
-    // console.log('/ +$/')
-    // console.log(zomatoTempName)
-
-    // zomatoTempName = encodeURI(zomatoTempName);
-    // console.log('encodeURI')
-    // console.log(zomatoTempName)
 
     let zomatoName = zomatoTempName;
 
-    // END CORRECTING PLACE NAME
+    //// END CORRECTING PLACE NAME
+
+    //// FETCH 
 
     const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
+
+    // 1. GET CITY ID OF PROVIDED LAT & LNG
 
     fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
             headers: {
@@ -182,10 +145,11 @@ const zomatoFetch = (name, lat, lng) => {
             return response.json()
         })
         .then(json => {
-            console.log(json)
+
+            // 2. GET RESTAURANT DATA BASED ON RECIEVED CITY ID AND NAME, LAT & LNG
+
             let cityId = json.location_suggestions[0].id;
             let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100&sort=real_distance`
-            console.log(URL);
             return fetch(URL, {
                 headers: {
                     'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
@@ -196,11 +160,6 @@ const zomatoFetch = (name, lat, lng) => {
             return response.json()
         })
         .then(zomatoObject => {
-            console.log(zomatoObject);
-            console.log(zomatoObject.restaurants[0].restaurant.name);
-            console.log(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating);
-            console.log(zomatoObject.restaurants[0].restaurant.user_rating.votes);
-
             const zomatoData = {
                 data: [{
                     name: zomatoObject.restaurants[0].restaurant.name,
@@ -209,87 +168,57 @@ const zomatoFetch = (name, lat, lng) => {
                 }],
                 provider: 'zomato'
             }
-
             appendResults(zomatoData);
-
         })
         .catch(err => console.log(err));
 }
 
-// END ZOMATO FETCH
+// END FETCH ZOMATO FUNCTION
 
 
-
-
-
-// YELP FETCH
+// FETCH YELP FUNCTION
 
 const yelpFetch = (name, lat, lng) => {
 
     const yelpEndpoint = 'https://api.yelp.com/v3'
     const CORS = 'https://cors-anywhere.herokuapp.com/'
 
+    //// CORRECTING PLACE NAME
 
-    // CORRECTING PLACE NAME
     let yelpTempName = name;
 
+    // REMOVING SPECIFIC WORDS
+
     let regEx = /(bistro|restauracja|cantine)/ig;
-
     yelpTempName = yelpTempName.replace(regEx, '');
-    console.log('/bistro|restauracja/')
-    console.log(yelpTempName)
 
-    // regEx = /restauracja/i;
-    // yelpTempName = yelpTempName.replace(regEx, '');
-    // console.log('/restauracja/')
-    // console.log(yelpTempName)
+    // REMOVE WHITE SPACE AT THE BEGINNING
 
     regEx = /^ /i;
     yelpTempName = yelpTempName.replace(regEx, '');
-    console.log('/^ /')
-    console.log(yelpTempName)
+
+    // REMOVING SOME SPECIAL CHARACTERS
 
     regEx = /(\-|\.)/ig;
     yelpTempName = yelpTempName.replace(regEx, '');
-    console.log('/znaki specjalne/')
-    console.log(yelpTempName)
 
-    // let name = 'Craft Beereeeeee Muranów - Piwny Świat'
+    // LEAVE ONLY 2 WORDS FROM THE BEGINNING OF THE NAME
+
     regEx = /\s\w*\s/i
-    // const yelpName = encodeURI(name);
-    // console.log(name.indexOf(regEx.exec(name))+regEx.exec(name)[0].length);
     if (regEx.exec(yelpTempName) != null) {
         yelpTempName = yelpTempName.slice(0, yelpTempName.indexOf(regEx.exec(yelpTempName)) + regEx.exec(yelpTempName)[0].length);
     };
 
-    console.log('/\s\w*\s/')
-    console.log(yelpTempName)
+    // REMOVE WHITE SPACE AT THE END
 
     regEx = / +$/i;
     yelpTempName = yelpTempName.replace(regEx, '');
-    console.log('/ +$/')
-    console.log(yelpTempName)
 
-
-
-    // yelpTempName = yelpTempName.;
-    // const yelpName = encodeURI('restauracja ogród smaku');
-    // const yelpName = 'restauracja ogród smaku';
     const yelpName = yelpTempName;
 
-    // console.log(yelpName);
-    // console.log(address);
-
-    // const yelpAddress = encodeURI('Nowolipki 17c, 00-152 Warszawa, Polska')
-    // console.log(yelpAddress)
-
-    // END CORRECTING PLACE NAME
+    //// END CORRECTING PLACE NAME
 
     const yelpURL = `${CORS}${yelpEndpoint}/businesses/search?term=${yelpName}&latitude=${lat}&longitude=${lng}&limit=3&radius=100`
-    // &ocation=${address}
-    console.log(yelpURL);
-    // const yelpURL = `${CORS}${yelpEndpoint}/businesses/phone?phone=+48124249600`
-    // const yelpURL = `${CORS}${yelpEndpoint}/businesses/matches?name=${yelpName}&address1=${address}&city=warszawa&state=MZ&country=PL`
 
     fetch(yelpURL, {
             headers: {
@@ -298,7 +227,6 @@ const yelpFetch = (name, lat, lng) => {
         })
         .then(response => response.json())
         .then(yelpObject => {
-            console.log(yelpObject);
             const yelpData = {
                 data: [{
                     name: yelpObject.businesses[0].name,
@@ -307,20 +235,17 @@ const yelpFetch = (name, lat, lng) => {
                 }],
                 provider: 'yelp'
             }
-
             appendResults(yelpData);
         })
         .catch(err => {
-            console.log('brak yelpa')
             const yelpData = {
                 data: [{
-                    name: 'brak yelpa',
+                    name: 'no restaurant in my database',
                     rating: '',
                     rating_count: ''
                 }],
                 provider: 'yelp'
             }
-
             appendResults(yelpData);
         });
 }
@@ -328,7 +253,7 @@ const yelpFetch = (name, lat, lng) => {
 // END YELP FETCH
 
 
-// FETCH SCORES FROM PROVIDERS
+// FETCH SCORES FROM PROVIDERS - REQUEST TO BACKEND, CURRENTLY WORKS ONLY FOR FACEBOOK
 
 const fetchResults = (lat, lng, name, provider) => {
 
@@ -347,8 +272,6 @@ const fetchResults = (lat, lng, name, provider) => {
     fetch(apiUrl)
         .then(resolve => resolve.json())
         .then(resolve => {
-
-            // console.log(resolve);
             appendResults(resolve)
         })
         .catch(err => console.log(err))
@@ -435,11 +358,6 @@ const appendResults = results => {
 
 const fetchResultsForGooglePlace = place => {
 
-    // console.log('\n'.repeat('5'));
-    // console.log('place:');
-    // console.log(place);
-
-
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
         document.querySelector(".alert").classList.remove('d-none');
@@ -460,9 +378,9 @@ const fetchResultsForGooglePlace = place => {
             fetchResults(lat, lng, name, provider);
         })
 
-        zomatoFetch(name, lat, lng);
-        yelpFetch(name, lat, lng);
-        foursquareFetch(name, lat, lng);
+        zomatoFetch(name, lat, lng); // 1000 API calls daily
+        yelpFetch(name, lat, lng); // 5000 API calls daily
+        foursquareFetch(name, lat, lng); // 500 API calls daily
 
     }
 }
