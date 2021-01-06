@@ -386,10 +386,10 @@ const fetchResultsForGooglePlace = place => {
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
     if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
-        document.querySelector(".alert").classList.remove('d-none');
+        document.querySelector(".alert").classList.remove('hidden');
 
     } else {
-        document.querySelector(".alert").classList.add('d-none');
+        document.querySelector(".alert").classList.add('hidden');
         const name = place.name;
         const location = place.geometry.location;
         const lat = location.lat();

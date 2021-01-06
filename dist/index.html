@@ -11,121 +11,136 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">FOODIE</a>
 
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                </li>
-            </ul>
-        </div>
+    <div class="app">
 
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                </li>
-            </ul>
-        </div>
-    </nav>
+        <!-- TOP NAV -->
 
-    <div class="container-fluid mt-4">
-        <div class="alert alert-info d-none" role="alert">
-            Please select a food place, like a restaurant or a bar
-        </div>
+        <nav class="default-width">
+            <a class="" href="/">metaFOODIE</a>
 
-        <div class="row">
-            <div class="col-9 col-lg-6 offset-lg-2">
-                <input id="pac-input" class="controls" type="text" placeholder="Find a restaurant">
+            <!-- <div class="">
+                <ul class="">
+                    <li class="">
+                    </li>
+                </ul>
             </div>
-            <div class="col-3 col-lg-2">
-                <button id="clear-button" class="w-100">Clear</button>
-            </div>
-        </div>
-        <div class="mt-3"></div>
 
-        <!-- MAP -->
+            <div class="">
+                <ul class="">
+                    <li class="">
+                    </li>
+                </ul>
+            </div> -->
+        </nav>
 
-        <div class="row">
-            <div class="col-lg-12 p-0 m-auto mb-3">
-                <div id="map"></div>
-            </div>
-        </div>
+        <main>
 
-        <!-- NAZWA RESTAURACJI i Share link -->
+            <!-- SEARCHBOX -->
 
-        <div class="row">
-            <div class="col-12 col-lg-8 m-auto mb-3">
-                <div class="restaurant-title h3"></div>
+            <section class="searchbox default-width">
+
+                <div class="alert hidden" role="alert">
+                    Please select a food place, like a restaurant or a bar
+                </div>
+
+                <div class="">
+                    <input id="pac-input" class="controls" type="text" placeholder="Find a restaurant">
+                </div>
+
+                <div class="">
+                    <button id="clear-button" class="">Clear</button>
+                </div>
+
+            </section>
+
+            <!-- MAP -->
+
+            <section class="">
+                <div class="">
+                    <div id="map"></div>
+                </div>
+            </section>
+
+            <!-- NAZWA RESTAURACJI i Share link -->
+
+            <section class="default-width">
+                <div class="restaurant-title"></div>
                 <div class="results-share"></div>
-            </div>
-        </div>
+            </section>
 
-        <!-- AVERAGE SCORE -->
+            <!-- AVERAGE SCORE -->
 
-        <div class="row">
-            <div class="col-12 col-lg-8 m-auto">
-                <p class="rating-summary m-auto text-center">
-                </p>
-            </div>
-        </div>
+            <section class="default-width">
+                <div class="">
+                    <p class="rating-summary">
+                    </p>
+                </div>
+            </section>
 
-        <!-- RESULTS -->
+            <!-- RESULTS -->
 
-        <div class="row">
-            <div class="col-12 col-lg-8 m-auto">
-                <table id="results" class="table">
+            <section class="default-width">
+                <div class="">
+                    <table id="results" class="table">
 
-                    <!-- HEADER -->
-                    <thead>
-                        <tr>
-                            <th>Provider</th>
-                            <th>Rating</th>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
+                        <!-- HEADER -->
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>Rating</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
 
-                    <!-- PROVIDERS & RESULTS -->
-                    <tbody>
-                        <tr id="google_results">
-                            <td><img class="icon mr-2" src="img/google_icon.png" /> <span
-                                    class="d-none d-md-inline google_name">google</span></td>
-                            <td class="rating"></td>
-                            <td class="name"></td>
-                        </tr>
-                        <tr id="facebook_results">
-                            <td><img class="icon mr-2" src="img/facebook_icon.png" /> <span
-                                    class="d-none d-md-inline facebook_name">facebook</span></td>
-                            <td class="rating"></td>
-                            <td class="name"></td>
-                        </tr>
-                        <tr id="yelp_results">
-                            <td><img class="icon mr-2" src="img/yelp_icon.png" /> <span
-                                    class="d-none d-md-inline yelp_name">yelp</span></td>
-                            <td class="rating"></td>
-                            <td class="name"></td>
-                        </tr>
-                        <tr id="zomato_results">
-                            <td><img class="icon mr-2" src="img/zomato_icon.png" /> <span
-                                    class="d-none d-md-inline zomato_name">zomato</span></td>
-                            <td class="rating"></td>
-                            <td class="name"></td>
-                        </tr>
-                        <tr id="foursquare_results">
-                            <td><img class="icon mr-2" src="img/foursquare_icon.png" /> <span
-                                    class="d-none d-md-inline foursquare_name">foursquare</span></td>
-                            <td class="rating"></td>
-                            <td class="name"></td>
-                        </tr>
-                </table>
-            </div>
-        </div>
+                        <!-- PROVIDERS & RESULTS -->
+                        <tbody>
+                            <tr id="google_results">
+                                <td><img class="icon" src="img/google_icon.png" /> <span
+                                        class="google_name">google</span>
+                                </td>
+                                <td class="rating"></td>
+                                <td class="name"></td>
+                            </tr>
+                            <tr id="facebook_results">
+                                <td><img class="icon" src="img/facebook_icon.png" /> <span
+                                        class="facebook_name">facebook</span>
+                                </td>
+                                <td class="rating"></td>
+                                <td class="name"></td>
+                            </tr>
+                            <tr id="yelp_results">
+                                <td><img class="icon" src="img/yelp_icon.png" /> <span class="yelp_name">yelp</span>
+                                </td>
+                                <td class="rating"></td>
+                                <td class="name"></td>
+                            </tr>
+                            <tr id="zomato_results">
+                                <td><img class="icon" src="img/zomato_icon.png" /> <span
+                                        class="zomato_name">zomato</span>
+                                </td>
+                                <td class="rating"></td>
+                                <td class="name"></td>
+                            </tr>
+                            <tr id="foursquare_results">
+                                <td><img class="icon" src="img/foursquare_icon.png" /> <span
+                                        class="foursquare_name">foursquare</span></td>
+                                <td class="rating"></td>
+                                <td class="name"></td>
+                            </tr>
+                    </table>
+                </div>
+            </section>
+        </main>
 
-        <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&map_ids=33280f2f68566682&libraries=places&callback=App.initAutocomplete&language=pl"
-            async defer></script>
+        <footer class="footer default-width">
 
+        </footer>
     </div>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&map_ids=33280f2f68566682&libraries=places&callback=App.initAutocomplete&language=pl"
+        async defer></script>
 
 </body>
 
