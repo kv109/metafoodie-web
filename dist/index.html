@@ -12,66 +12,60 @@
 
 <body>
 
-    <div class="app">
+    <!-- TOP NAV -->
 
-        <!-- TOP NAV -->
+    <div class="wrapper-main">
 
-        <nav class="default-width">
-            <a class="" href="/">metaFOODIE</a>
+        <div class="background-top"></div>
 
-            <!-- <div class="">
-                <ul class="">
-                    <li class="">
-                    </li>
-                </ul>
-            </div>
+        <header>
+            <a href="/"><img src="img/logo.png" alt="metaFoodie - porównaj oceny restauracji" class="logo"></a>
+            <p class="tagline">Porównaj oceny restauracji</p>
+        </header>
 
-            <div class="">
-                <ul class="">
-                    <li class="">
-                    </li>
-                </ul>
-            </div> -->
-        </nav>
-
-        <main>
+        <nav>
 
             <!-- SEARCHBOX -->
 
-            <section class="searchbox default-width">
-
+            <!-- <section class="searchbox"> -->
                 <div class="alert hidden" role="alert">
                     Please select a food place, like a restaurant or a bar
                 </div>
 
-                <div class="">
+                <!-- <div class=""> -->
                     <input id="pac-input" class="controls" type="text" placeholder="Find a restaurant">
-                </div>
+                <!-- </div> -->
 
-                <div class="">
+                <!-- <div class=""> -->
                     <button id="clear-button" class="">Clear</button>
-                </div>
+                <!-- </div> -->
 
-            </section>
+            <!-- </section> -->
+        </nav>
 
-            <!-- MAP -->
+        <!-- MAP -->
 
-            <section class="">
-                <div class="">
-                    <div id="map"></div>
-                </div>
-            </section>
+        <section id="map" class="map">
+            <div class="">
+                <div>mapa</div>
+            </div>
+        </section>
+
+        <div class="background-bottom"></div>
+
+
+        <main>
 
             <!-- NAZWA RESTAURACJI i Share link -->
 
-            <section class="default-width">
+            <section class="">
                 <div class="restaurant-title"></div>
                 <div class="results-share"></div>
             </section>
 
             <!-- AVERAGE SCORE -->
 
-            <section class="default-width">
+            <section class="">
                 <div class="">
                     <p class="rating-summary">
                     </p>
@@ -80,7 +74,7 @@
 
             <!-- RESULTS -->
 
-            <section class="default-width">
+            <section class="">
                 <div class="">
                     <table id="results" class="table">
 
@@ -133,10 +127,11 @@
             </section>
         </main>
 
-        <footer class="footer default-width">
-
+        <footer class="footer">
+            footer
         </footer>
     </div>
+
 
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&map_ids=33280f2f68566682&libraries=places&callback=App.initAutocomplete&language=pl"

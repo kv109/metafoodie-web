@@ -1,0 +1,40 @@
+.wrapper-main {
+    display: grid;
+    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
+    grid-template-rows: 
+    [header-start] minmax(10px, auto) 
+    [header-end searchbox-start] minmax(10px, auto)
+    [searchbox-end map-start] minmax(10px, auto)
+    [map-end score-start] minmax(10px, auto)
+    [score-end searchbox2-start] minmax(10px, auto)
+    [searchbox2-end footer-start] minmax(10px, auto)
+    [footer-end];
+}
+
+header {
+    grid-area: header-start / content-start / header-end / content-end;
+}
+
+nav {
+    grid-area: searchbox-start / content-start / searchbox-end / content-end;
+}
+
+.map {
+    grid-area: map-start / margin-left-start / map-end / margin-right-end;
+}
+
+main {
+    grid-area: score-start / content-start / score-end / content-end;
+}
+
+footer {
+    grid-area: footer-start / content-start / footer-end / content-end;
+}
+
+.background-top {
+    grid-area: header-start / margin-left-start / searchbox-end / margin-right-end;
+}
+
+.background-bottom {
+    grid-area: score-start / margin-left-start / score-end / margin-right-end;
+}

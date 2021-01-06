@@ -1,25 +1,50 @@
-@import "../../dist/scss/custom.scss";
-// @import "../../dist/scss/variables.scss";
+@use "../../dist/scss/variables.scss";
+@use "../../dist/scss/grid.scss";
+
+$black: #000;
 
 * {
     margin: 0;
-    padding: 0
+    padding: 0;
+    color: white;
 }
 
-.default-width {
-    width: 1100px;
-    margin: auto;
+.background-top {
+    background-color: $black;
+    background-image: url(../img/background-top.jpg);
+    background-size: cover;
+}
+
+.background-bottom {
+    background-color: $black;
+    background-image: url(../img/background-bottom.jpg);
+    background-size: cover;
 }
 
 #map {
     height: 35vh;
 }
 
-.hidden {display: none;}
+.hidden {
+    display: none;
+}
+
+img.logo {
+    margin: 1em 1em 1em 0;
+}
 
 img.icon {
     height: 24px;
     width: 24px;
+}
+
+header {
+    display: flex
+}
+
+header p {
+    align-self: center;
+    padding: 0 0 0 2rem;
 }
 
 #results {
@@ -32,19 +57,35 @@ img.icon {
     color: white;
 }
 
-#pac-input {
-    background-color: #fff;
-    font-family: Roboto;
-    font-size: 20px;
-    font-weight: 300;
-    text-overflow: ellipsis;
-    width: 100%;
+nav {
+    // display: flex;
+    padding: 1em 1em 1em 0;
+    // color: black;
 }
 
+input,
+button {
+    color: $black
+}
+
+#pac-input {
+    background-color: #fff;
+    height: 3rem;
+    width: 70%;
+    margin: 0 2rem 2rem 0;
+    border-radius: 1rem;
+    border-style: none;
+    font-size: 1.2rem;
+    padding: 0 0 0 1em;
+}
+
+#pac-input::placeholder {color: black;}
+
 #clear-button {
-    font-family: Roboto;
-    font-size: 20px;
-    font-weight: 300;
+    height: 3rem;
+    border-radius: 1rem;
+    width: 6rem;
+    font-size: 1.2rem;
 }
 
 #infowindow-content .title {

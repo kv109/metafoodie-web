@@ -1,11 +1,53 @@
+.wrapper-main {
+  display: grid;
+  grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
+  grid-template-rows: [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(10px, auto) [searchbox2-end footer-start] minmax(10px, auto) [footer-end];
+}
+
+header {
+  grid-area: header-start/content-start/header-end/content-end;
+}
+
+nav {
+  grid-area: searchbox-start/content-start/searchbox-end/content-end;
+}
+
+.map {
+  grid-area: map-start/margin-left-start/map-end/margin-right-end;
+}
+
+main {
+  grid-area: score-start/content-start/score-end/content-end;
+}
+
+footer {
+  grid-area: footer-start/content-start/footer-end/content-end;
+}
+
+.background-top {
+  grid-area: header-start/margin-left-start/searchbox-end/margin-right-end;
+}
+
+.background-bottom {
+  grid-area: score-start/margin-left-start/score-end/margin-right-end;
+}
+
 * {
   margin: 0;
   padding: 0;
+  color: white;
 }
 
-.default-width {
-  width: 1100px;
-  margin: auto;
+.background-top {
+  background-color: #000;
+  background-image: url(../img/background-top.jpg);
+  background-size: cover;
+}
+
+.background-bottom {
+  background-color: #000;
+  background-image: url(../img/background-bottom.jpg);
+  background-size: cover;
 }
 
 #map {
@@ -16,9 +58,22 @@
   display: none;
 }
 
+img.logo {
+  margin: 1em 1em 1em 0;
+}
+
 img.icon {
   height: 24px;
   width: 24px;
+}
+
+header {
+  display: flex;
+}
+
+header p {
+  align-self: center;
+  padding: 0 0 0 2rem;
 }
 
 #results {
@@ -31,19 +86,35 @@ img.icon {
   color: white;
 }
 
+nav {
+  padding: 1em 1em 1em 0;
+}
+
+input,
+button {
+  color: #000;
+}
+
 #pac-input {
   background-color: #fff;
-  font-family: Roboto;
-  font-size: 20px;
-  font-weight: 300;
-  text-overflow: ellipsis;
-  width: 100%;
+  height: 3rem;
+  width: 70%;
+  margin: 0 2rem 2rem 0;
+  border-radius: 1rem;
+  border-style: none;
+  font-size: 1.2rem;
+  padding: 0 0 0 1em;
+}
+
+#pac-input::placeholder {
+  color: black;
 }
 
 #clear-button {
-  font-family: Roboto;
-  font-size: 20px;
-  font-weight: 300;
+  height: 3rem;
+  border-radius: 1rem;
+  width: 6rem;
+  font-size: 1.2rem;
 }
 
 #infowindow-content .title {
