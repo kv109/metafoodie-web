@@ -22,7 +22,6 @@
 }
 
 .score-info {
-    // padding: 0.5rem 0 0 0;
     font-size: 0.7rem;
 }
 
@@ -64,10 +63,7 @@ color: variables.$white;
 }
 
 .results-arrow {
-    // display: flex;
     position: relative;
-    // left: 100px;
-    // right: 100px;
     bottom: -2rem;
     left: 5rem;
 }
@@ -83,5 +79,4 @@ color: variables.$white;
     padding: 1rem 0 0 0;
     position: relative;
     left: 2rem;
-    // left: 200px
 }

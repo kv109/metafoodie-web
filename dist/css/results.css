@@ -1,0 +1,80 @@
+.results-name {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 2rem;
+  padding: 1.5rem 0 0 0;
+}
+
+.results-address {
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 0.5rem 0 0 0;
+}
+
+.results-average {
+  margin: 2rem 2rem 3rem 0;
+  padding: 0.7rem 0 0.7rem 0;
+  border-radius: 0.6rem;
+  text-align: center;
+}
+
+.score-info {
+  font-size: 0.7rem;
+}
+
+.score-percentage {
+  font-size: 4rem;
+  padding: 0 0 0 0;
+}
+
+.results-provider {
+  text-align: center;
+  margin: 2rem 0 0 0;
+}
+
+.results-provider p {
+  padding: 0.4rem 0 0 0;
+}
+
+.provider-name a {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.provider-rating {
+  color: #499f08;
+  font-size: 2rem;
+}
+
+.results-share {
+  font-size: 1rem;
+  padding: 0 0 0 1rem;
+  display: inline-block;
+}
+
+.results-share a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.results-arrow {
+  position: relative;
+  bottom: -2rem;
+  left: 5rem;
+}
+
+.results-arrow p {
+  font-family: Caveat;
+  font-size: 1.5rem;
+}
+
+.results-arrow p img {
+  transform: scaleX(-100%) rotate(-70deg);
+  display: inline;
+  padding: 1rem 0 0 0;
+  position: relative;
+  left: 2rem;
+}
+
+/*# sourceMappingURL=results.css.map */
