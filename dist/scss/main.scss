@@ -1,24 +1,26 @@
 @use "../../dist/scss/variables.scss";
 @use "../../dist/scss/grid.scss";
 
-$black: #000;
-
 * {
     margin: 0;
     padding: 0;
-    color: white;
+    // color: white;
 }
 
 .background-top {
-    background-color: $black;
+    background-color: variables.$black;
     background-image: url(../img/background-top.jpg);
     background-size: cover;
 }
 
 .background-bottom {
-    background-color: $black;
+    background-color: variables.$black;
     background-image: url(../img/background-bottom.jpg);
     background-size: cover;
+}
+
+section.wrapper-results, header {
+    color: variables.$white;
 }
 
 #map {
@@ -58,25 +60,24 @@ header p {
 }
 
 nav {
-    // display: flex;
-    padding: 1em 1em 1em 0;
-    // color: black;
+    padding: 1em 0 1em 0;
 }
 
 input,
 button {
-    color: $black
+    color: variables.$black
 }
 
 #pac-input {
     background-color: #fff;
     height: 3rem;
-    width: 70%;
+    width: 100%;
     margin: 0 2rem 2rem 0;
     border-radius: 1rem;
     border-style: none;
     font-size: 1.2rem;
     padding: 0 0 0 1em;
+    color: variables.$black
 }
 
 #pac-input::placeholder {color: black;}
