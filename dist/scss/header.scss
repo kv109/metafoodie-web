@@ -1,0 +1,19 @@
+@use '../scss/variables.scss';
+
+header {
+    display: flex
+}
+
+header p {
+    align-self: center;
+}
+
+.tagline {
+    padding: 0 0 0 2rem;
+    font-size: 1.5rem;
+}
+
+.tagline-sub {
+    color: variables.$green;
+    padding: 0 0 0 1rem;
+}

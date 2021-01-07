@@ -5,14 +5,7 @@ let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
-const createShareLink = place => {
-
-    let shareLinkEl = document.querySelector(".results-share")
-    let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
-    let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
-    shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">shareLink</a>`;
-
-}
+const firstUpperCase = word => `${word[0].toUpperCase()}${[...word].splice(1).join('')}`
 
 const printOutput = (provider, info) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = info;
@@ -40,16 +33,11 @@ const foursquareFetch = (name, lat, lng) => {
                 data: [{
                     name: foursquareObject.response.venue.name,
                     rating: foursquareObject.response.venue.rating / 2,
-                    rating_count: foursquareObject.response.venue.ratingSignals
+                    rating_count: foursquareObject.response.venue.ratingSignals,
+                    url: foursquareObject.response.venue.canonicalUrl
                 }],
                 provider: 'foursquare'
             }
-
-            // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
-            
-            const detailsLinkFoursquare = foursquareObject.response.venue.canonicalUrl;
-            const providerProviderTagEl = document.querySelector(`.results-provider-foursquare .provider-name`);
-            providerProviderTagEl.innerHTML = `<a href='${detailsLinkFoursquare}' target="_blank">foursquare</a>`
 
             // APPEND RESULTS
 
@@ -170,16 +158,11 @@ const zomatoFetch = (name, lat, lng) => {
                 data: [{
                     name: zomatoObject.restaurants[0].restaurant.name,
                     rating: zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating,
-                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes
+                    rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes,
+                    url: zomatoObject.restaurants[0].restaurant.url
                 }],
                 provider: 'zomato'
             }
-
-            // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
-
-            const detailsLinkZomato = zomatoObject.restaurants[0].restaurant.url;
-            const providerProviderTagEl = document.querySelector(`.results-provider-zomato .provider-name`);
-            providerProviderTagEl.innerHTML = `<a href='${detailsLinkZomato}' target="_blank">zomato</a>`
 
             // APPEND RESULTS
 
@@ -246,16 +229,11 @@ const yelpFetch = (name, lat, lng) => {
                 data: [{
                     name: yelpObject.businesses[0].name,
                     rating: yelpObject.businesses[0].rating,
-                    rating_count: yelpObject.businesses[0].review_count
+                    rating_count: yelpObject.businesses[0].review_count,
+                    url: yelpObject.businesses[0].url
                 }],
                 provider: 'yelp'
             }
-
-            // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
-
-            const detailsLinkYelp = `${yelpObject.businesses[0].url}`;
-            const providerProviderTagEl = document.querySelector(`.results-provider-yelp .provider-name`);
-            providerProviderTagEl.innerHTML = `<a href='${detailsLinkYelp}' target="_blank">yelp</a>`
 
             // APPEND RESULTS
 
@@ -308,25 +286,27 @@ const fetchResults = (lat, lng, name, provider) => {
 const appendResults = results => {
     const place = results.data[0];
     const provider = results.provider;
-    const providerRatingTagEl = document.querySelector(`.results-provider-${provider} .provider-rating`);
-    const providerRatingCountTagEl = document.querySelector(`.results-provider-${provider} .provider-rating-count`);
+    const url = results.data[0].url;
     const ratingSummaryEl = document.querySelector(".results-average");
-    const restaurantTitle = document.querySelector(".results-name");
-    const restaurantAddress = document.querySelector(".results-address");
+    const resultsArrowEl = document.querySelector('.results-arrow');
+    let providerTagEl = document.querySelector(`.results-provider-${provider}`);
+    
+    resultsArrowEl.classList.remove("hidden");
 
     if (place) {
         const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
 
         if (isRatingNumber) {
-            providerRatingTagEl.innerHTML = `${rating}`;
-            providerRatingCountTagEl.innerHTML = `${place.rating_count}`;
-        } else {
-            providerRatingTagEl.innerHTML = ("? / 0");
-        }
 
-        restaurantTitle.innerHTML = place.name;
-        restaurantAddress.innerHTML = place.formatted_address;
+            providerTagEl.innerHTML = `
+            <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p>
+            <p class="provider-rating">${rating}</p>
+            <p class="provider-rating-count">${place.rating_count}</p>
+            `
+        } else {
+            providerTagEl.innerHTML = ("? / 0");
+        }
 
         // AVERAGE SCORE PRESENTATION
 
@@ -369,7 +349,9 @@ const appendResults = results => {
 
             ratingSummaryEl.style.backgroundColor = backgroundColor;
             ratingSummaryEl.style.color = textColor;
-            ratingSummaryEl.innerHTML = `${percentage}%`
+            ratingSummaryEl.innerHTML = `
+            <p class="score-info">średnia ocena</p>
+            <p class="score-percentage">${percentage}%</p>`
         }
 
         // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
@@ -400,6 +382,15 @@ const fetchResultsForGooglePlace = place => {
             provider: "google"
         })
 
+        const restaurantTitle = document.querySelector(".results-name");
+        const restaurantAddress = document.querySelector(".results-address");
+
+        let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
+        let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+
+        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${shareLink}">Udostępnij wynik</a></div>`;
+        restaurantAddress.innerHTML = place.formatted_address;
+
         providers.forEach(provider => {
             fetchResults(lat, lng, name, provider);
         })
@@ -407,12 +398,6 @@ const fetchResultsForGooglePlace = place => {
         zomatoFetch(name, lat, lng); // 1000 API calls daily
         yelpFetch(name, lat, lng); // 5000 API calls daily
         foursquareFetch(name, lat, lng); // 500 API calls daily
-
-
-        // GOOGLE NAME AS LINK TO DETAILS
-
-        const providerProviderTagEl = document.querySelector(`.results-provider-google .provider-name`);
-        providerProviderTagEl.innerHTML = `<a href='https://www.google.pl/maps/search/${place.name}%20${place.formatted_address}' target="_blank">google</a>`
 
     }
 }
@@ -473,9 +458,8 @@ window.App.initAutocomplete = _ => {
             placesService.getDetails({
                 placeId: event.placeId
             }, (place, status) => {
-                createShareLink(place);
                 fetchResultsForGooglePlace(place);
-
+                input.value = '';
             });
 
             // RESET OF WEIGHTED AVERAGE CALCULATIONS
@@ -501,8 +485,6 @@ window.App.initAutocomplete = _ => {
         let bounds = new google.maps.LatLngBounds();
         let place = places[0];
 
-        createShareLink(place);
-
         if (!place.geometry) {
             console.log("Returned place contains no geometry");
             return;
@@ -524,6 +506,7 @@ window.App.initAutocomplete = _ => {
         }
 
         map.fitBounds(bounds);
+        input.value = '';
         fetchResultsForGooglePlace(place)
     });
 
@@ -550,7 +533,8 @@ window.App.initAutocomplete = _ => {
 
                 let place = results[0];
                 map.setCenter(place.geometry.location);
-                createShareLink(place);
+                input.value = '';
+
                 fetchResultsForGooglePlace(place);
             }
         });

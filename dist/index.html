@@ -21,6 +21,7 @@
         <header>
             <a href="/"><img src="img/logo.png" alt="metaFoodie - porównaj oceny restauracji" class="logo"></a>
             <p class="tagline">Porównaj oceny restauracji</p>
+            <p class="tagline-sub">w Google, Facebook, Zomato, Yelp i Foursquare!</p>
         </header>
 
         <nav>
@@ -32,6 +33,8 @@
             </div>
 
             <input id="pac-input" class="controls" type="text" placeholder="Wpisz nazwę lub lokalizację obiektu">
+
+            lub wybierz z mapy <img src="./img/arrow.gif" alt="kliknij tutaj" class="">
 
             <!-- <div class=""> -->
             <!-- <button id="clear-button" class="">Clear</button> -->
@@ -55,50 +58,30 @@
             <!-- RESULTS -->
 
             <section class="grid-results">
-               
-                <div class="results-name">TITLE</div>
-                <div class="results-address">address</div>
-                <div class="results-share">sharelink</div>
-                <div class="results-arrow"><img src="./img/arrow.gif" alt="kliknij tutaj" class="">kliknij po więcej szczegółów
-                    
-                </div>
-                <div class="results-average">SCORE</div>
 
-                <div class="results-provider results-provider-google">
-                    <p class="provider-name">google</p>
-                    <p class="provider-rating">5</p>
-                    <p class="provider-rating-count">100</p>
+                <div class="results-name">Tu pojawią się wyniki...
+                    <div class="results-share"></div>
                 </div>
-                <div class="results-provider-facebook">
-                    <p class="provider-name">facebook</p>
-                    <p class="provider-rating">5</p>
-                    <p class="provider-rating-count">100</p>
+                <div class="results-address"></div>
+                <div class="results-arrow hidden">
+                    <p class="arrow-info">kliknij po więcej szczegółów</p>
+                    <p class="arrow-image"><img src="./img/arrow.gif" alt="kliknij tutaj" class=""></p>
                 </div>
-                <div class="results-provider-zomato">
-                    <p class="provider-name">zomato</p>
-                    <p class="provider-rating">5</p>
-                    <p class="provider-rating-count">100</p>
-                </div>
-                <div class="results-provider-yelp">
-                    <p class="provider-name">yelp</p>
-                    <p class="provider-rating">5</p>
-                    <p class="provider-rating-count">100</p>
-                </div>
-                <div class="results-provider-foursquare">
-                    <p class="provider-name">foursquare</p>
-                    <p class="provider-rating">5</p>
-                    <p class="provider-rating-count">100</p>
-                </div>
-            
+                <div class="results-average"></div>
+                <div class="results-provider results-provider-google"></div>
+                <div class="results-provider results-provider-facebook"></div>
+                <div class="results-provider results-provider-zomato"></div>
+                <div class="results-provider results-provider-yelp"></div>
+                <div class="results-provider results-provider-foursquare"></div>
+
             </section>
 
         </main>
 
         <footer class="footer">
-            footer
+            &copy; Kacper i Mikołaj Walanus
         </footer>
     </div>
-
 
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&map_ids=33280f2f68566682&libraries=places&callback=App.initAutocomplete&language=pl"
