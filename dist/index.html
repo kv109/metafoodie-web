@@ -14,7 +14,7 @@
 
     <!-- TOP NAV -->
 
-    <div class="wrapper-main">
+    <div class="grid-main">
 
         <div class="background-top"></div>
 
@@ -27,20 +27,16 @@
 
             <!-- SEARCHBOX -->
 
-            <!-- <section class="searchbox"> -->
-                <div class="alert hidden" role="alert">
-                    Please select a food place, like a restaurant or a bar
-                </div>
+            <div class="alert hidden" role="alert">
+                Please select a food place, like a restaurant or a bar
+            </div>
 
-                <!-- <div class=""> -->
-                    <input id="pac-input" class="controls" type="text" placeholder="Find a restaurant">
-                <!-- </div> -->
+            <input id="pac-input" class="controls" type="text" placeholder="Wpisz nazwę lub lokalizację obiektu">
 
-                <!-- <div class=""> -->
-                    <!-- <button id="clear-button" class="">Clear</button> -->
-                <!-- </div> -->
+            <!-- <div class=""> -->
+            <!-- <button id="clear-button" class="">Clear</button> -->
+            <!-- </div> -->
 
-            <!-- </section> -->
         </nav>
 
         <!-- MAP -->
@@ -56,83 +52,46 @@
 
         <main>
 
-            <!-- NAZWA RESTAURACJI i Share link -->
-
-            <section class="">
-                <div class="restaurant-title"></div>
-                <div class="results-share"></div>
-            </section>
-
-            <!-- AVERAGE SCORE -->
-
-            <section class="">
-                <div class="">
-                    <p class="rating-summary">
-                    </p>
-                </div>
-            </section>
-
             <!-- RESULTS -->
 
-            <section class="wrapper-results">
-                <div class="score-title">TITLE</div>    
-                <div class="score-arrow">arrow</div>
-                <div class="score-average">SCORE</div>
-                <div class="score-provider-google">google</div>
-                <div class="score-provider-facebook">facebook</div>
-                <div class="score-provider-zomato">zomato</div>
-                <div class="score-provider-yelp">yelp</div>
-                <div class="score-provider-foursquare">foursquare</div>
-                
-                <!-- <table id="results" class="table">
-
-                        HEADER
-                        <thead>
-                            <tr>
-                                <th>Provider</th>
-                                <th>Rating</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-
-                        PROVIDERS & RESULTS
-                        <tbody>
-                            <tr id="google_results">
-                                <td><img class="icon" src="img/google_icon.png" /> <span
-                                        class="google_name">google</span>
-                                </td>
-                                <td class="rating"></td>
-                                <td class="name"></td>
-                            </tr>
-                            <tr id="facebook_results">
-                                <td><img class="icon" src="img/facebook_icon.png" /> <span
-                                        class="facebook_name">facebook</span>
-                                </td>
-                                <td class="rating"></td>
-                                <td class="name"></td>
-                            </tr>
-                            <tr id="yelp_results">
-                                <td><img class="icon" src="img/yelp_icon.png" /> <span class="yelp_name">yelp</span>
-                                </td>
-                                <td class="rating"></td>
-                                <td class="name"></td>
-                            </tr>
-                            <tr id="zomato_results">
-                                <td><img class="icon" src="img/zomato_icon.png" /> <span
-                                        class="zomato_name">zomato</span>
-                                </td>
-                                <td class="rating"></td>
-                                <td class="name"></td>
-                            </tr>
-                            <tr id="foursquare_results">
-                                <td><img class="icon" src="img/foursquare_icon.png" /> <span
-                                        class="foursquare_name">foursquare</span></td>
-                                <td class="rating"></td>
-                                <td class="name"></td>
-                            </tr>
-                    </table> -->
+            <section class="grid-results">
                
+                <div class="results-name">TITLE</div>
+                <div class="results-address">address</div>
+                <div class="results-share">sharelink</div>
+                <div class="results-arrow"><img src="./img/arrow.gif" alt="kliknij tutaj" class="">kliknij po więcej szczegółów
+                    
+                </div>
+                <div class="results-average">SCORE</div>
+
+                <div class="results-provider results-provider-google">
+                    <p class="provider-name">google</p>
+                    <p class="provider-rating">5</p>
+                    <p class="provider-rating-count">100</p>
+                </div>
+                <div class="results-provider-facebook">
+                    <p class="provider-name">facebook</p>
+                    <p class="provider-rating">5</p>
+                    <p class="provider-rating-count">100</p>
+                </div>
+                <div class="results-provider-zomato">
+                    <p class="provider-name">zomato</p>
+                    <p class="provider-rating">5</p>
+                    <p class="provider-rating-count">100</p>
+                </div>
+                <div class="results-provider-yelp">
+                    <p class="provider-name">yelp</p>
+                    <p class="provider-rating">5</p>
+                    <p class="provider-rating-count">100</p>
+                </div>
+                <div class="results-provider-foursquare">
+                    <p class="provider-name">foursquare</p>
+                    <p class="provider-rating">5</p>
+                    <p class="provider-rating-count">100</p>
+                </div>
+            
             </section>
+
         </main>
 
         <footer class="footer">

@@ -10,12 +10,12 @@ const createShareLink = place => {
     let shareLinkEl = document.querySelector(".results-share")
     let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
     let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
-    shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">${shareLink}</a>`;
+    shareLinkEl.innerHTML = `<a target="_blank" href="${shareLink}">shareLink</a>`;
 
 }
 
-const printOutput = (provider, tagClass, info) => {
-    document.querySelector(`#${provider}_results td.${tagClass}`).innerHTML = info;
+const printOutput = (provider, info) => {
+    document.querySelector(`.results-provider-${provider}`).innerHTML = info;
 }
 
 // FETCH FOURSQUARE FUNCTION
@@ -48,7 +48,7 @@ const foursquareFetch = (name, lat, lng) => {
             // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
             
             const detailsLinkFoursquare = foursquareObject.response.venue.canonicalUrl;
-            const providerProviderTagEl = document.querySelector(`#foursquare_results .foursquare_name`);
+            const providerProviderTagEl = document.querySelector(`.results-provider-foursquare .provider-name`);
             providerProviderTagEl.innerHTML = `<a href='${detailsLinkFoursquare}' target="_blank">foursquare</a>`
 
             // APPEND RESULTS
@@ -178,7 +178,7 @@ const zomatoFetch = (name, lat, lng) => {
             // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
 
             const detailsLinkZomato = zomatoObject.restaurants[0].restaurant.url;
-            const providerProviderTagEl = document.querySelector(`#zomato_results .zomato_name`);
+            const providerProviderTagEl = document.querySelector(`.results-provider-zomato .provider-name`);
             providerProviderTagEl.innerHTML = `<a href='${detailsLinkZomato}' target="_blank">zomato</a>`
 
             // APPEND RESULTS
@@ -254,7 +254,7 @@ const yelpFetch = (name, lat, lng) => {
             // LINKING TO RESTAURANT DETAILS VIA PROVIDERS' NAME
 
             const detailsLinkYelp = `${yelpObject.businesses[0].url}`;
-            const providerProviderTagEl = document.querySelector(`#yelp_results .yelp_name`);
+            const providerProviderTagEl = document.querySelector(`.results-provider-yelp .provider-name`);
             providerProviderTagEl.innerHTML = `<a href='${detailsLinkYelp}' target="_blank">yelp</a>`
 
             // APPEND RESULTS
@@ -285,8 +285,8 @@ const fetchResults = (lat, lng, name, provider) => {
     // PRELOADER
 
     providers.forEach(provider => {
-        printOutput(provider, 'name', 'Loading...');
-        printOutput(provider, 'rating', 'Loading...');
+        printOutput(provider, 'Loading...');
+        printOutput(provider, 'Loading...');
     })
 
     // AMAZON SERVERLESS STORAGE REQUEST
@@ -308,25 +308,25 @@ const fetchResults = (lat, lng, name, provider) => {
 const appendResults = results => {
     const place = results.data[0];
     const provider = results.provider;
-    const providerRowSelectorEl = document.querySelector(`#${provider}_results`);
-    const providerRatingTagEl = providerRowSelectorEl.firstElementChild.nextElementSibling;
-    const providerNameTagEl = providerRowSelectorEl.lastElementChild;
-    const providerProviderTagEl = document.querySelector(`#${provider}_results .${provider}_name`);
-    const ratingSummaryEl = document.querySelector(".rating-summary");
-    const restaurantTitle = document.querySelector(".restaurant-title");
+    const providerRatingTagEl = document.querySelector(`.results-provider-${provider} .provider-rating`);
+    const providerRatingCountTagEl = document.querySelector(`.results-provider-${provider} .provider-rating-count`);
+    const ratingSummaryEl = document.querySelector(".results-average");
+    const restaurantTitle = document.querySelector(".results-name");
+    const restaurantAddress = document.querySelector(".results-address");
 
     if (place) {
         const rating = parseFloat(place.rating)
         const isRatingNumber = !isNaN(rating);
 
         if (isRatingNumber) {
-            providerRatingTagEl.innerHTML = `${rating} (${place.rating_count})`;
+            providerRatingTagEl.innerHTML = `${rating}`;
+            providerRatingCountTagEl.innerHTML = `${place.rating_count}`;
         } else {
             providerRatingTagEl.innerHTML = ("? / 0");
         }
 
         restaurantTitle.innerHTML = place.name;
-        providerNameTagEl.innerHTML = place.name;
+        restaurantAddress.innerHTML = place.formatted_address;
 
         // AVERAGE SCORE PRESENTATION
 
@@ -375,8 +375,8 @@ const appendResults = results => {
         // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
 
     } else {
-        printOutput(provider, 'name', ':(');
-        printOutput(provider, 'rating', `Couldn't find`);
+        printOutput(provider, ':(');
+        printOutput(provider, `Couldn't find`);
     }
 }
 
@@ -411,7 +411,7 @@ const fetchResultsForGooglePlace = place => {
 
         // GOOGLE NAME AS LINK TO DETAILS
 
-        const providerProviderTagEl = document.querySelector(`#google_results .google_name`);
+        const providerProviderTagEl = document.querySelector(`.results-provider-google .provider-name`);
         providerProviderTagEl.innerHTML = `<a href='https://www.google.pl/maps/search/${place.name}%20${place.formatted_address}' target="_blank">google</a>`
 
     }

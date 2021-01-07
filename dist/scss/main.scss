@@ -1,10 +1,14 @@
 @use "../../dist/scss/variables.scss";
 @use "../../dist/scss/grid.scss";
 
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
-    // color: white;
+    font-family: Montserrat;
+    font-weight: 400;
 }
 
 .background-top {
@@ -19,8 +23,19 @@
     background-size: cover;
 }
 
-section.wrapper-results, header {
+section.grid-results, header {
     color: variables.$white;
+}
+
+.results-arrow {
+    font-family: Caveat;
+    font-size: 1.5em;
+    transform: rotate(-3deg);
+    transform-origin: 0 0;
+    position: relative;
+    // display: flex;
+    // top: 0px;
+    // right: 0px;
 }
 
 #map {
@@ -49,16 +64,6 @@ header p {
     padding: 0 0 0 2rem;
 }
 
-#results {
-    font-size: smaller;
-}
-
-.rating-summary {
-    font-family: Roboto;
-    font-size: 30px;
-    color: white;
-}
-
 nav {
     padding: 1em 0 1em 0;
 }
@@ -66,6 +71,34 @@ nav {
 input,
 button {
     color: variables.$black
+}
+
+.results-name {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.results-provider {
+    height: 100px;
+}
+
+.provider-name {
+
+}
+
+.provider-rating {
+    
+}
+
+.provider-rating-count {
+    
+}
+
+.results-address {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 1rem;
 }
 
 #pac-input {

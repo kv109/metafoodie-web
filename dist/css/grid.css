@@ -1,4 +1,4 @@
-.wrapper-main {
+.grid-main {
   display: grid;
   grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
   grid-template-rows: [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(10px, auto) [searchbox2-end footer-start] minmax(10px, auto) [footer-end];
@@ -32,43 +32,52 @@ footer {
   grid-area: score-start/margin-left-start/score-end/margin-right-end;
 }
 
-.wrapper-results {
+.grid-results {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  grid-auto-rows: minmax(10px, auto);
-  grid-template-areas: "title title title title title arr arr arr arr" "aver aver prov-g prov-fb prov-z prov-y prov-f . .";
+  grid-auto-rows: minmax(1px, auto);
+  grid-template-areas: "title title title title title sh arr arr arr" "addr addr addr addr addr sh arr arr arr" "aver aver prov-g prov-fb prov-z prov-y prov-f . .";
 }
 
-.score-provider-google {
+.results-provider-google {
   grid-area: prov-g;
 }
 
-.score-provider-facebook {
+.results-provider-facebook {
   grid-area: prov-fb;
 }
 
-.score-provider-zomato {
+.results-provider-zomato {
   grid-area: prov-z;
 }
 
-.score-provider-yelp {
+.results-provider-yelp {
   grid-area: prov-y;
 }
 
-.score-provider-foursquare {
+.results-provider-foursquare {
   grid-area: prov-f;
 }
 
-.score-average {
+.results-average {
   grid-area: aver;
 }
 
-.score-title {
+.results-name {
   grid-area: title;
 }
 
-.score-arrow {
+.results-address {
+  grid-area: addr;
+}
+
+.results-arrow {
   grid-area: arr;
+  position: relative;
+}
+
+.results-share {
+  grid-area: sh;
 }
 
 /*# sourceMappingURL=grid.css.map */
