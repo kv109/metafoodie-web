@@ -24,17 +24,20 @@
             <p class="tagline-sub">w Google, Facebook, Zomato, Yelp i Foursquare!</p>
         </header>
 
+        <!-- SEARCHBOX -->
+
         <nav>
-
-            <!-- SEARCHBOX -->
-
-            <div class="alert hidden" role="alert">
-                Please select a food place, like a restaurant or a bar
-            </div>
+            
+            <div class="alert hidden" role="alert">Please select a food place, like a restaurant or a bar</div>
 
             <input id="pac-input" class="controls" type="text" placeholder="Wpisz nazwę lub lokalizację obiektu">
+            <div class="nav-arrow-container">
+                <div>
+                    <img class="nav-arrow-image" src="./img/arrow.gif" alt="kliknij tutaj">
+                </div>
+                <p class="nav-arrow-info arrow-font">lub wybierz <br> restaurację z mapy!</p>
 
-            lub wybierz z mapy <img src="./img/arrow.gif" alt="kliknij tutaj" class="">
+        </div>
 
         </nav>
 
@@ -60,8 +63,11 @@
                 </div>
                 <div class="results-address"></div>
                 <div class="results-arrow hidden">
-                    <p class="arrow-info">kliknij po więcej szczegółów</p>
-                    <p class="arrow-image"><img src="./img/arrow.gif" alt="kliknij tutaj" class=""></p>
+                    <div>
+                        <img class="results-arrow-image" src="./img/arrow.gif" alt="kliknij tutaj">
+                    </div>
+                    <p class="results-arrow-info arrow-font">kliknij, aby zobaczyć restaurację <br> na stronie oryginalnego serwisu</p>
+
                 </div>
                 <div class="results-average"></div>
                 <div class="results-provider results-provider-google"></div>
@@ -75,7 +81,7 @@
         </main>
 
         <footer class="footer">
-            &copy; Kacper i Mikołaj Walanus
+            &copy; kv109 & thiefunny
         </footer>
     </div>
 

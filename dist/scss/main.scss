@@ -2,6 +2,7 @@
 @use "../scss/grid.scss";
 @use "../scss/results.scss";
 @use "../scss/header.scss";
+@use "../scss/nav.scss";
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
@@ -34,7 +35,7 @@ section.grid-results, header {
 }
 
 #map {
-    height: 25vh;
+    height: 30vh;
 }
 
 .hidden {
@@ -50,9 +51,7 @@ img.icon {
     width: 24px;
 }
 
-nav {
-    padding: 1em 0 1em 0;
-}
+
 
 input,
 button {
@@ -62,9 +61,9 @@ button {
 #pac-input {
     background-color: #fff;
     height: 3rem;
-    width: 70%;
+    width: 74%;
     margin: 0 2rem 2rem 0;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     border-style: none;
     font-size: 1.2rem;
     padding: 0 0 0 1em;

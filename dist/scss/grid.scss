@@ -13,6 +13,8 @@ header {
 
 nav {
     grid-area: searchbox-start / content-start / searchbox-end / content-end;
+    // position: relative;
+    // background-color: rgba($color: #fff, $alpha: .3);
 }
 
 .map {
@@ -42,8 +44,7 @@ footer {
 .grid-results {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    // grid-template-rows: 8rem 3rem auto;
-    // grid-auto-rows: auto;
+    
     grid-template-areas:
         "title title title title title title arr arr arr"
         "addr addr addr addr addr addr arr arr arr"
@@ -84,7 +85,7 @@ footer {
 
 .results-arrow {
     grid-area: arr;
-    // position: relative;
+    // background-color: rgba($color: #fff, $alpha: .3);
 }
 
 .results-share {

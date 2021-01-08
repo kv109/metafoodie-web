@@ -63,20 +63,34 @@ color: variables.$white;
 }
 
 .results-arrow {
-    position: relative;
-    bottom: -2rem;
-    left: 5rem;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    // background-color: rgba($color: #fff, $alpha: .3);
+
 }
 
-.results-arrow p {
+.arrow-font {
     font-family: Caveat;
     font-size: 1.5rem;
+    line-height: 1.5rem;
+    color: variables.$white
 }
 
-.results-arrow p img {
-    transform: scaleX(-100%) rotate(-70deg);
-    display: inline;
-    padding: 1rem 0 0 0;
+.results-arrow-info {
+    transform: rotate(-2deg);
+}
+
+.results-arrow-image-container {
+}
+
+.results-arrow-image {
     position: relative;
-    left: 2rem;
+    top: 1.6em;
+    right: 0.7em;
+    // transform: scaleX(-100%) rotate(-70deg);
+    // background-color: rgba($color: #fff, $alpha: .3);
+
 }

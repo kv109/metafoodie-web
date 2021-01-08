@@ -388,7 +388,7 @@ const fetchResultsForGooglePlace = place => {
         let shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
         let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
 
-        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${shareLink}">Udostępnij wynik</a></div>`;
+        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;
         restaurantAddress.innerHTML = place.formatted_address;
 
         providers.forEach(provider => {
