@@ -1,0 +1,82 @@
+@use "../scss/variables.scss";
+
+
+@media (max-width:600px) {
+
+    body {
+        background: variables.$black;
+    }
+
+    .background-top,
+    .background-bottom,
+    .tagline,
+    .tagline-sub {
+        display: none;
+    }
+
+    section.grid-results,
+    header {
+        color: variables.$white;
+    }
+
+    #map {
+        height: 30vh;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    img.icon {
+        height: 24px;
+        width: 24px;
+    }
+
+
+
+    input,
+    button {
+        color: variables.$black
+    }
+
+
+
+    #clear-button {
+        height: 3rem;
+        border-radius: 1rem;
+        width: 6rem;
+        font-size: 1.2rem;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    footer {
+        background-color: variables.$black;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(variables.$white, 0.5);
+        font-size: 0.7rem;
+    }
+
+}
+
+// @media (max-width: 768px) {
+
+// body {
+//     background-color: red
+// }
+
+
+// 

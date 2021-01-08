@@ -1,0 +1,13 @@
+@use '../scss/variables.scss';
+
+@media (max-width:600px) {
+
+header {
+    // text-align: center;
+}
+
+img.logo {
+    margin: 0.5rem 0 0.5rem 0.5rem;
+}
+
+}

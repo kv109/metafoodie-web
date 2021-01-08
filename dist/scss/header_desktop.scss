@@ -1,5 +1,8 @@
 @use '../scss/variables.scss';
 
+@media (min-width:600px) {
+
+
 header {
     display: flex
 }
@@ -16,4 +19,6 @@ header p {
 .tagline-sub {
     color: variables.$green;
     padding: 0 0 0 1rem;
+}
+
 }

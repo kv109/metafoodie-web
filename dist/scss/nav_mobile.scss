@@ -1,0 +1,34 @@
+@use '../scss/variables.scss';
+
+@media (max-width:600px) {
+
+
+nav {
+    padding: 0 0 1em 0;
+    // display: flex;
+}
+
+.nav-arrow-container {
+    display: none;
+    // background-color: rgba($color: #fff, $alpha: .3);
+    // align-items: flex-end;
+}
+
+#pac-input {
+    background-color: #fff;
+    height: 3rem;
+    width: 50%;
+    margin: 0 2rem 2rem 1rem;
+    border-radius: 0.5rem;
+    border-style: none;
+    font-size: 1.2rem;
+    padding: 0 0 0 1em;
+    color: variables.$black;
+    caret-color: variables.$green;
+}
+
+#pac-input::placeholder {
+    color: black;
+}
+
+}
