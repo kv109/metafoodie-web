@@ -3,22 +3,26 @@
 @media (min-width:600px) {
 
 
-header {
-    display: flex
-}
+    header {
+        display: flex
+    }
 
-header p {
-    align-self: center;
-}
+    header p {
+        align-self: center;
+    }
 
-.tagline {
-    padding: 0 0 0 2rem;
-    font-size: 1.5rem;
-}
+    .tagline {
+        padding: 0 0 0 2rem;
+        font-size: 1.5rem;
+    }
 
-.tagline-sub {
-    color: variables.$green;
-    padding: 0 0 0 1rem;
-}
+    .tagline-sub {
+        color: variables.$green;
+        padding: 0 0 0 1rem;
+    }
+
+    img.mobile {
+        display: none
+    }
 
 }

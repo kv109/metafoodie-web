@@ -2,33 +2,35 @@
 
 @media (max-width:600px) {
 
+    nav {
+        width: 90%;
+        margin: auto;
+    }
 
-nav {
-    padding: 0 0 1em 0;
-    // display: flex;
-}
+    .nav-arrow-container {
+        display: none;
+    }
 
-.nav-arrow-container {
-    display: none;
-    // background-color: rgba($color: #fff, $alpha: .3);
-    // align-items: flex-end;
-}
+    #pac-input {
+        box-sizing: content-box;
+        background-color: #ff22ff;
+        background: url(../img/logo.png) no-repeat left center;
+        height: 3rem;
+        width: 100%;
+        margin: 0 0 2rem 0;
+        border-radius: 1rem;
+        box-shadow: 0 0 10px rgba(variables.$mobile-background, 0.1);
+        border-style: none;
+        font-size: 1.2rem;
+        // padding: 0 0 0 1em;
+        color: variables.$black;
+        caret-color: variables.$green;
+    }
 
-#pac-input {
-    background-color: #fff;
-    height: 3rem;
-    width: 50%;
-    margin: 0 2rem 2rem 1rem;
-    border-radius: 0.5rem;
-    border-style: none;
-    font-size: 1.2rem;
-    padding: 0 0 0 1em;
-    color: variables.$black;
-    caret-color: variables.$green;
-}
-
-#pac-input::placeholder {
-    color: black;
-}
+    #pac-input::placeholder {
+        color: black;
+        // padding: 0 0 0 1em;
+        // margin-left: 1em;
+    }
 
 }

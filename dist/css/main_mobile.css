@@ -1,0 +1,42 @@
+@media (max-width: 600px) {
+  body {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .background-top,
+.background-bottom,
+.tagline,
+.tagline-sub {
+    display: none;
+  }
+
+  section.grid-results,
+header {
+    color: #fff;
+  }
+
+  #map {
+    height: 25vh;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  input,
+button {
+    color: #444444;
+  }
+
+  footer {
+    background-color: #444444;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7rem;
+  }
+}
+
+/*# sourceMappingURL=main_mobile.css.map */

@@ -1,10 +1,12 @@
 @use "../../dist/scss/variables.scss";
 
+@media (max-width:600px) {
+
 .results-name {
     font-family: Montserrat;
     font-weight: 600;
     font-size: 2rem;
-    padding: 1.5rem 0 0 0;
+    padding: 1rem 0 0 0;
 }
 
 .results-address {
@@ -15,24 +17,32 @@
 }
 
 .results-average {
-    margin: 2rem 2rem 3rem 0;
-    padding: 0.7rem 0 0.7rem 0;
+    margin: 1rem 0 1rem 0;
+    // padding: 0.7rem 0 0.7rem 0;
     border-radius: 0.6rem;
-    text-align: center
+    // text-align: center
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .score-info {
-    font-size: 0.7rem;
+    font-size: 1.4rem;
+    // float: left;
+    // position: relative;
+    padding: 0 1em 0 0;
+    // justify-self: flex-start;
 }
 
 .score-percentage {
     font-size: 4rem;
+    font-weight: 900;
     padding: 0 0 0 0;
 }
 
 .results-provider {
-    text-align: center;
-    margin: 2rem 0 0 0
+    margin: 0 0 0 0
 }
 
 .results-provider p {
@@ -50,22 +60,24 @@ color: variables.$white;
 }
 
 .results-share {
-    font-size: 1rem;
-    padding: 0 0 0 1rem;
-    display: inline-block;
+    display: none;
+    // font-size: 1rem;
+    // padding: 0 0 0 1rem;
+    // display: inline-block;
 }
 
-.results-share a {
-    color: variables.$white;
-    text-decoration: underline;
-}
+// .results-share a {
+//     color: variables.$white;
+//     text-decoration: underline;
+// }
 
 .results-arrow {
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    display: none;
+    // right: 0;
+    // bottom: 0;
+    // display: flex;
+    // align-items: flex-end;
+    // justify-content: flex-start;
     // background-color: rgba($color: #fff, $alpha: .3);
 
 }
@@ -87,5 +99,14 @@ color: variables.$white;
     right: 0.7em;
     // transform: scaleX(-100%) rotate(-70deg);
     // background-color: rgba($color: #fff, $alpha: .3);
+
+}
+
+img.icon {
+    height: 3rem;
+    // width: 2rempx;
+    width: auto;
+}
+
 
 }

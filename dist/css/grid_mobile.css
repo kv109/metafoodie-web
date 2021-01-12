@@ -1,0 +1,56 @@
+@media (max-width: 600px) {
+  .grid-main {
+    text-align: center;
+  }
+
+  .grid-results {
+    width: 95%;
+    margin: auto;
+    grid-template-areas: "title title title title title" "addr addr addr addr addr" "aver aver aver aver aver" "provs provs provs provs provs";
+  }
+
+  .results-providers-wrapper {
+    grid-area: provs;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .results-provider-google {
+    grid-area: prov-g;
+    display: inline-block;
+  }
+
+  .results-provider-facebook {
+    display: inline-block;
+    grid-area: prov-fb;
+  }
+
+  .results-provider-zomato {
+    display: inline-block;
+    grid-area: prov-z;
+  }
+
+  .results-provider-yelp {
+    display: inline-block;
+    grid-area: prov-y;
+  }
+
+  .results-provider-foursquare {
+    display: inline-block;
+    grid-area: prov-f;
+  }
+
+  .results-average {
+    grid-area: aver;
+  }
+
+  .results-name {
+    grid-area: title;
+  }
+
+  .results-address {
+    grid-area: addr;
+  }
+}
+
+/*# sourceMappingURL=grid_mobile.css.map */

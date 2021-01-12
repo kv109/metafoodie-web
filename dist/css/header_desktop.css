@@ -1,0 +1,25 @@
+@media (min-width: 600px) {
+  header {
+    display: flex;
+  }
+
+  header p {
+    align-self: center;
+  }
+
+  .tagline {
+    padding: 0 0 0 2rem;
+    font-size: 1.5rem;
+  }
+
+  .tagline-sub {
+    color: #499f08;
+    padding: 0 0 0 1rem;
+  }
+
+  img.mobile {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=header_desktop.css.map */

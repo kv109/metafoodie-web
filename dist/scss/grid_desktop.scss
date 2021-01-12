@@ -51,26 +51,35 @@ footer {
     grid-template-areas:
         "title title title title title title arr arr arr"
         "addr addr addr addr addr addr arr arr arr"
-        "aver aver prov-g prov-fb prov-z prov-y prov-f . ."
+        "aver aver provs provs provs provs provs . ."
+}
+
+.results-providers-wrapper {
+    grid-area: provs
 }
 
 .results-provider-google {
-    grid-area: prov-g
+    grid-area: prov-g;
+    display: inline-block
 }
 
 .results-provider-facebook {
+    display: inline-block;
     grid-area: prov-fb
 }
 
 .results-provider-zomato {
+    display: inline-block;
     grid-area: prov-z
 }
 
 .results-provider-yelp {
+    display: inline-block;
     grid-area: prov-y
 }
 
 .results-provider-foursquare {
+    display: inline-block;
     grid-area: prov-f
 }
 

@@ -1,0 +1,89 @@
+@media (min-width: 600px) {
+  body {
+    background: #444444;
+  }
+
+  .background-top {
+    background-color: #444444;
+    background-size: cover;
+  }
+
+  .background-bottom {
+    background-color: #444444;
+    background-size: cover;
+  }
+
+  section.grid-results, header {
+    color: #fff;
+  }
+
+  #map {
+    height: 30vh;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  img.logo {
+    margin: 1em 1em 1em 0;
+  }
+
+  img.icon {
+    height: 24px;
+    width: 24px;
+  }
+
+  input,
+button {
+    color: #444444;
+  }
+
+  #pac-input {
+    background-color: #fff;
+    height: 3rem;
+    width: 74%;
+    margin: 0 2rem 2rem 0;
+    border-radius: 0.5rem;
+    border-style: none;
+    font-size: 1.2rem;
+    padding: 0 0 0 1em;
+    color: #444444;
+    caret-color: #499f08;
+  }
+
+  #pac-input::placeholder {
+    color: black;
+  }
+
+  #clear-button {
+    height: 3rem;
+    border-radius: 1rem;
+    width: 6rem;
+    font-size: 1.2rem;
+  }
+
+  #infowindow-content .title {
+    font-weight: bold;
+  }
+
+  #infowindow-content {
+    display: none;
+  }
+
+  #map #infowindow-content {
+    display: inline;
+  }
+
+  footer {
+    background-color: #444444;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7rem;
+  }
+}
+
+/*# sourceMappingURL=main_desktop.css.map */

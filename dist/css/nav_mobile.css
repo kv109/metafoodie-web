@@ -1,0 +1,31 @@
+@media (max-width: 600px) {
+  nav {
+    width: 90%;
+    margin: auto;
+  }
+
+  .nav-arrow-container {
+    display: none;
+  }
+
+  #pac-input {
+    box-sizing: content-box;
+    background-color: #ff22ff;
+    background: url(../img/logo.png) no-repeat left center;
+    height: 3rem;
+    width: 100%;
+    margin: 0 0 2rem 0;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-style: none;
+    font-size: 1.2rem;
+    color: #444444;
+    caret-color: #499f08;
+  }
+
+  #pac-input::placeholder {
+    color: black;
+  }
+}
+
+/*# sourceMappingURL=nav_mobile.css.map */

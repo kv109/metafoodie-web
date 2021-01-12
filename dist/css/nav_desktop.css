@@ -1,0 +1,22 @@
+@media (min-width: 600px) {
+  nav {
+    padding: 1em 0 1em 0;
+    display: flex;
+  }
+
+  .nav-arrow-container {
+    display: flex;
+  }
+
+  .nav-arrow-info {
+    transform: rotate(-10deg);
+    text-align: center;
+  }
+
+  .nav-arrow-image {
+    position: relative;
+    top: 2em;
+  }
+}
+
+/*# sourceMappingURL=nav_desktop.css.map */

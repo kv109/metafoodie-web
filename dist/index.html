@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 
 <head>
     <title>Metafoodie</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-
+    <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon.ico">
     <script src="main.js"></script>
     <link href="css/main.css" rel="stylesheet">
@@ -19,7 +19,11 @@
         <div class="background-top"></div>
 
         <header>
-            <a href="/"><img src="img/logo.png" alt="metaFoodie - porównaj oceny restauracji" class="logo"></a>
+            <a href="/"><img class="desktop" src="img/logo.png" alt="metaFoodie - porównaj oceny restauracji" class="logo">
+                <img class="mobile" src="img/logo.png" alt="metaFoodie - porównaj oceny restauracji" class="logo">
+                </a>
+				<!-- <img class="mobile" src="img/google_icon.png" alt="metaFoodie - porównaj oceny restauracji" class="logo"> -->
+                
             <p class="tagline">Porównaj oceny restauracji</p>
             <p class="tagline-sub">w Google, Facebook, Zomato, Yelp i Foursquare!</p>
         </header>
@@ -70,11 +74,15 @@
 
                 </div>
                 <div class="results-average"></div>
-                <div class="results-provider results-provider-google"></div>
-                <div class="results-provider results-provider-facebook"></div>
-                <div class="results-provider results-provider-zomato"></div>
-                <div class="results-provider results-provider-yelp"></div>
-                <div class="results-provider results-provider-foursquare"></div>
+                
+                <div class="results-providers-wrapper">
+                    <div class="results-provider results-provider-google"></div>
+                    <div class="results-provider results-provider-facebook"></div>
+                    <div class="results-provider results-provider-zomato"></div>
+                    <div class="results-provider results-provider-yelp"></div>
+                    <div class="results-provider results-provider-foursquare"></div>
+                </div>
+
 
             </section>
 

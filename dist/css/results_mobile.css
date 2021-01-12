@@ -1,0 +1,84 @@
+@media (max-width: 600px) {
+  .results-name {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 2rem;
+    padding: 1rem 0 0 0;
+  }
+
+  .results-address {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.5rem 0 0 0;
+  }
+
+  .results-average {
+    margin: 1rem 0 1rem 0;
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-info {
+    font-size: 1.4rem;
+    padding: 0 1em 0 0;
+  }
+
+  .score-percentage {
+    font-size: 4rem;
+    font-weight: 900;
+    padding: 0 0 0 0;
+  }
+
+  .results-provider {
+    margin: 0 0 0 0;
+  }
+
+  .results-provider p {
+    padding: 0.4rem 0 0 0;
+  }
+
+  .provider-name a {
+    text-decoration: underline;
+    color: #fff;
+  }
+
+  .provider-rating {
+    color: #499f08;
+    font-size: 2rem;
+  }
+
+  .results-share {
+    display: none;
+  }
+
+  .results-arrow {
+    display: none;
+  }
+
+  .arrow-font {
+    font-family: Caveat;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    color: #fff;
+  }
+
+  .results-arrow-info {
+    transform: rotate(-2deg);
+  }
+
+  .results-arrow-image {
+    position: relative;
+    top: 1.6em;
+    right: 0.7em;
+  }
+
+  img.icon {
+    height: 3rem;
+    width: auto;
+  }
+}
+
+/*# sourceMappingURL=results_mobile.css.map */

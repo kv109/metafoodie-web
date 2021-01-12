@@ -300,7 +300,8 @@ const appendResults = results => {
         if (isRatingNumber) {
 
             providerTagEl.innerHTML = `
-            <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p>
+            <p class="provider-icon"><a href="${url}" target="_blank"><img class="mobile icon" src="img/${provider}_icon.png"></a></p>
+            <!-- <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p> -->
             <p class="provider-rating">${rating}</p>
             <p class="provider-rating-count">${place.rating_count}</p>
             `

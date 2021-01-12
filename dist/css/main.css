@@ -38,26 +38,35 @@
   .grid-results {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver prov-g prov-fb prov-z prov-y prov-f . .";
+    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs . .";
+  }
+
+  .results-providers-wrapper {
+    grid-area: provs;
   }
 
   .results-provider-google {
     grid-area: prov-g;
+    display: inline-block;
   }
 
   .results-provider-facebook {
+    display: inline-block;
     grid-area: prov-fb;
   }
 
   .results-provider-zomato {
+    display: inline-block;
     grid-area: prov-z;
   }
 
   .results-provider-yelp {
+    display: inline-block;
     grid-area: prov-y;
   }
 
   .results-provider-foursquare {
+    display: inline-block;
     grid-area: prov-f;
   }
 
@@ -185,6 +194,10 @@
     color: #499f08;
     padding: 0 0 0 1rem;
   }
+
+  img.mobile {
+    display: none;
+  }
 }
 @media (min-width: 600px) {
   nav {
@@ -295,102 +308,153 @@ button {
 }
 @media (max-width: 600px) {
   .grid-main {
-    display: inherit;
+    text-align: center;
+  }
+
+  .grid-results {
+    width: 95%;
+    margin: auto;
+    grid-template-areas: "title title title title title" "addr addr addr addr addr" "aver aver aver aver aver" "provs provs provs provs provs";
+  }
+
+  .results-providers-wrapper {
+    grid-area: provs;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .results-provider-google {
+    grid-area: prov-g;
+    display: inline-block;
+  }
+
+  .results-provider-facebook {
+    display: inline-block;
+    grid-area: prov-fb;
+  }
+
+  .results-provider-zomato {
+    display: inline-block;
+    grid-area: prov-z;
+  }
+
+  .results-provider-yelp {
+    display: inline-block;
+    grid-area: prov-y;
+  }
+
+  .results-provider-foursquare {
+    display: inline-block;
+    grid-area: prov-f;
+  }
+
+  .results-average {
+    grid-area: aver;
+  }
+
+  .results-name {
+    grid-area: title;
+  }
+
+  .results-address {
+    grid-area: addr;
   }
 }
-.results-name {
-  font-family: Montserrat;
-  font-weight: 600;
-  font-size: 2rem;
-  padding: 1.5rem 0 0 0;
-}
-
-.results-address {
-  font-family: Montserrat;
-  font-weight: 400;
-  font-size: 1rem;
-  padding: 0.5rem 0 0 0;
-}
-
-.results-average {
-  margin: 2rem 2rem 3rem 0;
-  padding: 0.7rem 0 0.7rem 0;
-  border-radius: 0.6rem;
-  text-align: center;
-}
-
-.score-info {
-  font-size: 0.7rem;
-}
-
-.score-percentage {
-  font-size: 4rem;
-  padding: 0 0 0 0;
-}
-
-.results-provider {
-  text-align: center;
-  margin: 2rem 0 0 0;
-}
-
-.results-provider p {
-  padding: 0.4rem 0 0 0;
-}
-
-.provider-name a {
-  text-decoration: underline;
-  color: #fff;
-}
-
-.provider-rating {
-  color: #499f08;
-  font-size: 2rem;
-}
-
-.results-share {
-  font-size: 1rem;
-  padding: 0 0 0 1rem;
-  display: inline-block;
-}
-
-.results-share a {
-  color: #fff;
-  text-decoration: underline;
-}
-
-.results-arrow {
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-}
-
-.arrow-font {
-  font-family: Caveat;
-  font-size: 1.5rem;
-  line-height: 1.5rem;
-  color: #fff;
-}
-
-.results-arrow-info {
-  transform: rotate(-2deg);
-}
-
-.results-arrow-image {
-  position: relative;
-  top: 1.6em;
-  right: 0.7em;
-}
-
 @media (max-width: 600px) {
-  img.logo {
-    margin: 0.5rem 0 0.5rem 0.5rem;
+  .results-name {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 2rem;
+    padding: 1rem 0 0 0;
+  }
+
+  .results-address {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.5rem 0 0 0;
+  }
+
+  .results-average {
+    margin: 1rem 0 1rem 0;
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-info {
+    font-size: 1.4rem;
+    padding: 0 1em 0 0;
+  }
+
+  .score-percentage {
+    font-size: 4rem;
+    font-weight: 900;
+    padding: 0 0 0 0;
+  }
+
+  .results-provider {
+    margin: 0 0 0 0;
+  }
+
+  .results-provider p {
+    padding: 0.4rem 0 0 0;
+  }
+
+  .provider-name a {
+    text-decoration: underline;
+    color: #fff;
+  }
+
+  .provider-rating {
+    color: #499f08;
+    font-size: 2rem;
+  }
+
+  .results-share {
+    display: none;
+  }
+
+  .results-arrow {
+    display: none;
+  }
+
+  .arrow-font {
+    font-family: Caveat;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    color: #fff;
+  }
+
+  .results-arrow-info {
+    transform: rotate(-2deg);
+  }
+
+  .results-arrow-image {
+    position: relative;
+    top: 1.6em;
+    right: 0.7em;
+  }
+
+  img.icon {
+    height: 3rem;
+    width: auto;
+  }
+}
+@media (max-width: 600px) {
+  header {
+    margin: 0.5rem 0 0.5rem 0;
+  }
+
+  img.desktop {
+    display: none;
   }
 }
 @media (max-width: 600px) {
   nav {
-    padding: 0 0 1em 0;
+    width: 90%;
+    margin: auto;
   }
 
   .nav-arrow-container {
@@ -398,14 +462,16 @@ button {
   }
 
   #pac-input {
-    background-color: #fff;
+    box-sizing: content-box;
+    background-color: #ff22ff;
+    background: url(../img/logo.png) no-repeat left center;
     height: 3rem;
-    width: 50%;
-    margin: 0 2rem 2rem 1rem;
-    border-radius: 0.5rem;
+    width: 100%;
+    margin: 0 0 2rem 0;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-style: none;
     font-size: 1.2rem;
-    padding: 0 0 0 1em;
     color: #444444;
     caret-color: #499f08;
   }
@@ -416,7 +482,7 @@ button {
 }
 @media (max-width: 600px) {
   body {
-    background: #444444;
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
   .background-top,
@@ -432,40 +498,16 @@ header {
   }
 
   #map {
-    height: 30vh;
+    height: 25vh;
   }
 
   .hidden {
     display: none;
   }
 
-  img.icon {
-    height: 24px;
-    width: 24px;
-  }
-
   input,
 button {
     color: #444444;
-  }
-
-  #clear-button {
-    height: 3rem;
-    border-radius: 1rem;
-    width: 6rem;
-    font-size: 1.2rem;
-  }
-
-  #infowindow-content .title {
-    font-weight: bold;
-  }
-
-  #infowindow-content {
-    display: none;
-  }
-
-  #map #infowindow-content {
-    display: inline;
   }
 
   footer {
