@@ -433,7 +433,7 @@ window.App.initAutocomplete = _ => {
         mapTypeId: 'roadmap',
         mapTypeControl: false,
         streetViewControl: false,
-        mapId: '33280f2f68566682'
+        mapId: '33280f2f68566682',
     });
 
     // INITIALIZING GOOGLE PLACES SERVICE

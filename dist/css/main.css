@@ -178,6 +178,7 @@
 }
 @media (min-width: 600px) {
   header {
+    padding: 1rem 0 0 0;
     display: flex;
   }
 
@@ -226,11 +227,13 @@
 
   .background-top {
     background-color: #444444;
+    background-image: url(../img/background-top.jpg);
     background-size: cover;
   }
 
   .background-bottom {
     background-color: #444444;
+    background-image: url(../img/background-bottom.jpg);
     background-size: cover;
   }
 
@@ -492,6 +495,14 @@ button {
 
   #pac-input::placeholder {
     color: black;
+  }
+
+  .pac-item {
+    padding: 1.2rem 0 0.6rem 0.6rem;
+  }
+
+  .pac-item-query {
+    font-size: 1rem;
   }
 }
 @media (max-width: 600px) {
