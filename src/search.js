@@ -368,10 +368,10 @@ const appendResults = results => {
 const fetchResultsForGooglePlace = place => {
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
-    if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
-        document.querySelector(".alert").classList.remove('hidden');
+    // if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
+    //     document.querySelector(".alert").classList.remove('hidden');
 
-    } else {
+    // } else {
         document.querySelector(".alert").classList.add('hidden');
         const name = place.name;
         const location = place.geometry.location;
@@ -400,7 +400,7 @@ const fetchResultsForGooglePlace = place => {
         yelpFetch(name, lat, lng); // 5000 API calls daily
         foursquareFetch(name, lat, lng); // 500 API calls daily
 
-    }
+    // }
 }
 
 // This example adds a search box to a map, using the Google Place Autocomplete
@@ -442,9 +442,19 @@ window.App.initAutocomplete = _ => {
 
     // Create the search box and link it to the UI element.
 
-    let input = document.getElementById('pac-input');
+    const input = document.getElementById('pac-input');
     input.focus();
-    let searchBox = new google.maps.places.SearchBox(input);
+
+    const autocompleteOptions = {
+        // bounds: defaultBounds,
+        types: ['establishment']
+    };
+
+    // let searchBox = new google.maps.places.SearchBox(input);
+    
+    let searchBox = new google.maps.places.Autocomplete(input, autocompleteOptions);
+
+    searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
 
     // Bias the SearchBox results towards current map's viewport.
 
@@ -470,8 +480,12 @@ window.App.initAutocomplete = _ => {
         }
     });
 
-    searchBox.addListener('places_changed', _ => {
-        let places = searchBox.getPlaces();
+    searchBox.addListener('place_changed', _ => {
+        
+        let places = searchBox.getPlace();
+        // let places = searchBox.getPlaces();
+        // console.log("autocomplete.getPlace()")
+        console.log(places)
         if (places.length == 0) {
             return;
         }
@@ -484,7 +498,8 @@ window.App.initAutocomplete = _ => {
 
         // For each place, get the icon, name and location.
         let bounds = new google.maps.LatLngBounds();
-        let place = places[0];
+        // let place = places[0];
+        let place = places;
 
         if (!place.geometry) {
             console.log("Returned place contains no geometry");
