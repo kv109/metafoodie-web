@@ -1,0 +1,15 @@
+@media (max-width: 600px) {
+  header {
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  img.desktop {
+    display: none;
+  }
+
+  img.mobile {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=header_mobile.css.map */

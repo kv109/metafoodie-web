@@ -1,0 +1,141 @@
+@media (min-width: 600px) {
+  .grid-main {
+    display: grid;
+    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
+    grid-template-rows: [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(0px, auto) [searchbox2-end footer-start] minmax(0px, 300px) [footer-end];
+  }
+
+  header {
+    grid-area: header-start/content-start/header-end/content-end;
+  }
+
+  nav {
+    grid-area: searchbox-start/content-start/searchbox-end/content-end;
+  }
+
+  .map {
+    grid-area: map-start/margin-left-start/map-end/margin-right-end;
+  }
+
+  main {
+    grid-area: score-start/content-start/score-end/content-end;
+  }
+
+  footer {
+    grid-area: footer-start/margin-left-start/footer-end/margin-right-end;
+  }
+
+  .background-top {
+    grid-area: header-start/margin-left-start/searchbox-end/margin-right-end;
+  }
+
+  .background-bottom {
+    grid-area: score-start/margin-left-start/score-end/margin-right-end;
+  }
+
+  .grid-results {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs provs .";
+  }
+
+  .results-providers-wrapper {
+    grid-area: provs;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: "prov-g prov-fb prov-z prov-y prov-f";
+    grid-column-gap: 1rem;
+  }
+
+  .results-provider-google {
+    grid-area: prov-g;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .results-provider-google a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-google:hover {
+    background-color: #000000;
+  }
+
+  .results-provider-facebook {
+    grid-area: prov-fb;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .results-provider-facebook a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-facebook:hover {
+    background-color: #000000;
+  }
+
+  .results-provider-zomato {
+    grid-area: prov-z;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .results-provider-zomato a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-zomato:hover {
+    background-color: #000000;
+  }
+
+  .results-provider-yelp {
+    grid-area: prov-y;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .results-provider-yelp a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-yelp:hover {
+    background-color: #000000;
+  }
+
+  .results-provider-foursquare {
+    grid-area: prov-f;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .results-provider-foursquare a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-foursquare:hover {
+    background-color: #000000;
+  }
+
+  .results-average {
+    grid-area: aver;
+  }
+
+  .results-name {
+    grid-area: title;
+  }
+
+  .results-address {
+    grid-area: addr;
+  }
+
+  .results-arrow {
+    grid-area: arr;
+  }
+
+  .results-share {
+    grid-area: sh;
+  }
+}
+
+/*# sourceMappingURL=grid_desktop.css.map */
