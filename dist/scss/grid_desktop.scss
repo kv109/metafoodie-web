@@ -51,48 +51,61 @@
         grid-template-areas:
             "title title title title title title arr arr arr"
             "addr addr addr addr addr addr arr arr arr"
-            "aver aver provs provs provs provs provs . ."
+            "aver aver provs provs provs provs provs provs ."
     }
 
     .results-providers-wrapper {
         grid-area: provs;
-        // background-color: brown;
         display: grid;
-        grid-template-columns: 5;
+        grid-template-columns: repeat(5, 1fr);
         grid-template-areas: "prov-g prov-fb prov-z prov-y prov-f";
+        grid-column-gap: 1rem
     }
 
     .results-provider-google {
         grid-area: prov-g;
-        // display: inline-block;
-        @include variables.provpadding;
+        @include variables.provider-link;
+    }
+
+    .results-provider-google:hover {
+        @include variables.provider-link-hover;
     }
 
     .results-provider-facebook {
-        // display: inline-block;
         grid-area: prov-fb;
-        @include variables.provpadding;
+        @include variables.provider-link;
+    }
 
+    .results-provider-facebook:hover {
+        @include variables.provider-link-hover;
     }
 
     .results-provider-zomato {
-        // display: inline-block;
         grid-area: prov-z;
-        @include variables.provpadding;
+        @include variables.provider-link;
+    }
 
+    .results-provider-zomato:hover {
+        @include variables.provider-link-hover;
     }
 
     .results-provider-yelp {
-        // display: inline-block;
         grid-area: prov-y;
-        @include variables.provpadding;
+        @include variables.provider-link;
+    }
+
+    .results-provider-yelp:hover {
+        @include variables.provider-link-hover;
     }
 
     .results-provider-foursquare {
-        // display: inline-block;
         grid-area: prov-f;
-        @include variables.provpadding;
+        @include variables.provider-link;
 
+    }
+
+    .results-provider-foursquare:hover {
+        @include variables.provider-link-hover;
     }
 
     .results-average {

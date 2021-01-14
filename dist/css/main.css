@@ -38,34 +38,85 @@
   .grid-results {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs . .";
+    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs provs .";
   }
 
   .results-providers-wrapper {
     grid-area: provs;
     display: grid;
-    grid-template-columns: 5;
+    grid-template-columns: repeat(5, 1fr);
     grid-template-areas: "prov-g prov-fb prov-z prov-y prov-f";
+    grid-column-gap: 1rem;
   }
 
   .results-provider-google {
     grid-area: prov-g;
+    border-radius: 0.5em;
+    border: #444 solid 1px;
+  }
+  .results-provider-google a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-google:hover {
+    background-color: #000000;
   }
 
   .results-provider-facebook {
     grid-area: prov-fb;
+    border-radius: 0.5em;
+    border: #444 solid 1px;
+  }
+  .results-provider-facebook a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-facebook:hover {
+    background-color: #000000;
   }
 
   .results-provider-zomato {
     grid-area: prov-z;
+    border-radius: 0.5em;
+    border: #444 solid 1px;
+  }
+  .results-provider-zomato a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-zomato:hover {
+    background-color: #000000;
   }
 
   .results-provider-yelp {
     grid-area: prov-y;
+    border-radius: 0.5em;
+    border: #444 solid 1px;
+  }
+  .results-provider-yelp a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-yelp:hover {
+    background-color: #000000;
   }
 
   .results-provider-foursquare {
     grid-area: prov-f;
+    border-radius: 0.5em;
+    border: #444 solid 1px;
+  }
+  .results-provider-foursquare a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .results-provider-foursquare:hover {
+    background-color: #000000;
   }
 
   .results-average {

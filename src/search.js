@@ -344,9 +344,9 @@ const appendResults = results => {
             
                     providerTagEl.innerHTML = `
                     <!-- <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p> -->
-                    <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p> 
+                    <a href="${url}" target="_blank"><p class="provider-name">${firstUpperCase(provider)}</p> 
                     <p class="provider-rating">${rating}</p>
-                    <p class="provider-rating-count">${place.rating_count}</p>
+                    <p class="provider-rating-count">${place.rating_count}</p></a>
                     `
                 }
 

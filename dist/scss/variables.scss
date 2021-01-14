@@ -3,15 +3,22 @@ $white: #fff;
 $green: #499f08;
 $mobile-background: #000;
 $results-average-bottom-margin: 3rem;
+$provider-background-color: #000000;
+$provider-background-color-hover: #000000;
+$provider-border-color: #444;
 
+@mixin provider-link {
+    border-radius: 0.5em;
+    border: $provider-border-color solid 1px;
 
+    a {
+        text-decoration: none;
+        color: $white;
+    }
 
-@mixin provpadding {
-    // padding: 0 0 0 3rem;
-    // padding: 0 3% 0 3%;
-    // background-color: blue;
-    // height: 100%
-    
 }
 
-// $provpadding: 0 0 0 3rem;
+@mixin provider-link-hover {
+    background-color: $provider-background-color-hover
+
+}
