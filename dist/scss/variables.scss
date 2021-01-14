@@ -2,3 +2,16 @@ $black: #444444;
 $white: #fff;
 $green: #499f08;
 $mobile-background: #000;
+$results-average-bottom-margin: 3rem;
+
+
+
+@mixin provpadding {
+    // padding: 0 0 0 3rem;
+    // padding: 0 3% 0 3%;
+    // background-color: blue;
+    // height: 100%
+    
+}
+
+// $provpadding: 0 0 0 3rem;

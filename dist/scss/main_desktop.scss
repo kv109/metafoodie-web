@@ -3,99 +3,93 @@
 
 @media (min-width:600px) {
 
-body {
-    background: variables.$black;
+    body {
+        background: variables.$black;
+    }
+
+    .background-top {
+        background-color: variables.$black;
+        background-image: url(../img/background-top.jpg);
+        background-size: cover;
+    }
+
+    .background-bottom {
+        background-color: variables.$black;
+        background-image: url(../img/background-bottom.jpg);
+        background-size: cover;
+    }
+
+    section.grid-results,
+    header {
+        color: variables.$white;
+    }
+
+    #map {
+        height: 30vh;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    img.logo {
+        margin: 1em 1em 1em 0;
+    }
+
+    img.icon {
+        height: 24px;
+        width: 24px;
+    }
+
+    input,
+    button {
+        color: variables.$black
+    }
+
+    #pac-input {
+        background-color: #fff;
+        height: 3rem;
+        width: 74%;
+        margin: 0 2rem 2rem 0;
+        border-radius: 0.5rem;
+        border-style: none;
+        font-size: 1.2rem;
+        padding: 0 0 0 1em;
+        color: variables.$black;
+        caret-color: variables.$green;
+    }
+
+    #pac-input::placeholder {
+        color: black;
+    }
+
+    #clear-button {
+        height: 3rem;
+        border-radius: 1rem;
+        width: 6rem;
+        font-size: 1.2rem;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    footer {
+        background-color: variables.$black;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(variables.$white, 0.5);
+        font-size: 0.7rem;
+    }
+
 }
-
-.background-top {
-    background-color: variables.$black;
-    background-image: url(../img/background-top.jpg);
-    background-size: cover;
-}
-
-.background-bottom {
-    background-color: variables.$black;
-    background-image: url(../img/background-bottom.jpg);
-    background-size: cover;
-}
-
-section.grid-results, header {
-    color: variables.$white;
-}
-
-#map {
-    height: 30vh;
-}
-
-.hidden {
-    display: none;
-}
-
-img.logo {
-    margin: 1em 1em 1em 0;
-}
-
-img.icon {
-    height: 24px;
-    width: 24px;
-}
-
-input,
-button {
-    color: variables.$black
-}
-
-#pac-input {
-    background-color: #fff;
-    height: 3rem;
-    width: 74%;
-    margin: 0 2rem 2rem 0;
-    border-radius: 0.5rem;
-    border-style: none;
-    font-size: 1.2rem;
-    padding: 0 0 0 1em;
-    color: variables.$black;
-    caret-color: variables.$green;
-}
-
-#pac-input::placeholder {color: black;}
-
-#clear-button {
-    height: 3rem;
-    border-radius: 1rem;
-    width: 6rem;
-    font-size: 1.2rem;
-}
-
-#infowindow-content .title {
-    font-weight: bold;
-}
-
-#infowindow-content {
-    display: none;
-}
-
-#map #infowindow-content {
-    display: inline;
-}
-
-footer {
-    background-color: variables.$black;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(variables.$white, 0.5);
-    font-size: 0.7rem;
-}
-
-}
-
-// @media (max-width: 768px) {
-
-// body {
-//     background-color: red
-// }
-
-
-// 

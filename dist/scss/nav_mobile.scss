@@ -14,10 +14,11 @@
     #pac-input {
 
         width: 100%;
-        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-        box-sizing: border-box;   
-        // background-color: #ff22ff;
+        -webkit-box-sizing: border-box;
+        /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;
+        /* Firefox, other Gecko */
+        box-sizing: border-box;
         background: url(../img/logo-solo-strong-green.png) no-repeat left center;
         height: 3rem;
         margin: 0 0 2rem 0;
@@ -32,25 +33,12 @@
 
     #pac-input::placeholder {
         color: black;
-        // padding: 0 0 0 2rem;
-        // margin-left: 1em;
     }
 
-    .pac-container {
-        // font-size: 1rem;
-        // border-radius: 1em;
-    
-    }
+    .pac-container {}
 
     .pac-item {
-        // height: 3rem;
         padding: 1.2rem 0 0.6rem 0.6rem;
-
-        // margin: 0;
-        // transform: translateY(50%);
-        // display: flex;
-        // align-items: center;
-        // text-align: center;
     }
 
     .pac-item-query {

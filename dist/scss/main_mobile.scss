@@ -3,11 +3,6 @@
 
 @media (max-width:600px) {
 
-    body {
-        // background: variables.$black;
-        // background-color: rgba(variables.$mobile-background, 0.05);
-    }
-
     .background-top,
     .background-bottom,
     .tagline,
@@ -22,33 +17,17 @@
 
     #map {
         height: 25vh;
+        display: none;
     }
 
     .hidden {
         display: none;
     }
 
-    // img.icon {
-    //     height: 24px;
-    //     width: 24px;
-    // }
-
     input,
     button {
         color: variables.$black
     }
-
-        // #infowindow-content .title {
-    //     font-weight: bold;
-    // }
-
-    // #infowindow-content {
-    //     display: none;
-    // }
-
-    // #map #infowindow-content {
-    //     display: inline;
-    // }
 
     footer {
         background-color: variables.$black;

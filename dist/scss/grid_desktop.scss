@@ -1,107 +1,118 @@
+@use "../scss/variables.scss";
+
 @media (min-width:600px) {
 
 
-// FULL LAYOUT GRID
+    // FULL LAYOUT GRID
 
-.grid-main {
-    display: grid;
-    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
-    grid-template-rows:
-        [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(0px, auto) [searchbox2-end footer-start] minmax(0px, 300px) [footer-end];
-}
+    .grid-main {
+        display: grid;
+        grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
+        grid-template-rows:
+            [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(0px, auto) [searchbox2-end footer-start] minmax(0px, 300px) [footer-end];
+    }
 
-header {
-    grid-area: header-start / content-start / header-end / content-end;
-}
+    header {
+        grid-area: header-start / content-start / header-end / content-end;
+    }
 
-nav {
-    grid-area: searchbox-start / content-start / searchbox-end / content-end;
-    // position: relative;
-    // background-color: rgba($color: #fff, $alpha: .3);
-}
+    nav {
+        grid-area: searchbox-start / content-start / searchbox-end / content-end;
+    }
 
-.map {
-    grid-area: map-start / margin-left-start / map-end / margin-right-end;
-}
+    .map {
+        grid-area: map-start / margin-left-start / map-end / margin-right-end;
+    }
 
-main {
-    grid-area: score-start / content-start / score-end / content-end;
-}
+    main {
+        grid-area: score-start / content-start / score-end / content-end;
+    }
 
-footer {
-    grid-area: footer-start / margin-left-start / footer-end / margin-right-end;
-}
+    footer {
+        grid-area: footer-start / margin-left-start / footer-end / margin-right-end;
+    }
 
-.background-top {
-    grid-area: header-start / margin-left-start / searchbox-end / margin-right-end;
-}
+    .background-top {
+        grid-area: header-start / margin-left-start / searchbox-end / margin-right-end;
+    }
 
-.background-bottom {
-    grid-area: score-start / margin-left-start / score-end / margin-right-end;
-}
+    .background-bottom {
+        grid-area: score-start / margin-left-start / score-end / margin-right-end;
+    }
 
 
 
-// RESULTS GRID
+    // RESULTS GRID
 
-.grid-results {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    
-    grid-template-areas:
-        "title title title title title title arr arr arr"
-        "addr addr addr addr addr addr arr arr arr"
-        "aver aver provs provs provs provs provs . ."
-}
+    .grid-results {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
 
-.results-providers-wrapper {
-    grid-area: provs
-}
+        grid-template-areas:
+            "title title title title title title arr arr arr"
+            "addr addr addr addr addr addr arr arr arr"
+            "aver aver provs provs provs provs provs . ."
+    }
 
-.results-provider-google {
-    grid-area: prov-g;
-    display: inline-block
-}
+    .results-providers-wrapper {
+        grid-area: provs;
+        // background-color: brown;
+        display: grid;
+        grid-template-columns: 5;
+        grid-template-areas: "prov-g prov-fb prov-z prov-y prov-f";
+    }
 
-.results-provider-facebook {
-    display: inline-block;
-    grid-area: prov-fb
-}
+    .results-provider-google {
+        grid-area: prov-g;
+        // display: inline-block;
+        @include variables.provpadding;
+    }
 
-.results-provider-zomato {
-    display: inline-block;
-    grid-area: prov-z
-}
+    .results-provider-facebook {
+        // display: inline-block;
+        grid-area: prov-fb;
+        @include variables.provpadding;
 
-.results-provider-yelp {
-    display: inline-block;
-    grid-area: prov-y
-}
+    }
 
-.results-provider-foursquare {
-    display: inline-block;
-    grid-area: prov-f
-}
+    .results-provider-zomato {
+        // display: inline-block;
+        grid-area: prov-z;
+        @include variables.provpadding;
 
-.results-average {
-    grid-area: aver
-}
+    }
 
-.results-name {
-    grid-area: title
-}
+    .results-provider-yelp {
+        // display: inline-block;
+        grid-area: prov-y;
+        @include variables.provpadding;
+    }
 
-.results-address {
-    grid-area: addr
-}
+    .results-provider-foursquare {
+        // display: inline-block;
+        grid-area: prov-f;
+        @include variables.provpadding;
 
-.results-arrow {
-    grid-area: arr;
-    // background-color: rgba($color: #fff, $alpha: .3);
-}
+    }
 
-.results-share {
-    grid-area: sh;
-}
+    .results-average {
+        grid-area: aver
+    }
+
+    .results-name {
+        grid-area: title
+    }
+
+    .results-address {
+        grid-area: addr
+    }
+
+    .results-arrow {
+        grid-area: arr;
+    }
+
+    .results-share {
+        grid-area: sh;
+    }
 
 }

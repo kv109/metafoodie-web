@@ -12,7 +12,12 @@ const printOutput = (provider, info) => {
 }
 
 const preloader = (provider, preloader) => {
-    printOutput(provider, preloader)
+    document.querySelector(`.results-provider-${provider}`).innerHTML = `
+    <p class="provider-name">${firstUpperCase(provider)}</p>
+    <div class="results-preloader-container"><img class="results-preloader" src="img/arrow.gif" width="20px"></div>
+
+    `;
+    // document.querySelector(`.results-provider-${provider}`).style.backgroundColor = 'red';
 }
 
 // FETCH FOURSQUARE FUNCTION
@@ -312,26 +317,44 @@ const appendResults = results => {
         const rating = parseFloat(place.rating);
         const isRatingNumber = !isNaN(rating);
 
-        // if (isRatingNumber) {
-
-        //     providerTagEl.innerHTML = `
-        //     <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
-        //     <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p>
-        //     <p class="provider-rating">${rating}</p>
-        //     <p class="provider-rating-count">${place.rating_count}</p>
-        //     `
-        // } 
-
         // AVERAGE SCORE PRESENTATION
 
         if (isRatingNumber) {
 
-            providerTagEl.innerHTML = `
-            <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
-            <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p>
-            <p class="provider-rating">${rating}</p>
-            <p class="provider-rating-count">${place.rating_count}</p>
-            `
+            let matchMediaVar=window.matchMedia("(max-width: 600px)");
+            
+            const resultsMediaQuery = _ => {
+
+                if (matchMediaVar.matches) {
+            
+                    providerTagEl.innerHTML = `
+                    <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
+                    <!-- <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p> -->
+                    <p class="provider-rating">${rating}</p>
+                    <p class="provider-rating-count">${place.rating_count}</p>
+                    `
+                
+                  } else {
+                    
+                    // providerTagEl.innerHTML = `
+
+                    // <div class="results-preloader-container"><img class="results-preloader" src="img/arrow.gif" width="20px"></div>`
+            
+            
+            
+                    providerTagEl.innerHTML = `
+                    <!-- <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p> -->
+                    <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p> 
+                    <p class="provider-rating">${rating}</p>
+                    <p class="provider-rating-count">${place.rating_count}</p>
+                    `
+                }
+
+            }
+
+            resultsMediaQuery();
+
+            matchMediaVar.addListener(resultsMediaQuery);         
 
             // CALCULATING ARITMETIC AVERAGE
 
@@ -374,7 +397,6 @@ const appendResults = results => {
             <p class="score-info">średnia ocena</p>
             <p class="score-percentage">${percentage}%</p>`
         } else {
-            // console.log('miki')
             providerTagEl.innerHTML = `
             <p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
             <p class="provider-name">${firstUpperCase(provider)} nie ma tej restauracji z bazie danych</p>
@@ -398,10 +420,6 @@ const fetchResultsForGooglePlace = place => {
     preloader('google', 'loading');
 
     const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
-    // if (place.types.join().match(foodPlaceTypes.join("|")) == null) {
-    //     document.querySelector(".alert").classList.remove('hidden');
-
-    // } else {
     document.querySelector(".alert").classList.add('hidden');
     const name = place.name;
     const location = place.geometry.location;
@@ -426,7 +444,7 @@ const fetchResultsForGooglePlace = place => {
 
     let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
 
-    restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;
+    restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;
     restaurantAddress.innerHTML = place.formatted_address;
 
     providers.forEach(provider => {
@@ -463,16 +481,12 @@ window.App.initAutocomplete = _ => {
     fetch('https://ipinfo.io/?token=76daefe47a48fd')
         .then(response => response.json())
         .then(geolocation => {
-            //    console.log(geolocation)
 
             let client_lat = Number(geolocation.loc.split(',')[0]);
             let client_lon = Number(geolocation.loc.split(',')[1]);
-            //    console.log(client_lat)
-            //    console.log(client_lon)
 
             let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
             let markers = [];
-
 
             // CUSTOM MARKER
 
@@ -512,8 +526,6 @@ window.App.initAutocomplete = _ => {
                 types: ['establishment']
             };
 
-            // let searchBox = new google.maps.places.SearchBox(input);
-
             let searchBox = new google.maps.places.Autocomplete(input, autocompleteOptions);
 
             searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
@@ -545,9 +557,6 @@ window.App.initAutocomplete = _ => {
             searchBox.addListener('place_changed', _ => {
 
                 let places = searchBox.getPlace();
-                // let places = searchBox.getPlaces();
-                // console.log("autocomplete.getPlace()")
-                //    console.log(places)
                 if (places.length == 0) {
                     return;
                 }
@@ -560,7 +569,6 @@ window.App.initAutocomplete = _ => {
 
                 // For each place, get the icon, name and location.
                 let bounds = new google.maps.LatLngBounds();
-                // let place = places[0];
                 let place = places;
 
                 if (!place.geometry) {
@@ -610,7 +618,6 @@ window.App.initAutocomplete = _ => {
                         }
 
                         let place = results[0];
-                        //    console.log(results)
                         map.setCenter(place.geometry.location);
                         input.value = '';
 
@@ -627,20 +634,7 @@ window.App.initAutocomplete = _ => {
                 }
             }
 
-
-
-
-
-
-
-
-
-
         })
         .catch(err => console.log(err));
-
-
-
-
 
 }

@@ -3,36 +3,24 @@
 @media (min-width:600px) {
 
 
-nav {
-    padding: 1em 0 1em 0;
-    display: flex;
+    nav {
+        padding: 1em 0 1em 0;
+        display: flex;
 
-}
+    }
 
-.nav-arrow-container {
-    display: flex;
-    // background-color: rgba($color: #fff, $alpha: .3);
-    // align-items: flex-end;
-}
+    .nav-arrow-container {
+        display: flex;
+    }
 
-// .nav-arrow {
-//     right: 0;
-//     bottom: 0;
-//     display: flex;
-//     align-items: flex-end;
-//     justify-content: flex-end;
-// }
+    .nav-arrow-info {
+        transform: rotate(-10deg);
+        text-align: center;
+    }
 
-.nav-arrow-info {
-    transform: rotate(-10deg);
-    text-align: center;
-}
-
-.nav-arrow-image {
-    position: relative;
-    top: 2em;
-    // right: 0.7em;
-    // transform: scaleX(-100%) rotate(-70deg);
-}
+    .nav-arrow-image {
+        position: relative;
+        top: 2em;
+    }
 
 }

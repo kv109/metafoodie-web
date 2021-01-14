@@ -43,30 +43,28 @@
 
   .results-providers-wrapper {
     grid-area: provs;
+    display: grid;
+    grid-template-columns: 5;
+    grid-template-areas: "prov-g prov-fb prov-z prov-y prov-f";
   }
 
   .results-provider-google {
     grid-area: prov-g;
-    display: inline-block;
   }
 
   .results-provider-facebook {
-    display: inline-block;
     grid-area: prov-fb;
   }
 
   .results-provider-zomato {
-    display: inline-block;
     grid-area: prov-z;
   }
 
   .results-provider-yelp {
-    display: inline-block;
     grid-area: prov-y;
   }
 
   .results-provider-foursquare {
-    display: inline-block;
     grid-area: prov-f;
   }
 
@@ -123,7 +121,7 @@
 
   .results-provider {
     text-align: center;
-    margin: 2rem 0 0 0;
+    margin: 2rem 0 3rem 0;
   }
 
   .results-provider p {
@@ -174,6 +172,27 @@
     position: relative;
     top: 1.6em;
     right: 0.7em;
+  }
+
+  @keyframes rotation-preloader {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+  .results-preloader {
+    animation: rotation-preloader 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .results-preloader-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 @media (min-width: 600px) {
@@ -237,7 +256,8 @@
     background-size: cover;
   }
 
-  section.grid-results, header {
+  section.grid-results,
+header {
     color: #fff;
   }
 
@@ -520,6 +540,7 @@ header {
 
   #map {
     height: 25vh;
+    display: none;
   }
 
   .hidden {
