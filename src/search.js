@@ -5,7 +5,15 @@ let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
+
+
 const firstUpperCase = word => `${word[0].toUpperCase()}${[...word].splice(1).join('')}`
+
+// const loadingError = `           
+// <p class="provider-name">${firstUpperCase(provider)}</p> 
+// <p class="provider-rating">:(</p>
+// <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
+// `
 
 const printOutput = (provider, info) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = info;
@@ -14,7 +22,7 @@ const printOutput = (provider, info) => {
 const preloader = (provider, preloader) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = `
     <p class="provider-name">${firstUpperCase(provider)}</p>
-    <div class="results-preloader-container"><img class="results-preloader" src="img/arrow.gif" width="20px"></div>
+    <div class="results-preloader-container"><img class="results-preloader" src="img/preloader-arrow.svg" width="20px"></div>
 
     `;
     // document.querySelector(`.results-provider-${provider}`).style.backgroundColor = 'red';
@@ -54,8 +62,12 @@ const foursquareFetch = (name, lat, lng) => {
             appendResults(foursquareData);
         })
         .catch(err => {
-            console.log(err)
-            printOutput('foursquare', "f brak wyników");
+            printOutput('Foursquare', `           
+            <p class="provider-name">Foursquare</p> 
+            <p class="provider-rating">:(</p>
+            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
+            `);
+
         })
 }
 
@@ -184,7 +196,11 @@ const zomatoFetch = (name, lat, lng) => {
         })
         .catch(err => {
             console.log(err)
-            printOutput('zomato', "z brak wyników");
+            printOutput('zomato', `           
+            <p class="provider-name">Zomato</p> 
+            <p class="provider-rating">:(</p>
+            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
+            `);
         });
 }
 
@@ -267,8 +283,11 @@ const yelpFetch = (name, lat, lng) => {
             // }
             // appendResults(yelpData);
             // console.log("no yelp 2")
-            printOutput('yelp', "y brak wyników");
-
+            printOutput('yelp', `           
+            <p class="provider-name">Yelp</p> 
+            <p class="provider-rating">:(</p>
+            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
+            `);
 
         });
 }
@@ -325,26 +344,38 @@ const appendResults = results => {
             
             const resultsMediaQuery = _ => {
 
+        
+        // RESULTS RENDER FOR MOBILE
+
+
                 if (matchMediaVar.matches) {
             
                     providerTagEl.innerHTML = `
                     <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
-                    <!-- <p class="provider-name"><a href="${url}" target="_blank">${firstUpperCase(provider)}</a></p> -->
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${place.rating_count}</p>
                     `
                 
-                  } else {
+                  } 
+                  
+        // RESULTS RENDER FOR DESKTOP 
+                  
+                  else {
                     
                     // providerTagEl.innerHTML = `
 
                     // <div class="results-preloader-container"><img class="results-preloader" src="img/arrow.gif" width="20px"></div>`
-            
-            
-            
+                    
+                    // <a href="${url}" target="_blank" class="provider-name-link"><p class="provider-name">${firstUpperCase(provider)}</p> 
+
+
                     providerTagEl.innerHTML = `
-                    <!-- <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p> -->
-                    <a href="${url}" target="_blank"><p class="provider-name">${firstUpperCase(provider)}</p> 
+                    
+                    
+
+                    <a href="${url}" target="_blank"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
+
+
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${place.rating_count}</p></a>
                     `
@@ -394,20 +425,19 @@ const appendResults = results => {
             ratingSummaryEl.style.backgroundColor = backgroundColor;
             ratingSummaryEl.style.color = textColor;
             ratingSummaryEl.innerHTML = `
-            <p class="score-info">średnia ocena</p>
+            <p class="score-info">średnia ważona</p>
             <p class="score-percentage">${percentage}%</p>`
         } else {
             providerTagEl.innerHTML = `
-            <p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
-            <p class="provider-name">${firstUpperCase(provider)} nie ma tej restauracji z bazie danych</p>
+            <p class="provider-name">${firstUpperCase(provider)}</p> 
+            <p class="provider-rating">:(</p>
+            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
             `
         }
 
         // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
 
     } else {
-
-
 
         printOutput(provider, ':(');
         printOutput(provider, `Couldn't find`);
@@ -444,7 +474,12 @@ const fetchResultsForGooglePlace = place => {
 
     let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
 
-    restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;
+    // restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;    
+    
+    restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji</a></div>`;
+
+    //  &#8594; strzałka
+
     restaurantAddress.innerHTML = place.formatted_address;
 
     providers.forEach(provider => {

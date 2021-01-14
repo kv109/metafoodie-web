@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,600&display=swap");
 @media (min-width: 600px) {
   .grid-main {
     display: grid;
@@ -52,7 +53,7 @@
   .results-provider-google {
     grid-area: prov-g;
     border-radius: 0.5em;
-    border: #444 solid 1px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .results-provider-google a {
     text-decoration: none;
@@ -66,7 +67,7 @@
   .results-provider-facebook {
     grid-area: prov-fb;
     border-radius: 0.5em;
-    border: #444 solid 1px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .results-provider-facebook a {
     text-decoration: none;
@@ -80,7 +81,7 @@
   .results-provider-zomato {
     grid-area: prov-z;
     border-radius: 0.5em;
-    border: #444 solid 1px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .results-provider-zomato a {
     text-decoration: none;
@@ -94,7 +95,7 @@
   .results-provider-yelp {
     grid-area: prov-y;
     border-radius: 0.5em;
-    border: #444 solid 1px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .results-provider-yelp a {
     text-decoration: none;
@@ -108,7 +109,7 @@
   .results-provider-foursquare {
     grid-area: prov-f;
     border-radius: 0.5em;
-    border: #444 solid 1px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .results-provider-foursquare a {
     text-decoration: none;
@@ -161,12 +162,10 @@
     text-align: center;
   }
 
-  .score-info {
-    font-size: 0.7rem;
-  }
-
   .score-percentage {
     font-size: 4rem;
+    font-weight: 600;
+    font-style: italic;
     padding: 0 0 0 0;
   }
 
@@ -177,11 +176,6 @@
 
   .results-provider p {
     padding: 0.4rem 0 0 0;
-  }
-
-  .provider-name a {
-    text-decoration: underline;
-    color: #fff;
   }
 
   .provider-rating {
@@ -196,7 +190,11 @@
   }
 
   .results-share a {
-    color: #fff;
+    color: #499f08;
+    text-decoration: none;
+  }
+
+  .results-share a:hover {
     text-decoration: underline;
   }
 
@@ -325,8 +323,8 @@ header {
   }
 
   img.icon {
-    height: 24px;
-    width: 24px;
+    height: 3rem;
+    width: 3rem;
   }
 
   input,

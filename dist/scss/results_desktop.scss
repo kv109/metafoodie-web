@@ -24,11 +24,13 @@
     }
 
     .score-info {
-        font-size: 0.7rem;
+        // font-size: 0.7rem;
     }
 
     .score-percentage {
         font-size: 4rem;
+        font-weight: 600;
+        font-style: italic;
         padding: 0 0 0 0;
     }
 
@@ -41,10 +43,17 @@
         padding: 0.4rem 0 0 0;
     }
 
-    .provider-name a {
-        text-decoration: underline;
-        color: variables.$white;
-    }
+    // .provider-name {
+    //     text-decoration: underline;
+    //     color: variables.$white;
+    // }
+
+    // .results-name a {
+    //     color: variables.$white;
+    //     text-decoration: none;
+    //     // font-weight: 600;
+    //     // font-size: 2rem;
+    // }
 
     .provider-rating {
         color: variables.$green;
@@ -58,7 +67,11 @@
     }
 
     .results-share a {
-        color: variables.$white;
+        color: variables.$green;
+        text-decoration: none;
+    }
+
+    .results-share a:hover {
         text-decoration: underline;
     }
 
@@ -91,21 +104,14 @@
     @keyframes rotation-preloader {
         from {
             transform: rotate(0deg);
-            // -webkit-transform: scaleX(-1);
-            // transform: scaleX(-1);
         }
 
         to {
             transform: rotate(359deg);
-            // -webkit-transform: scaleX(-1);
-            // transform: scaleX(-1);
         }
     }
 
     .results-preloader {
-        // -webkit-transform: scaleX(-1);
-        // transform: scaleX(-1);
-  
         animation: rotation-preloader 0.5s;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
@@ -114,7 +120,6 @@
     }
 
     .results-preloader-container {
-        // background-color: chartreuse;
         height: 100%;
         display:flex;
         justify-content: center;

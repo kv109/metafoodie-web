@@ -9,7 +9,8 @@ $provider-border-color: #444;
 
 @mixin provider-link {
     border-radius: 0.5em;
-    border: $provider-border-color solid 1px;
+    // border: $provider-border-color solid 1px;
+    background-color: rgba(0,0,0,.5);
 
     a {
         text-decoration: none;
