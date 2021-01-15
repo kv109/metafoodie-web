@@ -1,0 +1,13 @@
+@media (min-width: 600px) {
+  footer {
+    background-color: #444444;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7rem;
+  }
+}
+
+/*# sourceMappingURL=footer_desktop.css.map */
