@@ -1,14 +1,17 @@
 @media (max-width: 600px) {
   header {
-    margin: 1rem 0 0.5rem 0;
+    padding: 1rem 0 1rem 0;
+    background: #444444;
+    color: #fff;
+    line-height: 1.5rem;
   }
 
   img.desktop {
     display: none;
   }
 
-  img.mobile {
-    display: none;
+  .tagline-mobile {
+    display: inline-block;
   }
 }
 

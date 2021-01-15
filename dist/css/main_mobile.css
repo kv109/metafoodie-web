@@ -6,9 +6,8 @@
     display: none;
   }
 
-  section.grid-results,
-header {
-    color: #fff;
+  section.grid-results {
+    color: #444444;
   }
 
   #map {
@@ -23,16 +22,6 @@ header {
   input,
 button {
     color: #444444;
-  }
-
-  footer {
-    background-color: #444444;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.7rem;
   }
 }
 

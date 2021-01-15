@@ -5,6 +5,21 @@ let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
+
+
+// MEDIA QUERY
+
+const matchMediaMobile = window.matchMedia("(max-width: 600px)");
+
+const mediaQuery = (callbackMobile, callbackDesktop) => {
+
+    if (matchMediaMobile.matches) {
+        callbackMobile();
+    } else {
+        callbackDesktop();
+    }
+}
+
 // MAKE FIRST CHARACHTER OF A WORD UPPERCASE
 
 const firstUpperCase = word => `${word[0].toUpperCase()}${[...word].splice(1).join('')}`
@@ -39,14 +54,12 @@ const loadingErrorEndOfAPICalls = (provider) => {
 const preloader = (provider, preloader) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = `
     <p class="provider-name">${firstUpperCase(provider)}</p>
-    <div class="results-preloader-container"><img class="results-preloader" src="img/preloader-arrow.svg" width="20px"></div>
+    <div class="results-preloader-container"><img class="results-preloader" src="img/preloader-arrow.svg"></div>
 
     `;
 }
 
-// MEDIA QUERY
 
-const matchMediaMobile = window.matchMedia("(max-width: 600px)");
 
 // FETCH FOURSQUARE FUNCTION
 
@@ -299,8 +312,12 @@ const yelpFetch = (name, lat, lng) => {
         .catch(err => {
 
             if (getIdObject.meta.code === 429) {
-                loadingErrorEndOfAPICalls('yelp');
-            } else {
+                loadingErrorEndOfAPICalls('yelp')
+            } 
+            else if (getIdObject.meta.code === 404) {
+                loadingError('yelp')
+            } 
+            else {
                 loadingError('yelp')
             }
 
@@ -349,7 +366,8 @@ const appendResults = results => {
 
 
     const printResultsForMobile = (url, provider, rating, rating_count) => {
-        providerTagEl.innerHTML = `MOBILE
+        providerTagEl.innerHTML = `<!-- MOBILE -->
+        
                     <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p>
@@ -357,7 +375,7 @@ const appendResults = results => {
     }
 
     const printResultsForDesktop = (url, provider, rating, rating_count) => {
-        providerTagEl.innerHTML = `DESKTOP
+        providerTagEl.innerHTML = `<!-- DESKTOP -->
                     
                     <a href="${url}" target="_blank"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
                     <p class="provider-rating">${rating}</p>
@@ -367,14 +385,7 @@ const appendResults = results => {
 
     // FUNCTION CALLING CALLBACKS DEPENDING ON MEDIAQUERY
 
-    const mediaQuery = (callbackMobile, callbackDesktop) => {
 
-        if (matchMediaMobile.matches) {
-            callbackMobile(url, provider, rating, rating_count)
-        } else {
-            callbackDesktop(url, provider, rating, rating_count)
-        }
-    }
 
     // REMOVE ARROW INFO
 
@@ -390,7 +401,8 @@ const appendResults = results => {
 
             // RESULTS RENDER FOR MOBILE AND DESTKOP
 
-            mediaQuery(printResultsForMobile, printResultsForDesktop);
+            // mediaQuery(printResultsForMobile, printResultsForDesktop);
+            mediaQuery(_ => printResultsForMobile(url, provider, rating, rating_count), _ => printResultsForDesktop(url, provider, rating, rating_count));
 
             matchMediaMobile.addListener(_ => mediaQuery(printResultsForMobile, printResultsForDesktop));
 
@@ -501,7 +513,7 @@ const fetchResultsForGooglePlace = place => {
 
     zomatoFetch(name, lat, lng); // 1000 API calls daily
     yelpFetch(name, lat, lng); // 5000 API calls daily
-    // foursquareFetch(name, lat, lng); // 500 API calls daily
+    foursquareFetch(name, lat, lng); // 500 API calls daily
 
     // }
 }
@@ -565,11 +577,16 @@ const mapRender = (client_lat, client_lon, zoom) => {
         console.log(input)
 
     }
+
+    if (matchMediaMobile.matches) {
+        document.getElementById('pac-input').addEventListener("click", _ => {
+            document.querySelector("header").classList.add("hidden");
+        })
+    }
+
     // }
 
     // mediaQuery(_ => {}, _ => input.focus());
-
-
 
     const autocompleteOptions = {
         // bounds: defaultBounds,

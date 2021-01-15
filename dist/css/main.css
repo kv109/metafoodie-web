@@ -240,6 +240,7 @@
     animation: rotation-preloader 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    width: 20px;
   }
 
   .results-preloader-container {
@@ -269,6 +270,10 @@
     padding: 0 0 0 1rem;
   }
 
+  .tagline-mobile {
+    display: none;
+  }
+
   img.mobile {
     display: none;
   }
@@ -291,6 +296,14 @@
   .nav-arrow-image {
     position: relative;
     top: 2em;
+  }
+
+  .pac-item {
+    padding: 1.2rem 0 0.6rem 0.6rem;
+  }
+
+  .pac-item-query {
+    font-size: 1rem;
   }
 }
 @media (min-width: 600px) {
@@ -372,7 +385,8 @@ button {
   #map #infowindow-content {
     display: inline;
   }
-
+}
+@media (min-width: 600px) {
   footer {
     background-color: #444444;
     height: 2rem;
@@ -440,12 +454,14 @@ button {
 @media (max-width: 600px) {
   .grid-results {
     color: #000;
+    margin-bottom: 2rem;
   }
 
   .results-name {
     font-family: Montserrat;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    line-height: 2.5rem;
     padding: 1rem 0 0 0;
     color: #000;
   }
@@ -497,7 +513,17 @@ button {
   }
 
   .results-share {
-    display: none;
+    font-size: 1rem;
+    padding: 0 0 0 1rem;
+  }
+
+  .results-share a {
+    color: #499f08;
+    text-decoration: none;
+  }
+
+  .results-share a:hover {
+    text-decoration: underline;
   }
 
   .results-arrow {
@@ -524,24 +550,49 @@ button {
     height: 3rem;
     width: auto;
   }
+
+  @keyframes rotation-preloader {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+  .results-preloader {
+    animation: rotation-preloader 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    width: 2rem;
+  }
+
+  .results-preloader-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 @media (max-width: 600px) {
   header {
-    margin: 1rem 0 0.5rem 0;
+    padding: 1rem 0 1rem 0;
+    background: #444444;
+    color: #fff;
+    line-height: 1.5rem;
   }
 
   img.desktop {
     display: none;
   }
 
-  img.mobile {
-    display: none;
+  .tagline-mobile {
+    display: inline-block;
   }
 }
 @media (max-width: 600px) {
   nav {
     width: 90%;
-    margin: auto;
+    margin: 2rem auto 0 auto;
   }
 
   .nav-arrow-container {
@@ -557,7 +608,7 @@ button {
     box-sizing: border-box;
     background: url(../img/logo-solo-strong-green.png) no-repeat left center;
     height: 3rem;
-    margin: 0 0 2rem 0;
+    margin: 0 0 0rem 0;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-style: none;
@@ -587,9 +638,8 @@ button {
     display: none;
   }
 
-  section.grid-results,
-header {
-    color: #fff;
+  section.grid-results {
+    color: #444444;
   }
 
   #map {
@@ -605,15 +655,16 @@ header {
 button {
     color: #444444;
   }
-
+}
+@media (max-width: 600px) {
   footer {
-    background-color: #444444;
-    height: 2rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.5);
+    color: #444444;
     font-size: 0.7rem;
+    border-top: 1px solid rgba(68, 68, 68, 0.2);
   }
 }
 * {

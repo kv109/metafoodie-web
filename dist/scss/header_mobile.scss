@@ -3,16 +3,36 @@
 @media (max-width:600px) {
 
     header {
-        margin: 1rem 0 0.5rem 0;
-
+        padding: 1rem 0 1rem 0;
+        background: variables.$black;
+        color: variables.$white;
+        // margin: 0 0 2rem 0;
+        line-height: 1.5rem;
     }
+
+    .background-top {
+        // background-color: variables.$black;
+        // background-image: url(../img/background-top.jpg);
+        // background-size: cover;
+    }
+
+
 
     img.desktop {
         display: none
     }
 
     img.mobile {
-        display: none
+        // display: none
+    }
+
+    .tagline-mobile {
+        display: inline-block;
+    }
+
+    .moved {
+        // position: relative;
+        // top: -5rem;
     }
 
 }

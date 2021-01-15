@@ -10,9 +10,8 @@
         display: none;
     }
 
-    section.grid-results,
-    header {
-        color: variables.$white;
+    section.grid-results {
+        color: variables.$black;
     }
 
     #map {
@@ -27,16 +26,6 @@
     input,
     button {
         color: variables.$black
-    }
-
-    footer {
-        background-color: variables.$black;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgba(variables.$white, 0.5);
-        font-size: 0.7rem;
     }
 
 }

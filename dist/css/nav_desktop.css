@@ -17,6 +17,14 @@
     position: relative;
     top: 2em;
   }
+
+  .pac-item {
+    padding: 1.2rem 0 0.6rem 0.6rem;
+  }
+
+  .pac-item-query {
+    font-size: 1rem;
+  }
 }
 
 /*# sourceMappingURL=nav_desktop.css.map */

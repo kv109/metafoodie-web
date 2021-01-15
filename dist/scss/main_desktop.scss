@@ -82,14 +82,4 @@
         display: inline;
     }
 
-    footer {
-        background-color: variables.$black;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgba(variables.$white, 0.5);
-        font-size: 0.7rem;
-    }
-
 }

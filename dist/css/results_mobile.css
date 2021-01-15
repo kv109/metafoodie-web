@@ -1,12 +1,14 @@
 @media (max-width: 600px) {
   .grid-results {
     color: #000;
+    margin-bottom: 2rem;
   }
 
   .results-name {
     font-family: Montserrat;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    line-height: 2.5rem;
     padding: 1rem 0 0 0;
     color: #000;
   }
@@ -58,7 +60,17 @@
   }
 
   .results-share {
-    display: none;
+    font-size: 1rem;
+    padding: 0 0 0 1rem;
+  }
+
+  .results-share a {
+    color: #499f08;
+    text-decoration: none;
+  }
+
+  .results-share a:hover {
+    text-decoration: underline;
   }
 
   .results-arrow {
@@ -84,6 +96,28 @@
   img.icon {
     height: 3rem;
     width: auto;
+  }
+
+  @keyframes rotation-preloader {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+  .results-preloader {
+    animation: rotation-preloader 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    width: 2rem;
+  }
+
+  .results-preloader-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

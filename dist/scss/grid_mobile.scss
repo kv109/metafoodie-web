@@ -1,7 +1,12 @@
+@use 'variables';
+
 @media (max-width: 600px) {
 
     .grid-main {
         text-align: center;
+        // background: variables.$black;
+        // display: flex;
+        // flex-direction: column;
     }
 
     .grid-results {
