@@ -623,4 +623,8 @@ button {
   font-weight: 400;
 }
 
+.loading {
+  background-color: #e2e2e2;
+}
+
 /*# sourceMappingURL=main.css.map */

@@ -16,11 +16,21 @@ const printOutput = (provider, info) => {
 }
 
 const loadingError = (provider) => {
-    document.querySelector(`.results-provider-${provider}`).innerHTML = 
-    `           
+    document.querySelector(`.results-provider-${provider}`).innerHTML =
+        `           
     <p class="provider-name">${firstUpperCase(provider)}</p> 
     <p class="no-results-icon"><img src="img/no-results.svg" width="40%"></p>
     <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></a>
+    `
+}
+
+const loadingErrorEndOfAPICalls = (provider) => {
+    document.querySelector(`.results-provider-${provider}`).innerHTML =
+        `          
+    <p class="provider-name">${firstUpperCase(provider)}</p> 
+    <p class="no-results-icon"><img src="img/no-results.svg" width="40%"></p>
+    <p class="provider-rating-count no-results-info">Wyczerpany dzienny limit zapytań do API (500)</p></a>
+
     `
 }
 
@@ -37,9 +47,6 @@ const preloader = (provider, preloader) => {
 // MEDIA QUERY
 
 const matchMediaMobile = window.matchMedia("(max-width: 600px)");
-
-
-
 
 // FETCH FOURSQUARE FUNCTION
 
@@ -75,7 +82,12 @@ const foursquareFetch = (name, lat, lng) => {
             appendResults(foursquareData);
         })
         .catch(err => {
-            loadingError('foursquare')
+
+            if (getIdObject.meta.code === 429) {
+                loadingErrorEndOfAPICalls('foursquare');
+            } else {
+                loadingError('foursquare')
+            }
 
         })
 }
@@ -204,8 +216,12 @@ const zomatoFetch = (name, lat, lng) => {
             appendResults(zomatoData);
         })
         .catch(err => {
-            console.log(err)
-            loadingError('zomato')
+
+            if (getIdObject.meta.code === 429) {
+                loadingErrorEndOfAPICalls('zomato');
+            } else {
+                loadingError('zomato')
+            }
 
         });
 }
@@ -281,16 +297,12 @@ const yelpFetch = (name, lat, lng) => {
 
         })
         .catch(err => {
-            // const yelpData = {
-            //     data: [{
-            //         name: 'no restaurant in my database',
-            //     }],
-            //     provider: 'yelp'
-            // }
-            // appendResults(yelpData);
-            // console.log("no yelp 2")
-            loadingError('yelp')
 
+            if (getIdObject.meta.code === 429) {
+                loadingErrorEndOfAPICalls('yelp');
+            } else {
+                loadingError('yelp')
+            }
 
         });
 }
@@ -471,7 +483,13 @@ const fetchResultsForGooglePlace = place => {
 
     // restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;    
 
-    restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji</a></div>`;
+    if (place.website) {
+
+        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji</a></div>`;
+
+    } else {
+        restaurantTitle.innerHTML = `${place.name}`;
+    }
 
     //  &#8594; strzałka
 
@@ -483,7 +501,7 @@ const fetchResultsForGooglePlace = place => {
 
     zomatoFetch(name, lat, lng); // 1000 API calls daily
     yelpFetch(name, lat, lng); // 5000 API calls daily
-    foursquareFetch(name, lat, lng); // 500 API calls daily
+    // foursquareFetch(name, lat, lng); // 500 API calls daily
 
     // }
 }
@@ -493,7 +511,10 @@ const fetchResultsForGooglePlace = place => {
 // pick list containing a mix of places and predicted search terms.
 
 
-const mapRender = (client_lat, client_lon) => {
+
+// MAP RENDER
+
+const mapRender = (client_lat, client_lon, zoom) => {
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
@@ -515,7 +536,7 @@ const mapRender = (client_lat, client_lon) => {
             lat: client_lat,
             lng: client_lon
         },
-        zoom: 16,
+        zoom: zoom,
         mapTypeId: 'roadmap',
         mapTypeControl: false,
         streetViewControl: false,
@@ -531,24 +552,24 @@ const mapRender = (client_lat, client_lon) => {
     const input = document.getElementById('pac-input');
     // input.focus();
     console.log(matchMediaMobile);
-    
+
     // const mediaQuery = (callbackMobile, callbackDesktop) => {
 
-        if (matchMediaMobile.matches) {
-            console.log("mobile input")
-            console.log(input)
-        } else {
-            console.log("desktop input")
-            const input = document.getElementById('pac-input');
-            input.focus()
-            console.log(input)
+    if (matchMediaMobile.matches) {
+        console.log("mobile input")
+        console.log(input)
+    } else {
+        console.log("desktop input")
+        const input = document.getElementById('pac-input');
+        input.focus()
+        console.log(input)
 
-        }
+    }
     // }
-    
+
     // mediaQuery(_ => {}, _ => input.focus());
-    
-    
+
+
 
     const autocompleteOptions = {
         // bounds: defaultBounds,
@@ -668,56 +689,39 @@ const mapRender = (client_lat, client_lon) => {
 };
 
 
-
-
-
-
 window.App.initAutocomplete = _ => {
 
-    // IP GEOLOCATION IPINFO.IO
+    // IP GEOLOCATION 1. HTML5 geolocation 2. IP geolocation, 3. Predefined location
 
-    fetch('https://ipinfo.io/?token=76daefe47a48fd')
-        .then(response => response.json())
-        .then(geolocation => {
-            console.log("geolocation works");
+        fetch('https://ipinfo.io/?token=76daefe47a48fd')
+            .then(response => response.json())
+            .then(geolocation => {
+                console.log("geolocation works");
 
-            let client_lat = Number(geolocation.loc.split(',')[0]);
-            let client_lon = Number(geolocation.loc.split(',')[1]);
+                // IP INFO 
 
-            mapRender(client_lat, client_lon)
+                let client_lat = Number(geolocation.loc.split(',')[0]);
+                let client_lon = Number(geolocation.loc.split(',')[1]);
 
+                mapRender(client_lat, client_lon, 16);
+
+                // HTML5
+
+                navigator.geolocation.getCurrentPosition(position => {
+        
+                    console.log(position.coords.latitude, position.coords.longitude)
+                    mapRender(position.coords.latitude, position.coords.longitude, 16);
             
+                })
 
-        })
-        
+            })
 
+            .catch(err => {
+                console.log("geolocation doesn't work");
 
+                mapRender(52.0730317, 16.624927, 5);
 
+            })
 
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        .catch(err =>  {console.log("geolocation doesn't work");
-    
-
-        mapRender(50.2316275, 18.9894272)
-
-
-    
-    
-    
-    })
-
-}
