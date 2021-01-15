@@ -5,19 +5,26 @@ let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
-
+// MAKE FIRST CHARACHTER OF A WORD UPPERCASE
 
 const firstUpperCase = word => `${word[0].toUpperCase()}${[...word].splice(1).join('')}`
 
-// const loadingError = `           
-// <p class="provider-name">${firstUpperCase(provider)}</p> 
-// <p class="provider-rating">:(</p>
-// <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
-// `
+// PUSH INNER HTML TO SELECTED ELEMENT
 
 const printOutput = (provider, info) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = info;
 }
+
+const loadingError = (provider) => {
+    document.querySelector(`.results-provider-${provider}`).innerHTML = 
+    `           
+    <p class="provider-name">${firstUpperCase(provider)}</p> 
+    <p class="no-results-icon"><img src="img/no-results.svg" width="40%"></p>
+    <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></a>
+    `
+}
+
+// PRELOADER -> ROTATING ARROW
 
 const preloader = (provider, preloader) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = `
@@ -25,8 +32,14 @@ const preloader = (provider, preloader) => {
     <div class="results-preloader-container"><img class="results-preloader" src="img/preloader-arrow.svg" width="20px"></div>
 
     `;
-    // document.querySelector(`.results-provider-${provider}`).style.backgroundColor = 'red';
 }
+
+// MEDIA QUERY
+
+const matchMediaMobile = window.matchMedia("(max-width: 600px)");
+
+
+
 
 // FETCH FOURSQUARE FUNCTION
 
@@ -62,11 +75,7 @@ const foursquareFetch = (name, lat, lng) => {
             appendResults(foursquareData);
         })
         .catch(err => {
-            printOutput('Foursquare', `           
-            <p class="provider-name">Foursquare</p> 
-            <p class="provider-rating">:(</p>
-            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
-            `);
+            loadingError('foursquare')
 
         })
 }
@@ -196,11 +205,8 @@ const zomatoFetch = (name, lat, lng) => {
         })
         .catch(err => {
             console.log(err)
-            printOutput('zomato', `           
-            <p class="provider-name">Zomato</p> 
-            <p class="provider-rating">:(</p>
-            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
-            `);
+            loadingError('zomato')
+
         });
 }
 
@@ -283,11 +289,8 @@ const yelpFetch = (name, lat, lng) => {
             // }
             // appendResults(yelpData);
             // console.log("no yelp 2")
-            printOutput('yelp', `           
-            <p class="provider-name">Yelp</p> 
-            <p class="provider-rating">:(</p>
-            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
-            `);
+            loadingError('yelp')
+
 
         });
 }
@@ -325,10 +328,43 @@ const fetchResults = (lat, lng, name, provider) => {
 const appendResults = results => {
     const place = results.data[0];
     const provider = results.provider;
-    const url = results.data[0].url;
+    const rating = place.rating;
+    const rating_count = place.rating_count;
+    const url = place.url;
     const ratingSummaryEl = document.querySelector(".results-average");
     const resultsArrowEl = document.querySelector('.results-arrow');
-    let providerTagEl = document.querySelector(`.results-provider-${provider}`);
+    const providerTagEl = document.querySelector(`.results-provider-${provider}`);
+
+
+    const printResultsForMobile = (url, provider, rating, rating_count) => {
+        providerTagEl.innerHTML = `MOBILE
+                    <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
+                    <p class="provider-rating">${rating}</p>
+                    <p class="provider-rating-count">${rating_count}</p>
+                    `
+    }
+
+    const printResultsForDesktop = (url, provider, rating, rating_count) => {
+        providerTagEl.innerHTML = `DESKTOP
+                    
+                    <a href="${url}" target="_blank"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
+                    <p class="provider-rating">${rating}</p>
+                    <p class="provider-rating-count">${rating_count}</p></a>
+                    `
+    }
+
+    // FUNCTION CALLING CALLBACKS DEPENDING ON MEDIAQUERY
+
+    const mediaQuery = (callbackMobile, callbackDesktop) => {
+
+        if (matchMediaMobile.matches) {
+            callbackMobile(url, provider, rating, rating_count)
+        } else {
+            callbackDesktop(url, provider, rating, rating_count)
+        }
+    }
+
+    // REMOVE ARROW INFO
 
     resultsArrowEl.classList.remove("hidden");
 
@@ -340,52 +376,11 @@ const appendResults = results => {
 
         if (isRatingNumber) {
 
-            let matchMediaVar=window.matchMedia("(max-width: 600px)");
-            
-            const resultsMediaQuery = _ => {
+            // RESULTS RENDER FOR MOBILE AND DESTKOP
 
-        
-        // RESULTS RENDER FOR MOBILE
+            mediaQuery(printResultsForMobile, printResultsForDesktop);
 
-
-                if (matchMediaVar.matches) {
-            
-                    providerTagEl.innerHTML = `
-                    <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
-                    <p class="provider-rating">${rating}</p>
-                    <p class="provider-rating-count">${place.rating_count}</p>
-                    `
-                
-                  } 
-                  
-        // RESULTS RENDER FOR DESKTOP 
-                  
-                  else {
-                    
-                    // providerTagEl.innerHTML = `
-
-                    // <div class="results-preloader-container"><img class="results-preloader" src="img/arrow.gif" width="20px"></div>`
-                    
-                    // <a href="${url}" target="_blank" class="provider-name-link"><p class="provider-name">${firstUpperCase(provider)}</p> 
-
-
-                    providerTagEl.innerHTML = `
-                    
-                    
-
-                    <a href="${url}" target="_blank"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
-
-
-                    <p class="provider-rating">${rating}</p>
-                    <p class="provider-rating-count">${place.rating_count}</p></a>
-                    `
-                }
-
-            }
-
-            resultsMediaQuery();
-
-            matchMediaVar.addListener(resultsMediaQuery);         
+            matchMediaMobile.addListener(_ => mediaQuery(printResultsForMobile, printResultsForDesktop));
 
             // CALCULATING ARITMETIC AVERAGE
 
@@ -475,7 +470,7 @@ const fetchResultsForGooglePlace = place => {
     let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
 
     // restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;    
-    
+
     restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji</a></div>`;
 
     //  &#8594; strzałka
@@ -497,179 +492,232 @@ const fetchResultsForGooglePlace = place => {
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
+
+const mapRender = (client_lat, client_lon) => {
+
+    let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
+    let markers = [];
+
+    // CUSTOM MARKER
+
+    let icon = {
+        url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
+        size: new google.maps.Size(100, 132),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 66)
+    };
+
+    // INITIALIZING GOOGLE MAP
+
+    let map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: client_lat,
+            lng: client_lon
+        },
+        zoom: 16,
+        mapTypeId: 'roadmap',
+        mapTypeControl: false,
+        streetViewControl: false,
+        mapId: '33280f2f68566682',
+    });
+
+    // INITIALIZING GOOGLE PLACES SERVICE
+
+    let placesService = new google.maps.places.PlacesService(map);
+
+    // Create the search box and link it to the UI element.
+
+    const input = document.getElementById('pac-input');
+    // input.focus();
+    console.log(matchMediaMobile);
+    
+    // const mediaQuery = (callbackMobile, callbackDesktop) => {
+
+        if (matchMediaMobile.matches) {
+            console.log("mobile input")
+            console.log(input)
+        } else {
+            console.log("desktop input")
+            const input = document.getElementById('pac-input');
+            input.focus()
+            console.log(input)
+
+        }
+    // }
+    
+    // mediaQuery(_ => {}, _ => input.focus());
+    
+    
+
+    const autocompleteOptions = {
+        // bounds: defaultBounds,
+        types: ['establishment']
+    };
+
+    let searchBox = new google.maps.places.Autocomplete(input, autocompleteOptions);
+
+    searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
+
+    // Bias the SearchBox results towards current map's viewport.
+
+    map.addListener('bounds_changed', _ => {
+        searchBox.setBounds(map.getBounds());
+    });
+
+    // FETCH RESULTS AFTER CLICK ON MARKER
+
+    map.addListener('click', event => {
+        if (event.placeId) {
+            placesService.getDetails({
+                placeId: event.placeId
+            }, (place, status) => {
+                fetchResultsForGooglePlace(place);
+                input.value = '';
+            });
+
+            // RESET OF WEIGHTED AVERAGE CALCULATIONS
+
+            scoresArr = [];
+            totalRatingCount = 0;
+        }
+    });
+
+    searchBox.addListener('place_changed', _ => {
+
+        let places = searchBox.getPlace();
+        if (places.length == 0) {
+            return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(marker => {
+            marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name and location.
+        let bounds = new google.maps.LatLngBounds();
+        let place = places;
+
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+        }
+
+        // Create a marker for each place.
+        markers.push(new google.maps.Marker({
+            map,
+            icon,
+            title: place.name,
+            position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+            // Only geocodes have viewport
+            bounds.union(place.geometry.viewport);
+        } else {
+            bounds.extend(place.geometry.location);
+        }
+
+        map.fitBounds(bounds);
+        input.value = '';
+        fetchResultsForGooglePlace(place)
+    });
+
+    // IF USER ENTERS QUERY IN WEB ADDRESS
+
+    if (userQuery) {
+
+        // DECODING OF URL QUERY
+
+        let decodedUserQuery = decodeURIComponent(userQuery);
+
+        // FIND PLACE FROM QUERY INTERFACE
+
+        const request = {
+            query: decodedUserQuery,
+            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
+        };
+
+        placesService.findPlaceFromQuery(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (let i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+
+                let place = results[0];
+                map.setCenter(place.geometry.location);
+                input.value = '';
+
+                fetchResultsForGooglePlace(place);
+            }
+        });
+
+        const createMarker = place => {
+            const marker = new google.maps.Marker({
+                map,
+                position: place.geometry.location,
+                icon
+            });
+        }
+    }
+
+
+
+};
+
+
+
+
+
+
 window.App.initAutocomplete = _ => {
-
-    // IP GEOLOCATION IPINFO.IO
-
-    //    fetch('https://ipinfo.io/?token=76daefe47a48fd')
-    //    .then(response => response.json())
-    //    .then(geolocation => {
-    //        console.log(geolocation)
-
-    //        let client_lat = Number(geolocation.loc.split(',')[0]);
-    //        let client_lon = Number(geolocation.loc.split(',')[1]);
-    //        console.log(client_lat)
-    //        console.log(client_lon)
 
     // IP GEOLOCATION IPINFO.IO
 
     fetch('https://ipinfo.io/?token=76daefe47a48fd')
         .then(response => response.json())
         .then(geolocation => {
+            console.log("geolocation works");
 
             let client_lat = Number(geolocation.loc.split(',')[0]);
             let client_lon = Number(geolocation.loc.split(',')[1]);
 
-            let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
-            let markers = [];
+            mapRender(client_lat, client_lon)
 
-            // CUSTOM MARKER
-
-            let icon = {
-                url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
-                size: new google.maps.Size(100, 132),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(50, 66)
-            };
-
-            // INITIALIZING GOOGLE MAP
-
-            let map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: client_lat,
-                    lng: client_lon
-                },
-                zoom: 16,
-                mapTypeId: 'roadmap',
-                mapTypeControl: false,
-                streetViewControl: false,
-                mapId: '33280f2f68566682',
-            });
-
-            // INITIALIZING GOOGLE PLACES SERVICE
-
-            let placesService = new google.maps.places.PlacesService(map);
-
-            // Create the search box and link it to the UI element.
-
-            const input = document.getElementById('pac-input');
-            input.focus();
-
-            const autocompleteOptions = {
-                // bounds: defaultBounds,
-                types: ['establishment']
-            };
-
-            let searchBox = new google.maps.places.Autocomplete(input, autocompleteOptions);
-
-            searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
-
-            // Bias the SearchBox results towards current map's viewport.
-
-            map.addListener('bounds_changed', _ => {
-                searchBox.setBounds(map.getBounds());
-            });
-
-            // FETCH RESULTS AFTER CLICK ON MARKER
-
-            map.addListener('click', event => {
-                if (event.placeId) {
-                    placesService.getDetails({
-                        placeId: event.placeId
-                    }, (place, status) => {
-                        fetchResultsForGooglePlace(place);
-                        input.value = '';
-                    });
-
-                    // RESET OF WEIGHTED AVERAGE CALCULATIONS
-
-                    scoresArr = [];
-                    totalRatingCount = 0;
-                }
-            });
-
-            searchBox.addListener('place_changed', _ => {
-
-                let places = searchBox.getPlace();
-                if (places.length == 0) {
-                    return;
-                }
-
-                // Clear out the old markers.
-                markers.forEach(marker => {
-                    marker.setMap(null);
-                });
-                markers = [];
-
-                // For each place, get the icon, name and location.
-                let bounds = new google.maps.LatLngBounds();
-                let place = places;
-
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map,
-                    icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-
-                map.fitBounds(bounds);
-                input.value = '';
-                fetchResultsForGooglePlace(place)
-            });
-
-            // IF USER ENTERS QUERY IN WEB ADDRESS
-
-            if (userQuery) {
-
-                // DECODING OF URL QUERY
-
-                let decodedUserQuery = decodeURIComponent(userQuery);
-
-                // FIND PLACE FROM QUERY INTERFACE
-
-                const request = {
-                    query: decodedUserQuery,
-                    fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
-                };
-
-                placesService.findPlaceFromQuery(request, (results, status) => {
-                    if (status === google.maps.places.PlacesServiceStatus.OK) {
-                        for (let i = 0; i < results.length; i++) {
-                            createMarker(results[i]);
-                        }
-
-                        let place = results[0];
-                        map.setCenter(place.geometry.location);
-                        input.value = '';
-
-                        fetchResultsForGooglePlace(place);
-                    }
-                });
-
-                const createMarker = place => {
-                    const marker = new google.maps.Marker({
-                        map,
-                        position: place.geometry.location,
-                        icon
-                    });
-                }
-            }
+            
 
         })
-        .catch(err => console.log(err));
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        .catch(err =>  {console.log("geolocation doesn't work");
+    
+
+        mapRender(50.2316275, 18.9894272)
+
+
+    
+    
+    
+    })
 
 }

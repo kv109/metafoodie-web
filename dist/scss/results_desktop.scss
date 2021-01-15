@@ -55,9 +55,19 @@
     //     // font-size: 2rem;
     // }
 
+   
     .provider-rating {
         color: variables.$green;
         font-size: 2rem;
+    }
+
+    .no-results-icon {
+
+    }
+
+    .no-results-info {
+        font-size: 0.8rem;
+        margin: -1rem 1rem 1rem 1rem
     }
 
     .results-share {
