@@ -5,8 +5,6 @@ let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
-
-
 // MEDIA QUERY
 
 const matchMediaMobile = window.matchMedia("(max-width: 600px)");
@@ -313,11 +311,9 @@ const yelpFetch = (name, lat, lng) => {
 
             if (getIdObject.meta.code === 429) {
                 loadingErrorEndOfAPICalls('yelp')
-            } 
-            else if (getIdObject.meta.code === 404) {
+            } else if (getIdObject.meta.code === 404) {
                 loadingError('yelp')
-            } 
-            else {
+            } else {
                 loadingError('yelp')
             }
 
@@ -366,7 +362,7 @@ const appendResults = results => {
 
 
     const printResultsForMobile = (url, provider, rating, rating_count) => {
-        providerTagEl.innerHTML = `<!-- MOBILE -->
+        providerTagEl.innerHTML = `<!--MOBILE -->
         
                     <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
                     <p class="provider-rating">${rating}</p>
@@ -375,16 +371,13 @@ const appendResults = results => {
     }
 
     const printResultsForDesktop = (url, provider, rating, rating_count) => {
-        providerTagEl.innerHTML = `<!-- DESKTOP -->
+        providerTagEl.innerHTML = `<!--DESKTOP -->
                     
                     <a href="${url}" target="_blank"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p></a>
                     `
     }
-
-    // FUNCTION CALLING CALLBACKS DEPENDING ON MEDIAQUERY
-
 
 
     // REMOVE ARROW INFO
@@ -404,7 +397,9 @@ const appendResults = results => {
             // mediaQuery(printResultsForMobile, printResultsForDesktop);
             mediaQuery(_ => printResultsForMobile(url, provider, rating, rating_count), _ => printResultsForDesktop(url, provider, rating, rating_count));
 
-            matchMediaMobile.addListener(_ => mediaQuery(printResultsForMobile, printResultsForDesktop));
+            matchMediaMobile.addListener(_ => {
+                mediaQuery(_ => printResultsForMobile(url, provider, rating, rating_count), _ => printResultsForDesktop(url, provider, rating, rating_count))
+            });
 
             // CALCULATING ARITMETIC AVERAGE
 
@@ -497,7 +492,7 @@ const fetchResultsForGooglePlace = place => {
 
     if (place.website) {
 
-        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji</a></div>`;
+        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji  &#8594;</a></div>`;
 
     } else {
         restaurantTitle.innerHTML = `${place.name}`;
@@ -531,6 +526,9 @@ const mapRender = (client_lat, client_lon, zoom) => {
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
 
+    const inputEl = document.getElementById('pac-input');
+    const headerEl = document.querySelector("header");
+
     // CUSTOM MARKER
 
     let icon = {
@@ -561,39 +559,70 @@ const mapRender = (client_lat, client_lon, zoom) => {
 
     // Create the search box and link it to the UI element.
 
-    const input = document.getElementById('pac-input');
-    // input.focus();
-    console.log(matchMediaMobile);
 
-    // const mediaQuery = (callbackMobile, callbackDesktop) => {
+    // MEDIA QUERY INPUT.FOCUS() AND HIDE HEADER ON MOBILE
 
-    if (matchMediaMobile.matches) {
-        console.log("mobile input")
-        console.log(input)
-    } else {
-        console.log("desktop input")
-        const input = document.getElementById('pac-input');
-        input.focus()
-        console.log(input)
-
-    }
-
-    if (matchMediaMobile.matches) {
-        document.getElementById('pac-input').addEventListener("click", _ => {
-            document.querySelector("header").classList.add("hidden");
+    mediaQuery(_ => {
+        inputEl.addEventListener("click", _ => {
+            headerEl.classList.add("hidden")
         })
-    }
+    }, _ => {
 
+    })
+
+    // if (matchMediaMobile.matches) {
+    //     callbackMobile();
+    // } else {
+    //     callbackDesktop();
     // }
 
-    // mediaQuery(_ => {}, _ => input.focus());
+    matchMediaMobile.addListener(_ => {
+        if (matchMediaMobile.matches) {
+            inputEl.addEventListener("click", _ => {
+                headerEl.classList.add("hidden")
+            })
+        } else {
+            console.log("miki")
+
+            inputEl.removeEventListener("click", _ => {
+                headerEl.classList.add("hidden")
+            })
+            console.log("miki2")
+            window.addEventListener("resize", _ => {
+                headerEl.classList.remove("hidden")
+            })
+        }
+    })
+
+    //     matchMediaMobile.addListener(_ => {
+    //         mediaQuery(_ => {
+    //             inputEl.addEventListener("click", _ => {
+    //                 headerEl.classList.add("hidden")
+    //             })
+    //         }, _ => {
+    // console.log("miki")
+    //             inputEl.removeEventListener("click", _ => {
+    //                 headerEl.classList.add("hidden")
+    //             })
+    //             console.log("miki2")
+
+
+    //             window.addEventListener("resize", _ => {
+    //                 headerEl.classList.remove("hidden")
+    //             })
+    //         })
+    //     })
+
+    // END OF MEDIA QUERY INPUT.FOCUS() AND HIDE HEADER ON MOBILE
+
+
 
     const autocompleteOptions = {
         // bounds: defaultBounds,
         types: ['establishment']
     };
 
-    let searchBox = new google.maps.places.Autocomplete(input, autocompleteOptions);
+    let searchBox = new google.maps.places.Autocomplete(inputEl, autocompleteOptions);
 
     searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
 
@@ -611,7 +640,7 @@ const mapRender = (client_lat, client_lon, zoom) => {
                 placeId: event.placeId
             }, (place, status) => {
                 fetchResultsForGooglePlace(place);
-                input.value = '';
+                inputEl.value = '';
             });
 
             // RESET OF WEIGHTED AVERAGE CALCULATIONS
@@ -659,7 +688,7 @@ const mapRender = (client_lat, client_lon, zoom) => {
         }
 
         map.fitBounds(bounds);
-        input.value = '';
+        inputEl.value = '';
         fetchResultsForGooglePlace(place)
     });
 
@@ -686,7 +715,7 @@ const mapRender = (client_lat, client_lon, zoom) => {
 
                 let place = results[0];
                 map.setCenter(place.geometry.location);
-                input.value = '';
+                inputEl.value = '';
 
                 fetchResultsForGooglePlace(place);
             }
@@ -710,35 +739,30 @@ window.App.initAutocomplete = _ => {
 
     // IP GEOLOCATION 1. HTML5 geolocation 2. IP geolocation, 3. Predefined location
 
-        fetch('https://ipinfo.io/?token=76daefe47a48fd')
-            .then(response => response.json())
-            .then(geolocation => {
-                console.log("geolocation works");
+    fetch('https://ipinfo.io/?token=76daefe47a48fd')
+        .then(response => response.json())
+        .then(geolocation => {
 
-                // IP INFO 
+            // IP INFO
 
-                let client_lat = Number(geolocation.loc.split(',')[0]);
-                let client_lon = Number(geolocation.loc.split(',')[1]);
+            let client_lat = Number(geolocation.loc.split(',')[0]);
+            let client_lon = Number(geolocation.loc.split(',')[1]);
 
-                mapRender(client_lat, client_lon, 16);
+            mapRender(client_lat, client_lon, 16);
 
-                // HTML5
+            // HTML5
 
-                navigator.geolocation.getCurrentPosition(position => {
-        
-                    console.log(position.coords.latitude, position.coords.longitude)
-                    mapRender(position.coords.latitude, position.coords.longitude, 16);
-            
-                })
+            navigator.geolocation.getCurrentPosition(position => {
+
+                mapRender(position.coords.latitude, position.coords.longitude, 16);
 
             })
+        })
 
-            .catch(err => {
-                console.log("geolocation doesn't work");
+        .catch(err => {
 
-                mapRender(52.0730317, 16.624927, 5);
+            mapRender(52.0730317, 16.624927, 5);
 
-            })
+        })
 
-        }
-
+}
