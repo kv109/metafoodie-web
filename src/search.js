@@ -5,6 +5,8 @@ let ratingsCount = 0;
 let scoresArr = [];
 let totalRatingCount = 0;
 
+// ------------------------------------------- SMALL HELPER FUNCTIONS
+
 // MEDIA QUERY
 
 const matchMediaMobile = window.matchMedia("(max-width: 600px)");
@@ -49,7 +51,7 @@ const loadingErrorEndOfAPICalls = (provider) => {
 
 // PRELOADER -> ROTATING ARROW
 
-const preloader = (provider, preloader) => {
+const preloader = (provider) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML = `
     <p class="provider-name">${firstUpperCase(provider)}</p>
     <div class="results-preloader-container"><img class="results-preloader" src="img/preloader-arrow.svg"></div>
@@ -57,13 +59,252 @@ const preloader = (provider, preloader) => {
     `;
 }
 
+// END OF SMALL HELPER FUNCTIONS
 
 
-// FETCH FOURSQUARE FUNCTION
+
+// ------------------------------------------- APP INIT AND GEOLOCATION
+
+window.App.initAutocomplete = _ => {
+
+    // IP GEOLOCATION 1. HTML5 geolocation 2. IP geolocation, 3. Predefined location
+
+    fetch('https://ipinfo.io/?token=76daefe47a48fd')
+        .then(response => response.json())
+        .then(geolocation => {
+
+            // IP INFO
+
+            let client_lat = Number(geolocation.loc.split(',')[0]);
+            let client_lon = Number(geolocation.loc.split(',')[1]);
+            mapRender(client_lat, client_lon, 16);
+
+            // HTML5
+
+            navigator.geolocation.getCurrentPosition(position => {
+                mapRender(position.coords.latitude, position.coords.longitude, 16);
+            })
+        })
+
+        .catch(err => {
+            mapRender(52.0730317, 16.624927, 5);
+        })
+
+}
+
+
+
+// ------------------------------------------- MAP RENDER AND FETCH PLACE FROM GOOGLE
+
+
+const mapRender = (client_lat, client_lon, zoom) => {
+
+    let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
+    let markers = [];
+    const inputEl = document.getElementById('pac-input');
+    const headerEl = document.querySelector("header");
+
+    // INITIALIZING GOOGLE MAP
+
+    let map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: client_lat,
+            lng: client_lon
+        },
+        zoom: zoom,
+        mapTypeId: 'roadmap',
+        mapTypeControl: false,
+        streetViewControl: false,
+        mapId: '33280f2f68566682',
+    });
+
+    // INITIALIZING GOOGLE PLACES SERVICE
+
+    let placesService = new google.maps.places.PlacesService(map);
+
+    // Create the search box and link it to the UI element.
+
+    const autocompleteOptions = {
+        // bounds: defaultBounds,
+        types: ['establishment']
+    };
+
+    let searchBox = new google.maps.places.Autocomplete(inputEl, autocompleteOptions);
+
+    searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
+
+    // Bias the SearchBox results towards current map's viewport.
+
+    map.addListener('bounds_changed', _ => {
+        searchBox.setBounds(map.getBounds());
+    });
+
+    // FETCH RESULTS AFTER CLICK ON MARKER
+
+    map.addListener('click', event => {
+        if (event.placeId) {
+            placesService.getDetails({
+                placeId: event.placeId
+            }, (place, status) => {
+                fetchResults(place);
+                inputEl.value = '';
+            });
+
+            // RESET OF WEIGHTED AVERAGE CALCULATIONS
+
+            scoresArr = [];
+            totalRatingCount = 0;
+        }
+    });
+
+    searchBox.addListener('place_changed', _ => {
+
+        let places = searchBox.getPlace();
+        if (places.length == 0) {
+            return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(marker => {
+            marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name and location.
+        let bounds = new google.maps.LatLngBounds();
+        let place = places;
+
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+        }
+
+        // CUSTOM MARKER
+
+        let icon = {
+            url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
+            size: new google.maps.Size(100, 132),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(50, 66)
+        };
+
+        // Create a marker for each place.
+        
+        markers.push(new google.maps.Marker({
+            map,
+            icon,
+            title: place.name,
+            position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+            // Only geocodes have viewport
+            bounds.union(place.geometry.viewport);
+        } else {
+            bounds.extend(place.geometry.location);
+        }
+
+        map.fitBounds(bounds);
+        inputEl.value = '';
+        fetchResults(place)
+    });
+
+    // IF USER ENTERS QUERY IN WEB ADDRESS
+
+    if (userQuery) {
+
+        // DECODING OF URL QUERY
+
+        let decodedUserQuery = decodeURIComponent(userQuery);
+
+        // FIND PLACE FROM QUERY INTERFACE
+
+        const request = {
+            query: decodedUserQuery,
+            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
+        };
+
+        placesService.findPlaceFromQuery(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (let i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+
+                let place = results[0];
+                map.setCenter(place.geometry.location);
+                inputEl.value = '';
+                fetchResults(place);
+            }
+        });
+
+        const createMarker = place => {
+            const marker = new google.maps.Marker({
+                map,
+                position: place.geometry.location,
+                icon
+            });
+        }
+    }
+};
+
+
+// ------------------------------------------- FETCH FROM PROVIDERS
+
+const fetchResults = place => {
+    console.log('fetchResults -> place')
+
+console.log(place)
+
+    // PRELOADER
+
+    // providers.forEach(provider => {
+    //     printOutput(provider, 'Loading...');
+    //     printOutput(provider, 'Loading...');
+    // })
+
+    // AMAZON SERVERLESS STORAGE REQUEST
+
+    // const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
+    // const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
+
+    // fetch(apiUrl)
+    //     .then(resolve => resolve.json())
+    //     .then(resolve => {
+    //         renderResults(resolve)
+    //     })
+    //     .catch(err => console.log(err))
+
+    preloader('google');
+    // const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
+    document.querySelector(".alert").classList.add('hidden');
+    const name = place.name;
+    const location = place.geometry.location;
+    const lat = location.lat();
+    const lng = location.lng();
+    place.rating_count = place.user_ratings_total;
+    
+    renderResults({
+        data: [place],
+        provider: "google"
+    })
+
+    // new Promise()
+
+    // zomatoFetch(name, lat, lng); // 1000 API calls daily
+    yelpFetch(name, lat, lng); // 5000 API calls daily
+    // foursquareFetch(name, lat, lng); // 500 API calls daily
+
+}
+
+
+
+
+// ------------------------------------------- FETCH FOURSQUARE FUNCTION
 
 const foursquareFetch = (name, lat, lng) => {
 
-    preloader('foursquare', 'loading');
+    preloader('foursquare');
     const foursquareClientId = 'N0G1TES0V3ME5GSZA4GLP0E2FABY3R5PY32M11NJ0NJ00R51'
     const foursquareClientSecret = 'WJXVCJN22MA2N2F5EMBU0YOQY1ILPGHAF4O23DQZOJJUZP3S'
     const foursquareEndPoint = `https://api.foursquare.com/v2/venues/`
@@ -90,15 +331,15 @@ const foursquareFetch = (name, lat, lng) => {
 
             // APPEND RESULTS
 
-            appendResults(foursquareData);
+            renderResults(foursquareData);
         })
         .catch(err => {
 
-            if (getIdObject.meta.code === 429) {
-                loadingErrorEndOfAPICalls('foursquare');
-            } else {
+            // if (getIdObject.meta.code === 429) {
+            //     loadingErrorEndOfAPICalls('foursquare');
+            // } else {
                 loadingError('foursquare')
-            }
+            // }
 
         })
 }
@@ -108,7 +349,7 @@ const foursquareFetch = (name, lat, lng) => {
 // FETCH ZOMATO FUNCTION
 
 const zomatoFetch = (name, lat, lng) => {
-    preloader('zomato', 'loading');
+    preloader('zomato');
 
     //// CORRECTING PLACE NAME
 
@@ -224,15 +465,15 @@ const zomatoFetch = (name, lat, lng) => {
 
             // APPEND RESULTS
 
-            appendResults(zomatoData);
+            renderResults(zomatoData);
         })
         .catch(err => {
 
-            if (getIdObject.meta.code === 429) {
-                loadingErrorEndOfAPICalls('zomato');
-            } else {
+            // if (getIdObject.meta.code === 429) {
+            //     loadingErrorEndOfAPICalls('zomato');
+            // } else {
                 loadingError('zomato')
-            }
+            // }
 
         });
 }
@@ -243,7 +484,7 @@ const zomatoFetch = (name, lat, lng) => {
 // FETCH YELP FUNCTION
 
 const yelpFetch = (name, lat, lng) => {
-    preloader('yelp', 'loading');
+    preloader('yelp');
 
     const yelpEndpoint = 'https://api.yelp.com/v3'
     const CORS = 'https://cors-anywhere.herokuapp.com/'
@@ -304,18 +545,18 @@ const yelpFetch = (name, lat, lng) => {
 
             // APPEND RESULTS
 
-            appendResults(yelpData);
+            renderResults(yelpData);
 
         })
         .catch(err => {
 
-            if (getIdObject.meta.code === 429) {
-                loadingErrorEndOfAPICalls('yelp')
-            } else if (getIdObject.meta.code === 404) {
+            // if (getIdObject.meta.code === 429) {
+            //     loadingErrorEndOfAPICalls('yelp')
+            // } else if (getIdObject.meta.code === 404) {
+            //     loadingError('yelp')
+            // } else {
                 loadingError('yelp')
-            } else {
-                loadingError('yelp')
-            }
+            // }
 
         });
 }
@@ -323,34 +564,31 @@ const yelpFetch = (name, lat, lng) => {
 // END YELP FETCH
 
 
-// FETCH SCORES FROM PROVIDERS - REQUEST TO BACKEND, CURRENTLY WORKS ONLY FOR FACEBOOK
 
-const fetchResults = (lat, lng, name, provider) => {
-
-    // PRELOADER
-
-    providers.forEach(provider => {
-        printOutput(provider, 'Loading...');
-        printOutput(provider, 'Loading...');
-    })
-
-    // AMAZON SERVERLESS STORAGE REQUEST
-
-    const params = `lat=${lat}&lng=${lng}&name=${name}&provider=${provider}`;
-    const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/by_lat_lng_name?${params}`;
-
-    fetch(apiUrl)
-        .then(resolve => resolve.json())
-        .then(resolve => {
-            appendResults(resolve)
-        })
-        .catch(err => console.log(err))
-
-}
 
 // SCORES TABLE GENERATION
 
-const appendResults = results => {
+// const appendResults = results => {
+    
+// }
+
+
+
+const renderResults = results => {
+
+console.log('renderResults -> results')
+    console.log(results)
+
+
+
+
+    // RESULTS - PRINTING NAME, WEBSITE, SHARELINK AND ADDRESS
+
+    const restaurantTitle = document.querySelector(".results-name");
+    const restaurantAddress = document.querySelector(".results-address");
+
+    let shareEndpoint;
+
     const place = results.data[0];
     const provider = results.provider;
     const rating = place.rating;
@@ -379,6 +617,9 @@ const appendResults = results => {
                     `
     }
 
+
+
+    
 
     // REMOVE ARROW INFO
 
@@ -456,29 +697,17 @@ const appendResults = results => {
         printOutput(provider, ':(');
         printOutput(provider, `Couldn't find`);
     }
-}
 
-// FETCH SCORE FROM GOOGLE AND THEN FROM OTHER PROVIDERS
 
-const fetchResultsForGooglePlace = place => {
-    preloader('google', 'loading');
 
-    const foodPlaceTypes = ["bakery", "bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant"]
-    document.querySelector(".alert").classList.add('hidden');
-    const name = place.name;
-    const location = place.geometry.location;
-    const lat = location.lat();
-    const lng = location.lng();
-    place.rating_count = place.user_ratings_total;
-    appendResults({
-        data: [place],
-        provider: "google"
-    })
 
-    const restaurantTitle = document.querySelector(".results-name");
-    const restaurantAddress = document.querySelector(".results-address");
 
-    let shareEndpoint;
+
+
+
+
+//////////////////////////////////////////////////////////// moje małe funkcje
+
 
     if (window.location.href.indexOf('?query') < 1) {
         shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
@@ -506,263 +735,6 @@ const fetchResultsForGooglePlace = place => {
         fetchResults(lat, lng, name, provider);
     })
 
-    zomatoFetch(name, lat, lng); // 1000 API calls daily
-    yelpFetch(name, lat, lng); // 5000 API calls daily
-    foursquareFetch(name, lat, lng); // 500 API calls daily
-
-    // }
-}
-
-// This example adds a search box to a map, using the Google Place Autocomplete
-// feature. People can enter geographical searches. The search box will return a
-// pick list containing a mix of places and predicted search terms.
-
-
-
-// MAP RENDER
-
-const mapRender = (client_lat, client_lon, zoom) => {
-
-    let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
-    let markers = [];
-
-    const inputEl = document.getElementById('pac-input');
-    const headerEl = document.querySelector("header");
-
-    // CUSTOM MARKER
-
-    let icon = {
-        url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
-        size: new google.maps.Size(100, 132),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 66)
-    };
-
-    // INITIALIZING GOOGLE MAP
-
-    let map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-            lat: client_lat,
-            lng: client_lon
-        },
-        zoom: zoom,
-        mapTypeId: 'roadmap',
-        mapTypeControl: false,
-        streetViewControl: false,
-        mapId: '33280f2f68566682',
-    });
-
-    // INITIALIZING GOOGLE PLACES SERVICE
-
-    let placesService = new google.maps.places.PlacesService(map);
-
-    // Create the search box and link it to the UI element.
-
-
-    // MEDIA QUERY INPUT.FOCUS() AND HIDE HEADER ON MOBILE
-
-    mediaQuery(_ => {
-        inputEl.addEventListener("click", _ => {
-            headerEl.classList.add("hidden")
-        })
-    }, _ => {
-
-    })
-
-    // if (matchMediaMobile.matches) {
-    //     callbackMobile();
-    // } else {
-    //     callbackDesktop();
-    // }
-
-    matchMediaMobile.addListener(_ => {
-        if (matchMediaMobile.matches) {
-            inputEl.addEventListener("click", _ => {
-                headerEl.classList.add("hidden")
-            })
-        } else {
-            console.log("miki")
-
-            inputEl.removeEventListener("click", _ => {
-                headerEl.classList.add("hidden")
-            })
-            console.log("miki2")
-            window.addEventListener("resize", _ => {
-                headerEl.classList.remove("hidden")
-            })
-        }
-    })
-
-    //     matchMediaMobile.addListener(_ => {
-    //         mediaQuery(_ => {
-    //             inputEl.addEventListener("click", _ => {
-    //                 headerEl.classList.add("hidden")
-    //             })
-    //         }, _ => {
-    // console.log("miki")
-    //             inputEl.removeEventListener("click", _ => {
-    //                 headerEl.classList.add("hidden")
-    //             })
-    //             console.log("miki2")
-
-
-    //             window.addEventListener("resize", _ => {
-    //                 headerEl.classList.remove("hidden")
-    //             })
-    //         })
-    //     })
-
-    // END OF MEDIA QUERY INPUT.FOCUS() AND HIDE HEADER ON MOBILE
-
-
-
-    const autocompleteOptions = {
-        // bounds: defaultBounds,
-        types: ['establishment']
-    };
-
-    let searchBox = new google.maps.places.Autocomplete(inputEl, autocompleteOptions);
-
-    searchBox.setFields(['geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website']);
-
-    // Bias the SearchBox results towards current map's viewport.
-
-    map.addListener('bounds_changed', _ => {
-        searchBox.setBounds(map.getBounds());
-    });
-
-    // FETCH RESULTS AFTER CLICK ON MARKER
-
-    map.addListener('click', event => {
-        if (event.placeId) {
-            placesService.getDetails({
-                placeId: event.placeId
-            }, (place, status) => {
-                fetchResultsForGooglePlace(place);
-                inputEl.value = '';
-            });
-
-            // RESET OF WEIGHTED AVERAGE CALCULATIONS
-
-            scoresArr = [];
-            totalRatingCount = 0;
-        }
-    });
-
-    searchBox.addListener('place_changed', _ => {
-
-        let places = searchBox.getPlace();
-        if (places.length == 0) {
-            return;
-        }
-
-        // Clear out the old markers.
-        markers.forEach(marker => {
-            marker.setMap(null);
-        });
-        markers = [];
-
-        // For each place, get the icon, name and location.
-        let bounds = new google.maps.LatLngBounds();
-        let place = places;
-
-        if (!place.geometry) {
-            console.log("Returned place contains no geometry");
-            return;
-        }
-
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-            map,
-            icon,
-            title: place.name,
-            position: place.geometry.location
-        }));
-
-        if (place.geometry.viewport) {
-            // Only geocodes have viewport
-            bounds.union(place.geometry.viewport);
-        } else {
-            bounds.extend(place.geometry.location);
-        }
-
-        map.fitBounds(bounds);
-        inputEl.value = '';
-        fetchResultsForGooglePlace(place)
-    });
-
-    // IF USER ENTERS QUERY IN WEB ADDRESS
-
-    if (userQuery) {
-
-        // DECODING OF URL QUERY
-
-        let decodedUserQuery = decodeURIComponent(userQuery);
-
-        // FIND PLACE FROM QUERY INTERFACE
-
-        const request = {
-            query: decodedUserQuery,
-            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
-        };
-
-        placesService.findPlaceFromQuery(request, (results, status) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                for (let i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
-                }
-
-                let place = results[0];
-                map.setCenter(place.geometry.location);
-                inputEl.value = '';
-
-                fetchResultsForGooglePlace(place);
-            }
-        });
-
-        const createMarker = place => {
-            const marker = new google.maps.Marker({
-                map,
-                position: place.geometry.location,
-                icon
-            });
-        }
-    }
-
-
-
-};
-
-
-window.App.initAutocomplete = _ => {
-
-    // IP GEOLOCATION 1. HTML5 geolocation 2. IP geolocation, 3. Predefined location
-
-    fetch('https://ipinfo.io/?token=76daefe47a48fd')
-        .then(response => response.json())
-        .then(geolocation => {
-
-            // IP INFO
-
-            let client_lat = Number(geolocation.loc.split(',')[0]);
-            let client_lon = Number(geolocation.loc.split(',')[1]);
-
-            mapRender(client_lat, client_lon, 16);
-
-            // HTML5
-
-            navigator.geolocation.getCurrentPosition(position => {
-
-                mapRender(position.coords.latitude, position.coords.longitude, 16);
-
-            })
-        })
-
-        .catch(err => {
-
-            mapRender(52.0730317, 16.624927, 5);
-
-        })
+    // END OF RESULTS - PRINTING NAME, WEBSITE, SHARELINK AND ADDRESS
 
 }
