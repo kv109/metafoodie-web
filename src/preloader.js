@@ -1,4 +1,6 @@
-import {firstUpperCase} from './first-upper-case'
+import {
+    firstUpperCase
+} from './first-upper-case'
 
 
 // PRELOADER -> ROTATING ARROW

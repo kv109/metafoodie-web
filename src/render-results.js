@@ -1,6 +1,13 @@
-import {matchMediaMobile, mediaQuery} from './mediaqueries'
-import {printToHTML} from './print-to-html'
-import {firstUpperCase} from './first-upper-case'
+import {
+    matchMediaMobile,
+    mediaQuery
+} from './mediaqueries'
+import {
+    printToHTML
+} from './print-to-html'
+import {
+    firstUpperCase
+} from './first-upper-case'
 
 
 
@@ -12,12 +19,12 @@ import {firstUpperCase} from './first-upper-case'
 let scoresArr = [];
 let totalRatingCount = 0;
 const providers = [];
-
+// let summary = 0;
 
 export const renderResults = results => {
 
-    console.log('renderResults -> results')
-    console.log(results)
+    // console.log('renderResults -> results')
+    // console.log(results)
 
     // RESULTS - PRINTING NAME, WEBSITE, SHARELINK AND ADDRESS
 
@@ -29,20 +36,46 @@ export const renderResults = results => {
     const place = results.data[0];
     const provider = results.provider;
     const rating = place.rating;
+    const website = place.website;
     let rating_count;
 
 
     if (provider === 'google') {
         rating_count = place.user_ratings_total; // <------ GOOGLE
-    } 
-    else {
-        rating_count = place.rating_count; // <------ OTHER PROVIDERS
-    } 
 
-    console.log(typeof rating)
-    console.log(rating)
-    console.log(typeof rating_count);
-    console.log(rating_count);
+        // console.log(rating_count, place.formatted_address, place.name, place.website)
+
+        if (window.location.href.indexOf('?query') < 1) {
+            shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
+        } else {
+            shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}?query=`
+        }
+    
+        let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
+    
+        // restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;    
+    
+        if (place.website) {
+    // console.log('nazwa ze stroną')
+            restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji  &#8594;</a></div>`;
+    
+        } else {
+    // console.log('nazwa bez strony')
+    
+            restaurantTitle.innerHTML = `${place.name}`;
+        }
+            //  &#8594; strzałka
+    
+        restaurantAddress.innerHTML = place.formatted_address;
+
+    } else {
+        rating_count = place.rating_count; // <------ OTHER PROVIDERS
+    }
+
+    // console.log(typeof rating)
+    // console.log(rating)
+    // console.log(typeof rating_count);
+    // console.log(rating_count);
 
     const url = place.url;
     const ratingSummaryEl = document.querySelector(".results-average");
@@ -97,11 +130,11 @@ export const renderResults = results => {
 
             // CALCULATING ARITMETIC AVERAGE
 
-            // ratingsCount += 1;
+            // totalRatingCount += 1;
             // summary += rating;
-            // const percentage = Math.round(((summary / ratingsCount) / 5) * 100)
+            // const percentage = Math.round(((summary / totalRatingCount) / 5) * 100)
 
-            // CALCULATING WEIGTHED AVERAGE
+            // // CALCULATING WEIGTHED AVERAGE
 
             scoresArr.push(Math.round(rating * rating_count));
             totalRatingCount += rating_count;
@@ -164,32 +197,13 @@ export const renderResults = results => {
 
     //////////////////////////////////////////////////////////// moje małe funkcje
 
+    
 
-    if (window.location.href.indexOf('?query') < 1) {
-        shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
-    } else {
-        shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}?query=`
-    }
 
-    let shareLink = `${shareEndpoint}${place.name}, ${place.formatted_address}`
 
-    // restaurantTitle.innerHTML = `<a href="${place.website}" target="_blank">${place.name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;    
-
-    if (place.website) {
-
-        restaurantTitle.innerHTML = `${place.name}<div class="results-share"><a target="_blank" href="${place.website}">Strona restauracji  &#8594;</a></div>`;
-
-    } else {
-        restaurantTitle.innerHTML = `${place.name}`;
-    }
-
-    //  &#8594; strzałka
-
-    restaurantAddress.innerHTML = place.formatted_address;
-
-    providers.forEach(provider => {
-        fetchResults(lat, lng, name, provider);
-    })
+    // providers.forEach(provider => {
+    //     fetchResults(lat, lng, name, provider);
+    // })
 
     // END OF RESULTS - PRINTING NAME, WEBSITE, SHARELINK AND ADDRESS
 

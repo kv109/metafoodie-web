@@ -1,6 +1,13 @@
-import {preloader} from './preloader'
-import {loadingError, loadingErrorEndOfAPICalls} from './loading-error-catch'
-import {renderResults} from './render-results'
+import {
+    preloader
+} from './preloader'
+import {
+    loadingError,
+    loadingErrorEndOfAPICalls
+} from './loading-error-catch'
+import {
+    renderResults
+} from './render-results'
 
 // FETCH ZOMATO FUNCTION
 
@@ -79,36 +86,38 @@ export const zomatoFetch = (name, lat, lng) => {
 
     //// END CORRECTING PLACE NAME
 
+
+
+
+
+
+
+
+
     //// FETCH 
 
-    const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
 
-    // 1. GET CITY ID OF PROVIDED LAT & LNG
 
-    fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
-            headers: {
-                'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-            }
-        })
-        .then(response => {
-            return response.json()
-        })
-        .then(json => {
 
-            // 2. GET RESTAURANT DATA BASED ON RECIEVED CITY ID AND NAME, LAT & LNG
 
-            let cityId = json.location_suggestions[0].id;
-            let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100&sort=real_distance`
-            return fetch(URL, {
-                headers: {
-                    'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
-                }
-            })
-        })
-        .then(response => {
-            return response.json()
-        })
+
+    const provider = 'zomato';
+    const params = `lat=${lat}&lng=${lng}&name=${zomatoName}`;
+    const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/${provider}?${params}`;
+
+    console.log(zomatoName);
+    console.log(apiUrl);
+
+
+    preloader(provider);
+
+    fetch(apiUrl)
+        .then(response => response.json())
         .then(zomatoObject => {
+
+            console.log(provider)
+            console.log(zomatoObject)
+
             const zomatoData = {
                 data: [{
                     name: zomatoObject.restaurants[0].restaurant.name,
@@ -116,22 +125,86 @@ export const zomatoFetch = (name, lat, lng) => {
                     rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes,
                     url: zomatoObject.restaurants[0].restaurant.url
                 }],
-                provider: 'zomato'
+                provider
             }
 
-            // APPEND RESULTS
+            // RENDER RESULTS
 
             renderResults(zomatoData);
+
         })
         .catch(err => {
-
-            // if (getIdObject.meta.code === 429) {
-            //     loadingErrorEndOfAPICalls('zomato');
-            // } else {
             loadingError('zomato')
-            // }
+        })
 
-        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 1. GET CITY ID OF PROVIDED LAT & LNG
+
+    // const zomatoEndpoint = 'https://developers.zomato.com/api/v2.1/';
+
+    // fetch(`${zomatoEndpoint}cities?lat=${lat}&lon=${lng}`, {
+    //         headers: {
+    //             'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+    //         }
+    //     })
+    //     .then(response => {
+    //         return response.json()
+    //     })
+    //     .then(json => {
+
+    //         // 2. GET RESTAURANT DATA BASED ON RECIEVED CITY ID AND NAME, LAT & LNG
+
+    //         let cityId = json.location_suggestions[0].id;
+    //         let URL = `${zomatoEndpoint}search?entity_id=${cityId}&entity_type=city&q=${zomatoName}&count=10&lat=${lat}&lon=${lng}&radius=100&sort=real_distance`
+    //         return fetch(URL, {
+    //             headers: {
+    //                 'user-key': '75ee7a9950d1cc11bfa90884ecc49cee'
+    //             }
+    //         })
+    //     })
+    //     .then(response => {
+    //         return response.json()
+    //     })
+    //     .then(zomatoObject => {
+    //         const zomatoData = {
+    //             data: [{
+    //                 name: zomatoObject.restaurants[0].restaurant.name,
+    //                 rating: Number(zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating),
+    //                 rating_count: zomatoObject.restaurants[0].restaurant.user_rating.votes,
+    //                 url: zomatoObject.restaurants[0].restaurant.url
+    //             }],
+    //             provider: 'zomato'
+    //         }
+
+    //         // APPEND RESULTS
+
+    //         renderResults(zomatoData);
+    //     })
+    //     .catch(err => {
+
+    //         // if (getIdObject.meta.code === 429) {
+    //         //     loadingErrorEndOfAPICalls('zomato');
+    //         // } else {
+    //         loadingError('zomato')
+    //         // }
+
+    //     });
 }
 
 // END FETCH ZOMATO FUNCTION

@@ -14,6 +14,7 @@ export const mediaQuery = (callbackMobile, callbackDesktop) => {
 
 
 mediaQuery(_ => {
+
     inputEl.addEventListener("click", _ => {
         headerEl.classList.add("hidden")
     })
@@ -28,6 +29,7 @@ mediaQuery(_ => {
 // }
 
 matchMediaMobile.addListener(_ => {
+
     if (matchMediaMobile.matches) {
         inputEl.addEventListener("click", _ => {
             headerEl.classList.add("hidden")

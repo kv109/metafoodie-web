@@ -1,14 +1,19 @@
-import {renderResults} from './render-results'
-import {fetchResults} from './fetch-init'
+import {
+    renderResults
+} from './render-results'
+import {
+    fetchResults
+} from './fetch-init'
+
 
 
 export const mapRender = (client_lat, client_lon, zoom) => {
-    console.log('mapRender start')
+    // console.log('mapRender start')
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
+
     const inputEl = document.getElementById('pac-input');
     const headerEl = document.querySelector("header");
-
     // CUSTOM MARKER
 
     let icon = {
@@ -144,7 +149,8 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
         const request = {
             query: decodedUserQuery,
-            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
+            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address", "url", "website"]
+            // 'geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website'
         };
 
         placesService.findPlaceFromQuery(request, (results, status) => {
