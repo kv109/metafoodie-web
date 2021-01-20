@@ -8,14 +8,7 @@ import {
 import {
     firstUpperCase
 } from './first-upper-case'
-
-// require("./clipboard.min.js")
-// import("./clipboard.min.js")
-
-
-// ------------------------------------------- RENDER RESULTS
-
-// const clipboard = new ClipboardJS('#results-share');
+import {loadingError, loadingErrorMobile} from './loading-error-catch'
 
 let scoresArr = [];
 let totalRatingCount = 0;
@@ -26,8 +19,6 @@ export const renderResults = results => {
 
     // console.log('renderResults -> results')
     // console.log(results)
-
-    // RESULTS - PRINTING NAME, WEBSITE, SHARELINK AND ADDRESS
 
     const place = results.data[0];
     const name = place.name;
@@ -48,6 +39,7 @@ export const renderResults = results => {
     const providerTagEl = document.querySelector(`.results-provider-${provider}`);
 
     const printResultsForMobile = (url, provider, rating, rating_count) => {
+
         providerTagEl.innerHTML = `<!--MOBILE -->
         
                     <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
@@ -57,54 +49,70 @@ export const renderResults = results => {
     }
 
     const printResultsForDesktop = (url, provider, rating, rating_count) => {
+        providerTagEl.classList.add("results-provider-hover")
         providerTagEl.innerHTML = `<!--DESKTOP -->
                     
-                    <a href="${url}" target="_blank"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
+                    <a href="${url}" target="_blank" class="provider-background"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p></a>
                     `
     }
 
-
-    if (provider === 'google') {
-        rating_count = place.user_ratings_total; // <------ GOOGLE
-
+    const createShareLink = _ => {
         if (window.location.href.indexOf('?query') < 1) {
             shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
         } else {
             shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}?query=`
         }
-    
-        let shareLink = `${shareEndpoint}${name}, ${place.formatted_address}`
-        // restaurantTitle.innerHTML = `<a href="${website}" target="_blank">${name}</a><div class="results-share"><a target="_blank" href="${shareLink}">Skopiuj link do wyników</a></div>`;    
-    
-        if (place.website) {
-        // console.log('nazwa ze stroną')
-            restaurantTitle.innerHTML = `${name}<div class="results-share"><a target="_blank" href="${website}"><img class="results-link-img" src="img/website.svg"></a></div>
-            <div class="results-link"><img src="img/share-link.svg" class="results-link-img" data-clipboard-text="${shareLink}"></div>`
-    
-        } else {
-        // console.log('nazwa bez strony')
-            restaurantTitle.innerHTML = `${name}<div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img class="results-link-img" src="img/search-google.svg"></a></div>
-            <div class="results-link"><img src="img/share-link.svg" class="results-link-img" data-clipboard-text="${shareLink}"></div>`;
-        }
-    
-        restaurantAddress.innerHTML = address;
-
-    } else {
-        rating_count = place.rating_count; // <------ OTHER PROVIDERS
+        return `${shareEndpoint}${name}, ${place.formatted_address}`
     }
 
+    // RENDER:
+    // 1. RESTAURANT'S NAME
+    // 2. LINK TO WEBSITE OR TO GOOGLE SEARCH DEPENDING ON AVAILABILITY OF place.website [findPlaceFromQuery doesn't provide "website" and "url" fields]
+    // 3. SHARE LINK
 
+    const renderNameAndLinks = _ => {
 
+        if (place.website) {
+            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="${website}"><img class="results-link-img" src="img/website.svg" alt="Strona internetowa restauracji"></a></div>
+            <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`
 
+        } else {
+            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img class="results-link-img" src="img/search-google.svg" alt="Wyszukaj ${name} w Google"></a></div>
+            <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+        }
+
+    }
+
+    if (provider === 'google') {
+
+        // RATING'S COUNT FOR GOOGLE
+
+        rating_count = place.user_ratings_total; // <------ GOOGLE
+
+        // RENDER NAME AND LINKS
+
+        renderNameAndLinks();
+
+        // PRINT RESTAURANT'S ADDRESS
+
+        restaurantAddress.innerHTML = address;
+
+    }
+
+    // RATING'S COUNT FOR OTHER PROVIDERS
+    else {
+
+        rating_count = place.rating_count;
+
+    }
 
     // REMOVE ARROW INFO
 
     resultsArrowEl.classList.remove("hidden");
 
     if (place) {
-
 
         // AVERAGE SCORE PRESENTATION
 
@@ -162,11 +170,26 @@ export const renderResults = results => {
             <p class="score-info">średnia ważona</p>
             <p class="score-percentage">${percentage}%</p>`
         } else {
-            providerTagEl.innerHTML = `
-            <p class="provider-name">${firstUpperCase(provider)}</p> 
-            <p class="provider-rating">:(</p>
-            <p class="provider-rating-count">brak wyników albo problem z usługą</p></a>
-            `
+
+            mediaQuery(_ => {
+                console.log("f render mobile")
+                loadingErrorMobile(provider)
+                }, _ => {
+                console.log("f render desktop")
+                loadingError(provider)
+                })
+
+
+
+            //         providerTagEl.innerHTML = `
+
+
+
+
+            // <p class="provider-icon"><img class="icon" src="img/${provider}_icon-dim.png" alt="${provider}"></p>
+            // <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p>
+            // <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></a>
+            // `
         }
 
         // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
@@ -176,25 +199,5 @@ export const renderResults = results => {
         printToHTML(provider, ':(');
         printToHTML(provider, `Couldn't find`);
     }
-
-
-
-
-
-
-
-
-
-    //////////////////////////////////////////////////////////// moje małe funkcje
-
-    
-
-
-
-    // providers.forEach(provider => {
-    //     fetchResults(lat, lng, name, provider);
-    // })
-
-    // END OF RESULTS - PRINTING NAME, WEBSITE, SHARELINK AND ADDRESS
 
 }

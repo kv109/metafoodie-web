@@ -51,7 +51,7 @@
         grid-template-areas:
             "title title title title title title arr arr arr"
             "addr addr addr addr addr addr arr arr arr"
-            "aver aver provs provs provs provs provs provs ."
+            "aver aver provs provs provs provs provs . ."
     }
 
     .results-providers-wrapper {
@@ -68,7 +68,7 @@
     }
 
     .results-provider-google:hover {
-        @include variables.provider-link-hover;
+        // @include variables.provider-link-hover;
     }
 
     .results-provider-facebook {
@@ -77,7 +77,7 @@
     }
 
     .results-provider-facebook:hover {
-        @include variables.provider-link-hover;
+        // @include variables.provider-link-hover;
     }
 
     .results-provider-zomato {
@@ -86,7 +86,7 @@
     }
 
     .results-provider-zomato:hover {
-        @include variables.provider-link-hover;
+        // @include variables.provider-link-hover;
     }
 
     .results-provider-yelp {
@@ -95,7 +95,7 @@
     }
 
     .results-provider-yelp:hover {
-        @include variables.provider-link-hover;
+        // @include variables.provider-link-hover;
     }
 
     .results-provider-foursquare {
@@ -105,8 +105,23 @@
     }
 
     .results-provider-foursquare:hover {
+        // @include variables.provider-link-hover;
+    }
+
+    .results-provider-hover:hover {
+        // background-color: red;
         @include variables.provider-link-hover;
     }
+
+    .provider-background {
+        $margin: 0.5rem;
+        padding: $margin 0 $margin 0;
+        display: block
+    }
+
+    // .results-provider-hover {
+    //     background-color: green;
+    // }
 
     .results-average {
         grid-area: aver

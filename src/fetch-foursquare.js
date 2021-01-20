@@ -2,13 +2,17 @@ import {
     preloader
 } from './preloader'
 import {
-    loadingError,
-    loadingErrorEndOfAPICalls
-} from './loading-error-catch'
-import {
     renderResults
 } from './render-results'
-
+import {
+    matchMediaMobile,
+    mediaQuery
+} from './mediaqueries'
+import {
+    loadingError,
+    loadingErrorMobile,
+    loadingErrorEndOfAPICalls
+} from './loading-error-catch'
 
 
 
@@ -27,7 +31,9 @@ export const foursquareFetch = (name, lat, lng) => {
         .then(response => response.json())
         .then(foursquareObject => {
 
-            // console.log(provider)
+            console.log(provider)
+
+            console.log(foursquareObject);
 
             const foursquareData = {
                 data: [{
@@ -48,7 +54,18 @@ export const foursquareFetch = (name, lat, lng) => {
                //         // if (getIdObject.meta.code === 429) {
     //         //     loadingErrorEndOfAPICalls('foursquare');
     //         // } else {
-            loadingError('foursquare')
+
+        mediaQuery(_ => {
+            // console.log("f mobile")
+            loadingErrorMobile(provider)
+            }, _ => {
+            // console.log("f desktop")
+            loadingError(provider)
+            })
+
+
+
+            
     //         // }
         })
 

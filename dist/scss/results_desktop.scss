@@ -2,6 +2,29 @@
 
 @media (min-width:600px) {
 
+    .results-empty {
+        // display:flex;
+        // align-items: center;
+        // justify-content: center;
+    }
+
+    .results-empty-arrow-container {
+        // display: flex;
+    }
+
+    .results-empty-arrow-info {
+        // transform: rotate(-10deg);
+        // text-align: center;
+    }
+
+    .results-empty-arrow-image {
+        transform: rotate(180deg);
+        // padding-left: 2rem;
+        position: relative;
+        left: 1rem;
+        // top: 2em;
+    }
+
     .results-name {
         font-family: Montserrat;
         font-weight: 600;
@@ -71,11 +94,18 @@
         margin: -1rem 1rem 1rem 1rem
     }
 
+    .results-links {
+        // display: inline;
+        display: flex;
+        // align-items: center;
+
+    }
+
     .results-share {
         // font-size: 1rem;
         padding: 0 0 0 1rem;
-        display: flex;
-        align-items: center;
+        // display: flex;
+        // align-items: center;
         // display: inline-block;
     }
 
@@ -91,8 +121,8 @@
     .results-link {
         // font-size: 1rem;
         padding: 0 0 0 1rem;
-        display: flex;
-        align-items: center;
+        // display: flex;
+        // align-items: center;
         // display: inline-block;
         cursor: pointer;
     }
@@ -124,6 +154,11 @@
         font-size: 1.5rem;
         line-height: 1.5rem;
         color: variables.$white
+    }
+
+    h2.arrow-font {
+        font-size: 2.5rem;
+        line-height: 4rem;
     }
 
     .results-arrow-info {

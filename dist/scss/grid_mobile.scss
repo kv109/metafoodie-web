@@ -10,13 +10,14 @@
     }
 
     .grid-results {
-        width: 95%;
+        width: 90%;
         margin: auto;
         grid-template-areas:
             "title title title title title"
             "addr addr addr addr addr"
             "aver aver aver aver aver"
-            "provs provs provs provs provs"
+            "prov-g prov-fb prov-z prov-y prov-f"
+        
     }
 
     .results-providers-wrapper {
@@ -27,27 +28,33 @@
 
     .results-provider-google {
         grid-area: prov-g;
-        display: inline-block
+        width: 20%
+        // display: inline-block
     }
 
     .results-provider-facebook {
-        display: inline-block;
-        grid-area: prov-fb
+        // display: inline-block;
+        grid-area: prov-fb;
+        width: 20%
+
     }
 
     .results-provider-zomato {
-        display: inline-block;
-        grid-area: prov-z
+        // display: inline-block;
+        grid-area: prov-z;
+        width: 20%
     }
 
     .results-provider-yelp {
-        display: inline-block;
-        grid-area: prov-y
+        // display: inline-block;
+        grid-area: prov-y;
+        width: 20%
     }
 
     .results-provider-foursquare {
-        display: inline-block;
-        grid-area: prov-f
+        // display: inline-block;
+        grid-area: prov-f;
+        width: 20%
     }
 
     .results-average {

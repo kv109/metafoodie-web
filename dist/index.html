@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon.ico">
     <link href="css/main.css" rel="stylesheet">
-    <script src="main.js"></script>
     <script src="clipboard.min.js"></script>
 
 
@@ -75,9 +74,14 @@
 
             <section class="grid-results">
 
-                <div class="results-name">Tu pojawią się wyniki...
-                    <!-- <div class="results-link">asdasd</div>
-                    <div class="results-share">asdasd</div> -->
+                <div class="results-name">
+                    <div class="results-empty">
+                        <h2 class="arrow-font">Tutaj pojawią się wyniki. </h2>
+                        <p class="arrow-font">
+                            Skorzystaj z wyszukiwarki na górze lub wybierz obiekt z mapy.<img
+                                class="results-empty-arrow-image" src="./img/arrow.gif" alt="kliknij tutaj">
+                        </p>
+                    </div>
                 </div>
                 <div class="results-address"></div>
                 <div class="results-arrow hidden">
@@ -111,6 +115,7 @@
 
 
 
+
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&map_ids=33280f2f68566682&libraries=places&callback=App.initAutocomplete&language=pl"
         async defer></script>
@@ -133,7 +138,7 @@
             console.error('Trigger:', e.trigger);
         });
     </script>
-
+    <script src="main.js"></script>
 
 </body>
 

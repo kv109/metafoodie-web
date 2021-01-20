@@ -4,6 +4,13 @@ import {
 import {
     fetchResults
 } from './fetch-init'
+// import {inputEl} from './index'
+
+// export const headerEl = document.querySelector("header");
+
+// export const inputEl = document.getElementById('pac-input');
+
+// console.log(inputEl)
 
 
 
@@ -12,8 +19,10 @@ export const mapRender = (client_lat, client_lon, zoom) => {
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
 
-    const inputEl = document.getElementById('pac-input');
     const headerEl = document.querySelector("header");
+    const inputEl = document.getElementById('pac-input');
+
+
     // CUSTOM MARKER
 
     let icon = {

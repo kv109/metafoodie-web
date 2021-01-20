@@ -36,7 +36,7 @@
   .grid-results {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs provs .";
+    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs . .";
   }
 
   .results-providers-wrapper {
@@ -49,72 +49,56 @@
 
   .results-provider-google {
     grid-area: prov-g;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-google a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-google:hover {
-    background-color: #000000;
-  }
-
   .results-provider-facebook {
     grid-area: prov-fb;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-facebook a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-facebook:hover {
-    background-color: #000000;
-  }
-
   .results-provider-zomato {
     grid-area: prov-z;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-zomato a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-zomato:hover {
-    background-color: #000000;
-  }
-
   .results-provider-yelp {
     grid-area: prov-y;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-yelp a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-yelp:hover {
-    background-color: #000000;
-  }
-
   .results-provider-foursquare {
     grid-area: prov-f;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-foursquare a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-foursquare:hover {
+  .results-provider-hover:hover {
     background-color: #000000;
+  }
+
+  .provider-background {
+    padding: 0.5rem 0 0.5rem 0;
+    display: block;
   }
 
   .results-average {

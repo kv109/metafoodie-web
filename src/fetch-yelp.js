@@ -2,12 +2,19 @@ import {
     preloader
 } from './preloader'
 import {
-    loadingError,
-    loadingErrorEndOfAPICalls
-} from './loading-error-catch'
-import {
     renderResults
 } from './render-results'
+import {
+    matchMediaMobile,
+    mediaQuery
+} from './mediaqueries'
+import {
+    loadingError,
+    loadingErrorMobile,
+    loadingErrorEndOfAPICalls
+} from './loading-error-catch'
+
+
 
 let yelpData = {}; 
 
@@ -96,7 +103,13 @@ export const yelpFetch = (name, lat, lng) => {
     
             })
             .catch(err => {
-                loadingError('yelp')
+                mediaQuery(_ => {
+                    // console.log("f mobile")
+                    loadingErrorMobile(provider)
+                    }, _ => {
+                    // console.log("f desktop")
+                    loadingError(provider)
+                    })
             })
     
     }

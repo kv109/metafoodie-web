@@ -39,7 +39,7 @@
   .grid-results {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs provs .";
+    grid-template-areas: "title title title title title title arr arr arr" "addr addr addr addr addr addr arr arr arr" "aver aver provs provs provs provs provs . .";
   }
 
   .results-providers-wrapper {
@@ -52,72 +52,56 @@
 
   .results-provider-google {
     grid-area: prov-g;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-google a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-google:hover {
-    background-color: #000000;
-  }
-
   .results-provider-facebook {
     grid-area: prov-fb;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-facebook a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-facebook:hover {
-    background-color: #000000;
-  }
-
   .results-provider-zomato {
     grid-area: prov-z;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-zomato a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-zomato:hover {
-    background-color: #000000;
-  }
-
   .results-provider-yelp {
     grid-area: prov-y;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-yelp a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-yelp:hover {
-    background-color: #000000;
-  }
-
   .results-provider-foursquare {
     grid-area: prov-f;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7rem;
   }
   .results-provider-foursquare a {
     text-decoration: none;
     color: #fff;
   }
 
-  .results-provider-foursquare:hover {
+  .results-provider-hover:hover {
     background-color: #000000;
+  }
+
+  .provider-background {
+    padding: 0.5rem 0 0.5rem 0;
+    display: block;
   }
 
   .results-average {
@@ -141,6 +125,12 @@
   }
 }
 @media (min-width: 600px) {
+  .results-empty-arrow-image {
+    transform: rotate(180deg);
+    position: relative;
+    left: 1rem;
+  }
+
   .results-name {
     font-family: Montserrat;
     font-weight: 600;
@@ -189,16 +179,16 @@
     margin: -1rem 1rem 1rem 1rem;
   }
 
+  .results-links {
+    display: flex;
+  }
+
   .results-share {
     padding: 0 0 0 1rem;
-    display: flex;
-    align-items: center;
   }
 
   .results-link {
     padding: 0 0 0 1rem;
-    display: flex;
-    align-items: center;
     cursor: pointer;
   }
 
@@ -219,6 +209,11 @@
     font-size: 1.5rem;
     line-height: 1.5rem;
     color: #fff;
+  }
+
+  h2.arrow-font {
+    font-size: 2.5rem;
+    line-height: 4rem;
   }
 
   .results-arrow-info {
@@ -406,9 +401,9 @@ button {
   }
 
   .grid-results {
-    width: 95%;
+    width: 90%;
     margin: auto;
-    grid-template-areas: "title title title title title" "addr addr addr addr addr" "aver aver aver aver aver" "provs provs provs provs provs";
+    grid-template-areas: "title title title title title" "addr addr addr addr addr" "aver aver aver aver aver" "prov-g prov-fb prov-z prov-y prov-f";
   }
 
   .results-providers-wrapper {
@@ -419,27 +414,27 @@ button {
 
   .results-provider-google {
     grid-area: prov-g;
-    display: inline-block;
+    width: 20%;
   }
 
   .results-provider-facebook {
-    display: inline-block;
     grid-area: prov-fb;
+    width: 20%;
   }
 
   .results-provider-zomato {
-    display: inline-block;
     grid-area: prov-z;
+    width: 20%;
   }
 
   .results-provider-yelp {
-    display: inline-block;
     grid-area: prov-y;
+    width: 20%;
   }
 
   .results-provider-foursquare {
-    display: inline-block;
     grid-area: prov-f;
+    width: 20%;
   }
 
   .results-average {
@@ -464,9 +459,30 @@ button {
     font-family: Montserrat;
     font-weight: 600;
     font-size: 2.2rem;
-    line-height: 2.5rem;
     padding: 1rem 0 0 0;
     color: #000;
+  }
+
+  .results-share {
+    display: inline;
+  }
+
+  .results-share a {
+    color: #499f08;
+    text-decoration: none;
+  }
+
+  .results-share a:hover {
+    text-decoration: underline;
+  }
+
+  .results-link {
+    display: inline;
+  }
+
+  .results-link-img {
+    width: 2rem;
+    padding: 0.8rem 0.3rem 0 0.3rem;
   }
 
   .results-address {
@@ -515,20 +531,6 @@ button {
     font-size: 2rem;
   }
 
-  .results-share {
-    font-size: 1rem;
-    padding: 0 0 0 1rem;
-  }
-
-  .results-share a {
-    color: #499f08;
-    text-decoration: none;
-  }
-
-  .results-share a:hover {
-    text-decoration: underline;
-  }
-
   .results-arrow {
     display: none;
   }
@@ -574,6 +576,15 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .no-results-icon img {
+    width: 80%;
+  }
+
+  .no-results-info {
+    font-size: 1rem;
+    margin: -1rem 1rem 1rem 1rem;
   }
 }
 @media (max-width: 600px) {

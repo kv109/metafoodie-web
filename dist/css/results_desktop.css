@@ -1,4 +1,10 @@
 @media (min-width: 600px) {
+  .results-empty-arrow-image {
+    transform: rotate(180deg);
+    position: relative;
+    left: 1rem;
+  }
+
   .results-name {
     font-family: Montserrat;
     font-weight: 600;
@@ -47,16 +53,16 @@
     margin: -1rem 1rem 1rem 1rem;
   }
 
+  .results-links {
+    display: flex;
+  }
+
   .results-share {
     padding: 0 0 0 1rem;
-    display: flex;
-    align-items: center;
   }
 
   .results-link {
     padding: 0 0 0 1rem;
-    display: flex;
-    align-items: center;
     cursor: pointer;
   }
 
@@ -77,6 +83,11 @@
     font-size: 1.5rem;
     line-height: 1.5rem;
     color: #fff;
+  }
+
+  h2.arrow-font {
+    font-size: 2.5rem;
+    line-height: 4rem;
   }
 
   .results-arrow-info {

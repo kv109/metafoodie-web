@@ -11,9 +11,34 @@
         font-family: Montserrat;
         font-weight: 600;
         font-size: 2.2rem;
-        line-height: 2.5rem;
+        // line-height: 2.5rem;
         padding: 1rem 0 0 0;
         color: #000
+    }
+
+    .results-share {
+        // display: none;
+        // font-size: 1rem;
+        // padding: 0 0 0 1rem;
+        display: inline;
+    }
+
+    .results-share a {
+        color: variables.$green;
+        text-decoration: none;
+    }
+
+    .results-share a:hover {
+        text-decoration: underline;
+    }
+
+    .results-link {
+        display: inline;
+    }
+
+    .results-link-img {
+        width: 2rem;
+        padding: 0.8rem 0.3rem 0 0.3rem
     }
 
     .results-address {
@@ -64,23 +89,6 @@
         font-size: 2rem;
     }
 
-    .results-share {
-        // display: none;
-        font-size: 1rem;
-        padding: 0 0 0 1rem;
-        // display: inline-block;
-    }
-
-    .results-share a {
-        color: variables.$green;
-        text-decoration: none;
-    }
-
-    .results-share a:hover {
-        text-decoration: underline;
-    }
-
-
     .results-arrow {
         display: none;
     }
@@ -128,6 +136,15 @@
         display:flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .no-results-icon img {
+        width: 80%
+    }
+
+    .no-results-info {
+        font-size: 1rem;
+        margin: -1rem 1rem 1rem 1rem
     }
 
 }
