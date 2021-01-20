@@ -149,7 +149,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
         const request = {
             query: decodedUserQuery,
-            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address", "url", "website"]
+            fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
             // 'geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website'
         };
 

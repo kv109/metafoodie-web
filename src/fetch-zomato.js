@@ -105,8 +105,8 @@ export const zomatoFetch = (name, lat, lng) => {
     const params = `lat=${lat}&lng=${lng}&name=${zomatoName}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/${provider}?${params}`;
 
-    console.log(zomatoName);
-    console.log(apiUrl);
+    // console.log(zomatoName);
+    // console.log(apiUrl);
 
 
     preloader(provider);
@@ -115,8 +115,8 @@ export const zomatoFetch = (name, lat, lng) => {
         .then(response => response.json())
         .then(zomatoObject => {
 
-            console.log(provider)
-            console.log(zomatoObject)
+            // console.log(provider)
+            // console.log(zomatoObject)
 
             const zomatoData = {
                 data: [{

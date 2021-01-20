@@ -7,22 +7,19 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon.ico">
     <link href="css/main.css" rel="stylesheet">
-<script src="main.js"></script>
-    
+    <script src="main.js"></script>
+    <script src="clipboard.min.js"></script>
+
+
+
 
 </head>
 
 <body>
 
-<!-- <script>
-
-fetch('https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/foursquare?lat=50.060387&lng=19.9372419&name=Restauracja%20Wierzynek')
-.then(response => console.log(response))
-.then(response => console.log(response))
-.catch(err => console.log(err))
-
-</script> -->
-
+    <!-- <img src="img/share-link.svg"> -->
+    <!-- <div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${place.name}">Szukaj w google &#8594;</a></div>
+    <div class="results-link"><a class="results-link-a" data-clipboard-text="miki1">Skopiuj link do wyników</a></div> -->
 
 
     <!-- TOP NAV -->
@@ -38,7 +35,8 @@ fetch('https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/foursquare
             <!-- <img class="mobile" src="img/google_icon.png" alt="metaFoodie - porównaj oceny restauracji" class="logo"> -->
 
             <p class="tagline">Porównaj oceny restauracji i firm</p>
-            <p class="tagline-mobile">Porównaj oceny restauracji i firm w Google, Facebook, Zomato, Yelp i Foursquare!</p>
+            <p class="tagline-mobile">Porównaj oceny restauracji i firm w Google, Facebook, Zomato, Yelp i Foursquare!
+            </p>
             <p class="tagline-sub">w Google, Facebook, Zomato, Yelp i Foursquare!</p>
 
         </header>
@@ -78,7 +76,8 @@ fetch('https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/foursquare
             <section class="grid-results">
 
                 <div class="results-name">Tu pojawią się wyniki...
-                    <!-- <div class="results-share"></div> -->
+                    <!-- <div class="results-link">asdasd</div>
+                    <div class="results-share">asdasd</div> -->
                 </div>
                 <div class="results-address"></div>
                 <div class="results-arrow hidden">
@@ -116,6 +115,24 @@ fetch('https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/foursquare
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzqIIM0QdZKg4Gpc35WBWLtlojlY0Doo&map_ids=33280f2f68566682&libraries=places&callback=App.initAutocomplete&language=pl"
         async defer></script>
 
+    <script>
+        const clipboard = new ClipboardJS('.results-link-img');
+
+        clipboard.on('success', function (e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            e.clearSelection();
+
+
+
+        });
+
+        clipboard.on('error', function (e) {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+    </script>
 
 
 </body>

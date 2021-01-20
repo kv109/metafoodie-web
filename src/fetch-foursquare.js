@@ -27,7 +27,7 @@ export const foursquareFetch = (name, lat, lng) => {
         .then(response => response.json())
         .then(foursquareObject => {
 
-            console.log(provider)
+            // console.log(provider)
 
             const foursquareData = {
                 data: [{

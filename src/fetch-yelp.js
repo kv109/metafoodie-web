@@ -67,8 +67,8 @@ export const yelpFetch = (name, lat, lng) => {
         const params = `lat=${lat}&lng=${lng}&name=${yelpName}`;
         const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/${provider}?${params}`;
 
-        console.log(yelpName);
-        console.log(apiUrl);
+        // console.log(yelpName);
+        // console.log(apiUrl);
 
 
         preloader(provider);
@@ -77,8 +77,8 @@ export const yelpFetch = (name, lat, lng) => {
             .then(response => response.json())
             .then(yelpObject => {
     
-                console.log(provider)
-                console.log(yelpObject)
+                // console.log(provider)
+                // console.log(yelpObject)
     
                 const yelpData = {
                     data: [{
