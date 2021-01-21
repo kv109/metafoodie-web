@@ -119,6 +119,12 @@
         display: block
     }
 
+    .error-background {
+        $margin: 0.5rem;
+        padding: $margin 0 $margin 0;
+        display: block
+    }
+
     // .results-provider-hover {
     //     background-color: green;
     // }

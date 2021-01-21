@@ -3,6 +3,7 @@
     transform: rotate(180deg);
     position: relative;
     left: 1rem;
+    width: 2rem;
   }
 
   .results-name {
@@ -44,13 +45,13 @@
   }
 
   .provider-rating {
-    color: #499f08;
+    color: #4c9f26;
     font-size: 2rem;
   }
 
   .no-results-info {
     font-size: 0.8rem;
-    margin: -1rem 1rem 1rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
   }
 
   .results-links {
@@ -98,6 +99,7 @@
     position: relative;
     top: 1.6em;
     right: 0.7em;
+    width: 2rem;
   }
 
   @keyframes rotation-preloader {

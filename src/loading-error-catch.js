@@ -15,7 +15,7 @@ export const loadingErrorMobile = (provider) => {
         // console.log("loadingErrorMobile")
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
-    <p class="provider-icon"><img class="icon" src="img/${provider}_icon-dim.png" alt="${provider}"></p>
+    <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
 
     `
     }
@@ -28,7 +28,7 @@ export const loadingErrorTablet = (provider) => {
         // console.log("loadingErrorTablet")
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
-    <p class="provider-icon"><img class="icon" src="img/${provider}_icon-dim.png" alt="${provider}"></p>
+    <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
 
     `
     }
@@ -41,9 +41,10 @@ export const loadingErrorDesktop = (provider) => {
 
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
-    <p class="provider-icon"><img class="icon" src="img/${provider}_icon-dim.png" alt="${provider}"></p>
-    <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p>
-    <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></a>
+            <div class="error-background">
+    <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
+    <!-- <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p> -->
+    <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></div>
     `
     }
 }
@@ -51,9 +52,10 @@ export const loadingErrorDesktop = (provider) => {
 export const loadingErrorEndOfAPICalls = (provider) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML =
         `          
+        <div class="error-background">
     <p class="provider-name">${firstUpperCase(provider)}</p> 
-    <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p>
-    <p class="provider-rating-count no-results-info">Wyczerpany dzienny limit zapytań do API (500)</p></a>
+    <!-- <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p> -->
+    <p class="provider-rating-count no-results-info">Wyczerpany dzienny limit zapytań do API (500)</p></div>
 
     `
 }

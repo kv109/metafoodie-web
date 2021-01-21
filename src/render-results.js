@@ -48,7 +48,7 @@ export const renderResults = results => {
         if (matchMediaMobile.matches) {
             providerTagEl.innerHTML = `<!--MOBILE -->
         
-                    <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
+                    <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/provider-${provider}-color.svg" alt="${provider}"></a></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p>
                     `
@@ -60,7 +60,7 @@ export const renderResults = results => {
             providerTagEl.classList.add("results-provider-hover")
             providerTagEl.innerHTML = `<!--DESKTOP -->
                     
-                    <a href="${url}" target="_blank" class="provider-background"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
+                    <a href="${url}" target="_blank" class="provider-background"><p class="provider-icon"><img class="icon" src="img/provider-${provider}-color.svg" alt="${provider}"></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p></a>
                     `
@@ -88,14 +88,14 @@ export const renderResults = results => {
     const renderNameAndLinks = _ => {
 
         if (place.website) {
-            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="${website}"><img class="results-link-img" src="img/website.svg" alt="Strona internetowa restauracji"></a></div>
-            <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="${website}"><img class="results-link-img" src="img/website-link-green.svg" alt="Strona internetowa restauracji"></a></div>
+            <div class="results-link"><img src="img/share-link-green.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+            putShareLinkToAddressBar();
+        } else {
+            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img class="results-link-img" src="img/google-search-green.svg" alt="Wyszukaj ${name} w Google"></a></div>
+            <div class="results-link"><img src="img/share-link-green.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
             putShareLinkToAddressBar();
 
-        } else {
-            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img class="results-link-img" src="img/search-google.svg" alt="Wyszukaj ${name} w Google"></a></div>
-            <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
-            putShareLinkToAddressBar();
         }
 
     }
@@ -171,7 +171,7 @@ export const renderResults = results => {
             let textColor = "#ffffff";
             let backgroundColor;
             if (percentage > 85) {
-                backgroundColor = "#24aa24"
+                backgroundColor = "#4c9f26"
             } else if (percentage > 70) {
                 backgroundColor = "#ddee07"
                 textColor = "#444444"

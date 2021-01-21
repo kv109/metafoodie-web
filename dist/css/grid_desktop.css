@@ -101,6 +101,11 @@
     display: block;
   }
 
+  .error-background {
+    padding: 0.5rem 0 0.5rem 0;
+    display: block;
+  }
+
   .results-average {
     grid-area: aver;
   }

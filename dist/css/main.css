@@ -104,6 +104,11 @@
     display: block;
   }
 
+  .error-background {
+    padding: 0.5rem 0 0.5rem 0;
+    display: block;
+  }
+
   .results-average {
     grid-area: aver;
   }
@@ -129,6 +134,7 @@
     transform: rotate(180deg);
     position: relative;
     left: 1rem;
+    width: 2rem;
   }
 
   .results-name {
@@ -170,13 +176,13 @@
   }
 
   .provider-rating {
-    color: #499f08;
+    color: #4c9f26;
     font-size: 2rem;
   }
 
   .no-results-info {
     font-size: 0.8rem;
-    margin: -1rem 1rem 1rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
   }
 
   .results-links {
@@ -224,6 +230,7 @@
     position: relative;
     top: 1.6em;
     right: 0.7em;
+    width: 2rem;
   }
 
   @keyframes rotation-preloader {
@@ -264,7 +271,7 @@
   }
 
   .tagline-sub {
-    color: #499f08;
+    color: #4c9f26;
     padding: 0 0 0 1rem;
   }
 
@@ -294,6 +301,7 @@
   .nav-arrow-image {
     position: relative;
     top: 2em;
+    width: 2rem;
   }
 
   .pac-item {
@@ -358,7 +366,7 @@ button {
     font-size: 1.2rem;
     padding: 0 0 0 1em;
     color: #444444;
-    caret-color: #499f08;
+    caret-color: #4c9f26;
   }
 
   #pac-input::placeholder {
@@ -468,7 +476,7 @@ button {
   }
 
   .results-share a {
-    color: #499f08;
+    color: #4c9f26;
     text-decoration: none;
   }
 
@@ -527,7 +535,7 @@ button {
   }
 
   .provider-rating {
-    color: #499f08;
+    color: #4c9f26;
     font-size: 2rem;
   }
 
@@ -549,6 +557,7 @@ button {
     position: relative;
     top: 1.6em;
     right: 0.7em;
+    width: 2rem;
   }
 
   img.icon {
@@ -629,7 +638,7 @@ button {
     font-size: 1.1rem;
     padding: 0 0 0 2rem;
     color: #444444;
-    caret-color: #499f08;
+    caret-color: #4c9f26;
   }
 
   #pac-input::placeholder {
