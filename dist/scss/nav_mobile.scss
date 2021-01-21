@@ -1,6 +1,6 @@
 @use '../scss/variables.scss';
 
-@media (max-width:600px) {
+@media (max-width:variables.$media-mobile) {
 
     nav {
         width: 90%;

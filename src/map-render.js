@@ -4,24 +4,44 @@ import {
 import {
     fetchResults
 } from './fetch-init'
-// import {inputEl} from './index'
-
-// export const headerEl = document.querySelector("header");
-
-// export const inputEl = document.getElementById('pac-input');
-
-// console.log(inputEl)
-
+import {
+    matchMediaMobile,
+    matchMediaTablet,
+    matchMediaDesktop,
+    mediaQueryChange
+} from './mediaqueries'
 
 
 export const mapRender = (client_lat, client_lon, zoom) => {
     // console.log('mapRender start')
+
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
 
     const headerEl = document.querySelector("header");
     const inputEl = document.getElementById('pac-input');
+    
+    const focusMobile = _ => {
+        if (matchMediaMobile.matches) {
+            inputEl.blur()
+        }
+    }
+    const focusTablet = _ => {
+        if (matchMediaTablet.matches) {
+            inputEl.focus()
+        }
+    }
+    const focusDesktop = _ => {
+        if (matchMediaDesktop.matches) {
+            inputEl.focus()
+        }
+    }
 
+    focusMobile(); focusTablet(); focusDesktop();
+    matchMediaMobile.addListener(focusMobile);
+    matchMediaTablet.addListener(focusTablet);
+    matchMediaDesktop.addListener(focusDesktop);
+    
 
     // CUSTOM MARKER
 
@@ -86,12 +106,8 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
                 fetchResults(place);
                 inputEl.value = '';
+
             });
-
-            // RESET OF WEIGHTED AVERAGE CALCULATIONS
-
-            scoresArr = [];
-            totalRatingCount = 0;
         }
     });
 

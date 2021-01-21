@@ -1,6 +1,8 @@
 import {
     matchMediaMobile,
-    mediaQuery
+    matchMediaTablet,
+    matchMediaDesktop,
+    mediaQueryChange
 } from './mediaqueries'
 import {
     printToHTML
@@ -8,11 +10,15 @@ import {
 import {
     firstUpperCase
 } from './first-upper-case'
-import {loadingError, loadingErrorMobile} from './loading-error-catch'
+import {
+    loadingErrorMobile,
+    loadingErrorTablet,
+    loadingErrorDesktop,
+    loadingError
+} from './loading-error-catch'
 
 let scoresArr = [];
 let totalRatingCount = 0;
-// const providers = [];
 // let summary = 0;
 
 export const renderResults = results => {
@@ -39,23 +45,26 @@ export const renderResults = results => {
     const providerTagEl = document.querySelector(`.results-provider-${provider}`);
 
     const printResultsForMobile = (url, provider, rating, rating_count) => {
-
-        providerTagEl.innerHTML = `<!--MOBILE -->
+        if (matchMediaMobile.matches) {
+            providerTagEl.innerHTML = `<!--MOBILE -->
         
                     <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></a></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p>
                     `
+        }
     }
 
     const printResultsForDesktop = (url, provider, rating, rating_count) => {
-        providerTagEl.classList.add("results-provider-hover")
-        providerTagEl.innerHTML = `<!--DESKTOP -->
+        if (matchMediaDesktop.matches) {
+            providerTagEl.classList.add("results-provider-hover")
+            providerTagEl.innerHTML = `<!--DESKTOP -->
                     
                     <a href="${url}" target="_blank" class="provider-background"><p class="provider-icon"><img class="icon" src="img/${provider}_icon.png" alt="${provider}"></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p></a>
                     `
+        }
     }
 
     const createShareLink = _ => {
@@ -67,25 +76,36 @@ export const renderResults = results => {
         return `${shareEndpoint}${name}, ${place.formatted_address}`
     }
 
-    // RENDER:
+    // RENDER OF:
     // 1. RESTAURANT'S NAME
     // 2. LINK TO WEBSITE OR TO GOOGLE SEARCH DEPENDING ON AVAILABILITY OF place.website [findPlaceFromQuery doesn't provide "website" and "url" fields]
     // 3. SHARE LINK
+
+    const putShareLinkToAddressBar = _ => {
+        history.pushState({}, "", createShareLink());
+    }
 
     const renderNameAndLinks = _ => {
 
         if (place.website) {
             restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="${website}"><img class="results-link-img" src="img/website.svg" alt="Strona internetowa restauracji"></a></div>
-            <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`
+            <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+            putShareLinkToAddressBar();
 
         } else {
             restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img class="results-link-img" src="img/search-google.svg" alt="Wyszukaj ${name} w Google"></a></div>
             <div class="results-link"><img src="img/share-link.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+            putShareLinkToAddressBar();
         }
 
     }
 
     if (provider === 'google') {
+
+        // RESET OF WEIGHTED AVERAGE CALCULATIONS
+
+        scoresArr = [];
+        totalRatingCount = 0;
 
         // RATING'S COUNT FOR GOOGLE
 
@@ -120,11 +140,11 @@ export const renderResults = results => {
 
             // RESULTS RENDER FOR MOBILE AND DESTKOP
 
-            mediaQuery(_ => printResultsForMobile(url, provider, rating, rating_count), _ => printResultsForDesktop(url, provider, rating, rating_count));
+            printResultsForMobile(url, provider, rating, rating_count)
+            printResultsForDesktop(url, provider, rating, rating_count)
 
-            matchMediaMobile.addListener(_ => {
-                mediaQuery(_ => printResultsForMobile(url, provider, rating, rating_count), _ => printResultsForDesktop(url, provider, rating, rating_count))
-            });
+            matchMediaMobile.addListener(_ => printResultsForMobile(url, provider, rating, rating_count))
+            matchMediaDesktop.addListener(_ => printResultsForDesktop(url, provider, rating, rating_count))
 
             // CALCULATING ARITMETIC AVERAGE
 
@@ -139,15 +159,12 @@ export const renderResults = results => {
 
             let numerator = 0;
             let denumerator = totalRatingCount;
-            // console.log(totalRatingCount)
-
 
             scoresArr.forEach(score => {
                 numerator += score;
             });
 
             const percentage = Math.round(numerator / denumerator / 5 * 100);
-            // console.log(percentage)
 
             // PRINTING AVERAGE SCORE BAR
 
@@ -169,32 +186,17 @@ export const renderResults = results => {
             ratingSummaryEl.innerHTML = `
             <p class="score-info">średnia ważona</p>
             <p class="score-percentage">${percentage}%</p>`
+
         } else {
 
-            mediaQuery(_ => {
-                console.log("f render mobile")
-                loadingErrorMobile(provider)
-                }, _ => {
-                console.log("f render desktop")
-                loadingError(provider)
-                })
+            // console.log('złoty groń 2')
+            loadingError(provider)
 
-
-
-            //         providerTagEl.innerHTML = `
-
-
-
-
-            // <p class="provider-icon"><img class="icon" src="img/${provider}_icon-dim.png" alt="${provider}"></p>
-            // <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p>
-            // <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></a>
-            // `
         }
+    }
 
-        // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
-
-    } else {
+    // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
+    else {
 
         printToHTML(provider, ':(');
         printToHTML(provider, `Couldn't find`);

@@ -6,12 +6,15 @@ import {
 } from './render-results'
 import {
     matchMediaMobile,
-    mediaQuery
+    matchMediaTablet,
+    matchMediaDesktop,
 } from './mediaqueries'
 import {
-    loadingError,
     loadingErrorMobile,
-    loadingErrorEndOfAPICalls
+    loadingErrorTablet,
+    loadingErrorDesktop,
+    mediaQueryChange,
+    loadingError
 } from './loading-error-catch'
 
 
@@ -103,13 +106,7 @@ export const yelpFetch = (name, lat, lng) => {
     
             })
             .catch(err => {
-                mediaQuery(_ => {
-                    // console.log("f mobile")
-                    loadingErrorMobile(provider)
-                    }, _ => {
-                    // console.log("f desktop")
-                    loadingError(provider)
-                    })
+                loadingError(provider)
             })
     
     }

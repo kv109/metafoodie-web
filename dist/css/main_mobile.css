@@ -1,4 +1,4 @@
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   .background-top,
 .background-bottom,
 .tagline,
@@ -12,7 +12,7 @@
 
   #map {
     height: 25vh;
-    display: none;
+    margin-top: 2rem;
   }
 
   .hidden {

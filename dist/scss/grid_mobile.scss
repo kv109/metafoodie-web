@@ -1,6 +1,6 @@
 @use 'variables';
 
-@media (max-width: 600px) {
+@media (max-width: variables.$media-mobile) {
 
     .grid-main {
         text-align: center;

@@ -6,12 +6,15 @@ import {
 } from './render-results'
 import {
     matchMediaMobile,
-    mediaQuery
+    matchMediaTablet,
+    matchMediaDesktop,
 } from './mediaqueries'
 import {
-    loadingError,
     loadingErrorMobile,
-    loadingErrorEndOfAPICalls
+    loadingErrorTablet,
+    loadingErrorDesktop,
+    mediaQueryChange,
+    loadingError
 } from './loading-error-catch'
 
 
@@ -137,19 +140,23 @@ export const zomatoFetch = (name, lat, lng) => {
                 provider
             }
 
+            if (zomatoObject.restaurants[0].restaurant.user_rating.aggregate_rating == null || zomatoObject.restaurants[0].restaurant.user_rating.votes == null) {
+                console.log("niepełne???")
+                loadingError(provider)
+
+            } else {
+
+                renderResults(zomatoData);
+
+            }
+
             // RENDER RESULTS
 
-            renderResults(zomatoData);
+            
 
         })
         .catch(err => {
-            mediaQuery(_ => {
-                // console.log("f mobile")
-                loadingErrorMobile(provider)
-                }, _ => {
-                // console.log("f desktop")
-                loadingError(provider)
-                })
+            loadingError(provider)
         })
 
 

@@ -1,88 +1,41 @@
   // MEDIA QUERIES
 
-  export const matchMediaMobile = window.matchMedia("(max-width: 600px)");
+  export const matchMediaMobile = window.matchMedia("(max-width: 690px)");
+  export const matchMediaTablet = window.matchMedia("()");
+  export const matchMediaDesktop = window.matchMedia("(min-width: 1020px)");
+  export let mediaQueryChange = false;
 
-  export const mediaQuery = (callbackMobile, callbackDesktop) => {
+  const headerEl = document.querySelector("header");
+  const inputEl = document.getElementById('pac-input');
+  const hideHeader = _ => headerEl.classList.add("hidden");
 
-      if (matchMediaMobile.matches) {
-          callbackMobile();
-      } else {
-          callbackDesktop();
-      }
+  const func1 = _ => {
+    if (matchMediaMobile.matches) { 
+        inputEl.addEventListener("click", hideHeader);
+            } 
+    
+    }
+  const func2 = _ => {inputEl.removeEventListener("click", hideHeader);}
+  const func3 = _ => {headerEl.classList.remove("hidden")}
+  
+const func4 = _ => {
+    if (matchMediaDesktop.matches) { 
+        func2()
+        func3()
+           }
+}
+
+  const inputVisibilityMobile = _ => {
+func1()
+  }
+
+  const inputVisibilityDesktop = _ => {
+func4()
   }
 
 
-  let headerEl = document.querySelector("header");
-  let inputEl = document.getElementById('pac-input');
-  let resultsNameEl = document.querySelector('.results-name');
-  
-  resultsNameEl.addEventListener("click", _ => {
-      headerEl.classList.remove("hidden")
-  })
+  inputVisibilityMobile()
+  matchMediaMobile.addListener(inputVisibilityMobile)
 
-
-  mediaQuery(_ => {
-
-      let headerEl = document.querySelector("header");
-      let inputEl = document.getElementById('pac-input');
-
-      inputEl.addEventListener("click", _ => {
-          headerEl.classList.add("hidden")
-      })
-  }, _ => {
-
-  })
-
-  // if (matchMediaMobile.matches) {
-  //     callbackMobile();
-  // } else {
-  //     callbackDesktop();
-  // }
-
-  matchMediaMobile.addListener(_ => {
-
-      mediaQuery(_ => {
-
-          let headerEl = document.querySelector("header");
-          let inputEl = document.getElementById('pac-input');
-
-          inputEl.addEventListener("click", _ => {
-              headerEl.classList.add("hidden")
-          })
-      }, _ => {
-
-
-
-      })
-
-
-
-
-      // matchMediaMobile.addListener(_ => {
-
-      //     let headerEl = document.querySelector("header");
-      //     let inputEl = document.getElementById('pac-input');
-
-      //     if (matchMediaMobile.matches) {
-      //         // console.log(headerEl)
-      //         inputEl.addEventListener("resize", _ => {
-      //         console.log("miki0")
-
-      //             headerEl.classList.add("hidden")
-      //         })
-      //     } else {
-      //         // console.log("miki")
-      //         // console.log(headerEl)
-      //         inputEl.removeEventListener("resize", _ => {
-      //         console.log("miki")
-
-      //             headerEl.classList.add("hidden")
-      //         })
-      //         // console.log("miki2")
-      //         window.addEventListener("resize", _ => {
-      //         console.log("miki2")
-
-      //             headerEl.classList.remove("hidden")
-      //         })
-      //     }
-  })
+  inputVisibilityDesktop()
+  matchMediaDesktop.addListener(inputVisibilityDesktop)

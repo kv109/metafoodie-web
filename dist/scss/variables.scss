@@ -6,6 +6,10 @@ $results-average-bottom-margin: 3rem;
 $provider-background-color: #000000;
 $provider-background-color-hover: #000000;
 $provider-border-color: #444;
+$media-mobile: 690px;
+// $media-tablet: 600px;
+$media-desktop: 1050px;
+
 
 @mixin provider-link {
     border-radius: 0.7rem;

@@ -6,13 +6,20 @@ import {
 } from './render-results'
 import {
     matchMediaMobile,
-    mediaQuery
+    matchMediaTablet,
+    matchMediaDesktop,
 } from './mediaqueries'
 import {
-    loadingError,
     loadingErrorMobile,
-    loadingErrorEndOfAPICalls
+    loadingErrorTablet,
+    loadingErrorDesktop,
+    mediaQueryChange,
+    loadingError
+    // loadingErrorFoursquareNotFullObject
 } from './loading-error-catch'
+import {
+    data
+} from 'jquery'
 
 
 
@@ -24,17 +31,16 @@ export const foursquareFetch = (name, lat, lng) => {
     const provider = 'foursquare';
     const params = `lat=${lat}&lng=${lng}&name=${name}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/${provider}?${params}`;
+    // const apiUrl = encodeURI(`https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/${provider}?${params}`);
+    // console.log(apiUrl)
 
     preloader(provider);
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(foursquareObject => {
-
-            console.log(provider)
-
-            console.log(foursquareObject);
-
+            // console.log('foursquareObject')
+            // console.log(foursquareObject)
             const foursquareData = {
                 data: [{
                     name: foursquareObject.response.venue.name,
@@ -46,27 +52,27 @@ export const foursquareFetch = (name, lat, lng) => {
             }
 
             // APPEND RESULTS
+            if (foursquareObject.response.venue.rating == null || foursquareObject.response.venue.ratingSignals == null) {
+                // console.log("niepełne???")
+                loadingError(provider)
 
-            renderResults(foursquareData);
+            } else {
 
+                renderResults(foursquareData)
+
+            }
         })
         .catch(err => {
-               //         // if (getIdObject.meta.code === 429) {
-    //         //     loadingErrorEndOfAPICalls('foursquare');
-    //         // } else {
-
-        mediaQuery(_ => {
-            // console.log("f mobile")
-            loadingErrorMobile(provider)
-            }, _ => {
-            // console.log("f desktop")
+            // if (err.status === 500) {
+            //     loadingErrorEndOfAPICalls('foursquare');
+            // } else {
+            // console.log("złoty groń")
             loadingError(provider)
-            })
+            // }
 
 
 
-            
-    //         // }
+            //         // }
         })
 
 

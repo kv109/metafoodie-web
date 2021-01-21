@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,600&display=swap");
-@media (min-width: 600px) {
+@media (min-width: 690px) {
   .grid-main {
     display: grid;
-    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
+    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 95% [content-end margin-right-start] 1fr [margin-right-end];
     grid-template-rows: [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(0px, auto) [searchbox2-end footer-start] minmax(0px, 300px) [footer-end];
   }
 
@@ -124,7 +124,7 @@
     grid-area: sh;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 690px) {
   .results-empty-arrow-image {
     transform: rotate(180deg);
     position: relative;
@@ -248,7 +248,7 @@
     align-items: center;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 690px) {
   header {
     padding: 1rem 0 0 0;
     display: flex;
@@ -276,7 +276,7 @@
     display: none;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 690px) {
   nav {
     padding: 1em 0 1em 0;
     display: flex;
@@ -304,7 +304,7 @@
     font-size: 1rem;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 690px) {
   body {
     background: #444444;
   }
@@ -384,7 +384,7 @@ button {
     display: inline;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 690px) {
   footer {
     background-color: #444444;
     height: 2rem;
@@ -395,7 +395,7 @@ button {
     font-size: 0.7rem;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   .grid-main {
     text-align: center;
   }
@@ -449,7 +449,7 @@ button {
     grid-area: addr;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   .grid-results {
     color: #000;
     margin-bottom: 2rem;
@@ -587,7 +587,7 @@ button {
     margin: -1rem 1rem 1rem 1rem;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   header {
     padding: 1rem 0 1rem 0;
     background: #444444;
@@ -603,7 +603,7 @@ button {
     display: inline-block;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   nav {
     width: 90%;
     margin: 2rem auto 0 auto;
@@ -644,7 +644,7 @@ button {
     font-size: 1rem;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   .background-top,
 .background-bottom,
 .tagline,
@@ -658,7 +658,7 @@ button {
 
   #map {
     height: 25vh;
-    display: none;
+    margin-top: 2rem;
   }
 
   .hidden {
@@ -670,7 +670,7 @@ button {
     color: #444444;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 690px) {
   footer {
     height: 3rem;
     display: flex;

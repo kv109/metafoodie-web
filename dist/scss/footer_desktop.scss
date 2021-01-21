@@ -1,7 +1,7 @@
 @use "../scss/variables.scss";
 
 
-@media (min-width:600px) {
+@media (min-width:variables.$media-mobile) {
 
     footer {
         background-color: variables.$black;

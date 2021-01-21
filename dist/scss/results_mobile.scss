@@ -1,6 +1,6 @@
 @use "../../dist/scss/variables.scss";
 
-@media (max-width:600px) {
+@media (max-width:variables.$media-mobile) {
 
     .grid-results {
         color: #000;

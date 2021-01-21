@@ -1,7 +1,7 @@
 @use "../scss/variables.scss";
 
 
-@media (max-width:600px) {
+@media (max-width:variables.$media-mobile) {
 
     .background-top,
     .background-bottom,
@@ -16,7 +16,8 @@
 
     #map {
         height: 25vh;
-        display: none;
+        // display: none;
+        margin-top: 2rem;
     }
 
     .hidden {

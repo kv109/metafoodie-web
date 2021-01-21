@@ -1,6 +1,6 @@
 @use "../../dist/scss/variables.scss";
 
-@media (min-width:600px) {
+@media (min-width:variables.$media-mobile) {
 
     .results-empty {
         // display:flex;

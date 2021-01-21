@@ -1,13 +1,13 @@
 @use "../scss/variables.scss";
 
-@media (min-width:600px) {
+@media (min-width:variables.$media-mobile) {
 
 
     // FULL LAYOUT GRID
 
     .grid-main {
         display: grid;
-        grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1000px [content-end margin-right-start] 1fr [margin-right-end];
+        grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 95% [content-end margin-right-start] 1fr [margin-right-end];
         grid-template-rows:
             [header-start] minmax(10px, auto) [header-end searchbox-start] minmax(10px, auto) [searchbox-end map-start] minmax(10px, auto) [map-end score-start] minmax(10px, auto) [score-end searchbox2-start] minmax(0px, auto) [searchbox2-end footer-start] minmax(0px, 300px) [footer-end];
     }
