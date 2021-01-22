@@ -1,7 +1,7 @@
 const colorsArr = [
     [95, 0, 255, 0, 'fff'],
     [85, 76, 159, 38, 'fff'],
-    [70, 221, 238, 7, '333'],
+    [70, 180, 190, 0, 'fff'],
     [50, 212, 149, 32, 'fff'],
     [0, 255, 0, 0, 'fff']
 ]
@@ -75,6 +75,6 @@ export const colorTransition = (element, percentage) => {
             clearInterval(change);
         }
 
-    }, 10);
+    }, 7);
 
 }
