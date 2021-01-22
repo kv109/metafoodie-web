@@ -1,7 +1,7 @@
 @use "../scss/variables.scss";
 
 
-@media (min-width:variables.$media-mobile) {
+@media (min-width:variables.$media-mobile+1) {
 
     footer {
         background-color: variables.$black;
@@ -9,8 +9,33 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 1rem 1rem 0 1rem;
         color: rgba(variables.$white, 0.5);
         font-size: 0.7rem;
+    }
+
+
+    footer a {
+        margin: 0 variables.$footer-margin*2 0 variables.$footer-margin*2;
+        color: rgba(variables.$white, 0.5);
+        // color: rgba(variables.$black, 0.8);
+        display: block;
+    }
+    
+    footer a:hover {
+        color: variables.$green;
+    }
+
+    footer p {
+        // margin: variables.$footer-margin 0 0 0;
+        color: rgba(variables.$white, 0.5);
+        // color: rgba(variables.$black, 0.8);
+        // display: block;
+    }
+
+    footer p:first-child {
+        // margin: variables.$footer-margin*3 0 0 0;
+
     }
 
 }

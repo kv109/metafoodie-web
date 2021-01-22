@@ -4,6 +4,22 @@
     margin-bottom: 2rem;
   }
 
+  .results-empty h2.arrow-font {
+    font-family: Montserrat;
+    font-size: 2rem;
+    margin: 1rem 0 2rem 0;
+    line-height: 2.5rem;
+  }
+
+  .results-empty p.arrow-font {
+    font-family: Montserrat;
+    font-size: 1.3rem;
+  }
+
+  .results-empty-arrow-image {
+    display: none;
+  }
+
   .results-name {
     font-family: Montserrat;
     font-weight: 600;

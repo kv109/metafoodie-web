@@ -1,6 +1,6 @@
 @use "../scss/variables.scss";
 
-@media (min-width:variables.$media-mobile) {
+@media (min-width:variables.$media-mobile+1) {
 
 
     // FULL LAYOUT GRID

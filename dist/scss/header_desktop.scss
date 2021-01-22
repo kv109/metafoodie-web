@@ -1,7 +1,6 @@
 @use '../scss/variables.scss';
 
-@media (min-width:variables.$media-mobile) {
-
+@media (min-width:variables.$media-mobile+1) {
 
     header {
         padding: 1rem 0 0 0;
@@ -28,6 +27,13 @@
 
     img.mobile {
         display: none
+    }
+
+    img.desktop {
+        // max-width: 400px;
+        // width: 50%
+        // width: 70%;
+        width: 170px;
     }
 
 }

@@ -15,14 +15,14 @@
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
     box-sizing: border-box;
-    background: url(../img/logo-solo-strong-green.png) no-repeat left center;
+    background: url(../img/logo-input.png) no-repeat left center;
     height: 3rem;
     margin: 0 0 0rem 0;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-style: none;
     font-size: 1.1rem;
-    padding: 0 0 0 2.5rem;
+    padding: 0 0 0 3rem;
     color: #333333;
     caret-color: #4c9f26;
   }

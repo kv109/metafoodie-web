@@ -1,12 +1,27 @@
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   footer {
     background-color: #333333;
     height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 1rem 1rem 0 1rem;
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.7rem;
+  }
+
+  footer a {
+    margin: 0 0.4rem 0 0.4rem;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+  }
+
+  footer a:hover {
+    color: #4c9f26;
+  }
+
+  footer p {
+    color: rgba(255, 255, 255, 0.5);
   }
 }
 

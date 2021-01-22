@@ -1,4 +1,4 @@
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .grid-main {
     display: grid;
     grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 95% [content-end margin-right-start] 1fr [margin-right-end];

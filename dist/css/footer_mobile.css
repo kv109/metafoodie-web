@@ -1,12 +1,30 @@
 @media (max-width: 690px) {
   footer {
     height: 3rem;
-    display: flex;
     align-items: center;
     justify-content: center;
     color: #333333;
     font-size: 0.7rem;
     border-top: 1px solid rgba(51, 51, 51, 0.2);
+  }
+
+  footer a {
+    margin: 0.2rem 0 0 0;
+    color: rgba(51, 51, 51, 0.8);
+    display: block;
+  }
+
+  footer a:hover {
+    color: #4c9f26;
+  }
+
+  footer p {
+    margin: 0.2rem 0 0 0;
+    color: rgba(51, 51, 51, 0.8);
+  }
+
+  footer p:first-child {
+    margin: 0.6rem 0 0 0;
   }
 }
 

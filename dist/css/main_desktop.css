@@ -1,4 +1,4 @@
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   body {
     background: #333333;
   }
@@ -56,7 +56,7 @@ button {
   }
 
   #pac-input::placeholder {
-    color: black;
+    color: rgba(0, 0, 0, 0.7);
   }
 
   #clear-button {

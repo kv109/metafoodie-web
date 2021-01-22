@@ -10,13 +10,13 @@ $media-mobile: 690px;
 // $media-tablet: 600px;
 
 $media-desktop: 1170px;
-// $media-tablet: 600px;
+$footer-margin: 0.2rem;
+$transition-duration: 0.5s;
 
 
 @mixin provider-link {
+
     border-radius: 0.7rem;
-    // border: $provider-border-color solid 1px;
-    // background-color: rgba(0,0,0,.5);
 
     a {
         text-decoration: none;

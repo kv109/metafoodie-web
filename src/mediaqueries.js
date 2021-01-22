@@ -1,41 +1,85 @@
   // MEDIA QUERIES
 
+  import {
+    map
+  } from "jquery";
+
   export const matchMediaMobile = window.matchMedia("(max-width: 690px)");
-  export const matchMediaTablet = window.matchMedia("()");
-  export const matchMediaDesktop = window.matchMedia("(min-width: 1020px)");
+  export const matchMediaTablet = window.matchMedia("");
+  // export const matchMediaTablet = window.matchMedia("(min-width: 691px) & (max-width:1169)");
+  export const matchMediaDesktop = window.matchMedia("(min-width: 691px)");
   export let mediaQueryChange = false;
 
   const headerEl = document.querySelector("header");
+  const gridMainEl = document.querySelector(".grid-main");
   const inputEl = document.getElementById('pac-input');
-  const hideHeader = _ => headerEl.classList.add("hidden");
+  const mapEl = document.getElementById('map');
 
-  const func1 = _ => {
-    if (matchMediaMobile.matches) { 
-        inputEl.addEventListener("click", hideHeader);
-            } 
-    
+
+  // HIDE HEADER WHEN INPUT CLICKED ON MOBILE
+
+  const hideHeader = _ => {
+    gridMainEl.style.top = `-${headerEl.offsetHeight}px`
+    gridMainEl.classList.add("transition-style")
+    // gridMainEl.style.transition = "0.4s ease"
+  }
+
+  const mobileInputListener = _ => {
+    if (matchMediaMobile.matches) {
+      inputEl.addEventListener("click", hideHeader);
     }
-  const func2 = _ => {inputEl.removeEventListener("click", hideHeader);}
-  const func3 = _ => {headerEl.classList.remove("hidden")}
-  
-const func4 = _ => {
-    if (matchMediaDesktop.matches) { 
-        func2()
-        func3()
-           }
-}
 
-  const inputVisibilityMobile = _ => {
-func1()
+  }
+  const desktopInputListener = _ => {
+    if (matchMediaDesktop.matches) {
+      inputEl.removeEventListener("click", hideHeader);
+      gridMainEl.style.top = "0px"
+
+    }
   }
 
-  const inputVisibilityDesktop = _ => {
-func4()
+  mobileInputListener()
+  matchMediaMobile.addListener(mobileInputListener)
+
+  desktopInputListener()
+  matchMediaDesktop.addListener(desktopInputListener)
+
+
+
+  // MAP RESIZE ON CLICK
+
+  const mapGrow = _ => {
+    mapEl.style.height = "60vh";
+    mapEl.classList.add("transition-style")
+    hideHeader()
+    // mapEl.style.transition = "1s ease";
   }
 
+  const mapDesktopSize = _ => {
+    mapEl.style.height = "30vh";
+    // mapEl.style.transition = "0s"
+    mapEl.classList.remove("transition-style")
 
-  inputVisibilityMobile()
-  matchMediaMobile.addListener(inputVisibilityMobile)
+  }
 
-  inputVisibilityDesktop()
-  matchMediaDesktop.addListener(inputVisibilityDesktop)
+  const mapGrowMobileListener = _ => {
+
+    if (matchMediaMobile.matches) {
+      mapEl.addEventListener("click", mapGrow)
+    }
+  }
+
+  const mapGrowDesktopListener = _ => {
+
+    if (matchMediaDesktop.matches) {
+      mapEl.removeEventListener("click", mapGrow)
+      // window.addEventListener("resize", mapDesktopSize)
+      mapDesktopSize();
+    }
+  }
+
+  mapGrowMobileListener();
+  mapGrowDesktopListener();
+
+  matchMediaMobile.addListener(mapGrowMobileListener);
+  matchMediaMobile.addListener(mapGrowDesktopListener);

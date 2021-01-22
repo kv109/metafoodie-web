@@ -3,6 +3,7 @@
 @media (max-width:variables.$media-mobile) {
 
     header {
+
         padding: 1rem 0 1rem 0;
         background: variables.$black;
         color: variables.$white;
@@ -23,7 +24,11 @@
     }
 
     img.mobile {
-        // display: none
+        // display: none;
+        // width: 50%;
+        // min-width: 30%;
+        max-width: 200px;
+        width: 70%;
     }
 
     .tagline-mobile {

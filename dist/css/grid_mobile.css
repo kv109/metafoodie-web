@@ -1,6 +1,8 @@
 @media (max-width: 690px) {
   .grid-main {
     text-align: center;
+    position: relative;
+    top: 0px;
   }
 
   .grid-results {

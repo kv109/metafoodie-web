@@ -1,4 +1,4 @@
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   header {
     padding: 1rem 0 0 0;
     display: flex;
@@ -24,6 +24,10 @@
 
   img.mobile {
     display: none;
+  }
+
+  img.desktop {
+    width: 170px;
   }
 }
 

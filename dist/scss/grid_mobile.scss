@@ -4,10 +4,18 @@
 
     .grid-main {
         text-align: center;
+        position: relative;
+        top: 0px;
         // background: variables.$black;
         // display: flex;
         // flex-direction: column;
     }
+
+    // .disappear {
+    //     position: relative;
+    //     top: -100px;
+    //     transition: 0.5s ease;
+    // }
 
     .grid-results {
         width: 90%;

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,600&display=swap");
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .grid-main {
     display: grid;
     grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 95% [content-end margin-right-start] 1fr [margin-right-end];
@@ -135,7 +135,7 @@
     grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1100px [content-end margin-right-start] 1fr [margin-right-end];
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-empty-arrow-image {
     transform: rotate(180deg);
     position: relative;
@@ -178,56 +178,56 @@
     padding: 0 0 0 0;
   }
 }
-@media (min-width: 690px) and (max-width: 900px) {
+@media (min-width: 691px) and (max-width: 900px) {
   .score-percentage {
     font-size: 3rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-provider {
     text-align: center;
     margin: 2rem 0 3rem 0;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-provider p {
     padding: 0.4rem 0 0 0;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .provider-rating {
     color: #4c9f26;
     font-size: 2rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .no-results-info {
     font-size: 0.8rem;
     margin: 0rem 1rem 1rem 1rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-links {
     display: flex;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-share {
     padding: 0 0 0 1rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-link {
     padding: 0 0 0 1rem;
     cursor: pointer;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-link-img {
     width: 1.3rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-arrow {
     right: 0;
     bottom: 0;
@@ -236,7 +236,7 @@
     justify-content: flex-start;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .arrow-font {
     font-family: Caveat;
     font-size: 1.5rem;
@@ -244,18 +244,18 @@
     color: #fff;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   h2.arrow-font {
     font-size: 2.5rem;
     line-height: 4rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-arrow-info {
     transform: rotate(-2deg);
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-arrow-image {
     position: relative;
     top: 1.6em;
@@ -263,7 +263,7 @@
     width: 2rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   @keyframes rotation-preloader {
     from {
       transform: rotate(0deg);
@@ -273,7 +273,7 @@
     }
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-preloader {
     animation: rotation-preloader 0.5s;
     animation-timing-function: linear;
@@ -281,7 +281,7 @@
     width: 20px;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   .results-preloader-container {
     height: 100%;
     display: flex;
@@ -289,7 +289,7 @@
     align-items: center;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   header {
     padding: 1rem 0 0 0;
     display: flex;
@@ -316,8 +316,12 @@
   img.mobile {
     display: none;
   }
+
+  img.desktop {
+    width: 170px;
+  }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   nav {
     padding: 1em 0 1em 0;
     display: flex;
@@ -346,7 +350,7 @@
     font-size: 1rem;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   body {
     background: #333333;
   }
@@ -404,7 +408,7 @@ button {
   }
 
   #pac-input::placeholder {
-    color: black;
+    color: rgba(0, 0, 0, 0.7);
   }
 
   #clear-button {
@@ -426,20 +430,37 @@ button {
     display: inline;
   }
 }
-@media (min-width: 690px) {
+@media (min-width: 691px) {
   footer {
     background-color: #333333;
     height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 1rem 1rem 0 1rem;
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.7rem;
+  }
+
+  footer a {
+    margin: 0 0.4rem 0 0.4rem;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+  }
+
+  footer a:hover {
+    color: #4c9f26;
+  }
+
+  footer p {
+    color: rgba(255, 255, 255, 0.5);
   }
 }
 @media (max-width: 690px) {
   .grid-main {
     text-align: center;
+    position: relative;
+    top: 0px;
   }
 
   .grid-results {
@@ -495,6 +516,22 @@ button {
   .grid-results {
     color: #000;
     margin-bottom: 2rem;
+  }
+
+  .results-empty h2.arrow-font {
+    font-family: Montserrat;
+    font-size: 2rem;
+    margin: 1rem 0 2rem 0;
+    line-height: 2.5rem;
+  }
+
+  .results-empty p.arrow-font {
+    font-family: Montserrat;
+    font-size: 1.3rem;
+  }
+
+  .results-empty-arrow-image {
+    display: none;
   }
 
   .results-name {
@@ -643,6 +680,11 @@ button {
     display: none;
   }
 
+  img.mobile {
+    max-width: 200px;
+    width: 70%;
+  }
+
   .tagline-mobile {
     display: inline-block;
   }
@@ -664,14 +706,14 @@ button {
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
     box-sizing: border-box;
-    background: url(../img/logo-solo-strong-green.png) no-repeat left center;
+    background: url(../img/logo-input.png) no-repeat left center;
     height: 3rem;
     margin: 0 0 0rem 0;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-style: none;
     font-size: 1.1rem;
-    padding: 0 0 0 2.5rem;
+    padding: 0 0 0 3rem;
     color: #333333;
     caret-color: #4c9f26;
   }
@@ -717,12 +759,30 @@ button {
 @media (max-width: 690px) {
   footer {
     height: 3rem;
-    display: flex;
     align-items: center;
     justify-content: center;
     color: #333333;
     font-size: 0.7rem;
     border-top: 1px solid rgba(51, 51, 51, 0.2);
+  }
+
+  footer a {
+    margin: 0.2rem 0 0 0;
+    color: rgba(51, 51, 51, 0.8);
+    display: block;
+  }
+
+  footer a:hover {
+    color: #4c9f26;
+  }
+
+  footer p {
+    margin: 0.2rem 0 0 0;
+    color: rgba(51, 51, 51, 0.8);
+  }
+
+  footer p:first-child {
+    margin: 0.6rem 0 0 0;
   }
 }
 * {
@@ -734,6 +794,10 @@ button {
 
 .loading {
   background-color: #e2e2e2;
+}
+
+.transition-style {
+  transition: 0.5s ease;
 }
 
 /*# sourceMappingURL=main.css.map */

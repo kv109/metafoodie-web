@@ -30,3 +30,7 @@
 .loading {
     background-color: #e2e2e2;
 }
+
+.transition-style {
+    transition: variables.$transition-duration ease
+}

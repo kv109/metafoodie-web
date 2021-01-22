@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../scss/footer_desktop.scss","../scss/variables.scss"],"names":[],"mappings":"AAGA;EAEI;IACI,kBCNA;IDOA;IACA;IACA;IACA;IACA;IACA","file":"footer_desktop.css"}
+{"version":3,"sourceRoot":"","sources":["../scss/footer_desktop.scss","../scss/variables.scss"],"names":[],"mappings":"AAGA;EAEI;IACI,kBCNA;IDOA;IACA;IACA;IACA;IACA;IACA;IACA;;;EAIJ;IACI;IACA;IAEA;;;EAGJ;IACI,OCvBA;;;ED0BJ;IAEI","file":"footer_desktop.css"}

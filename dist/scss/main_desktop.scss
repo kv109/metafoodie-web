@@ -1,7 +1,7 @@
 @use "../scss/variables.scss";
 
 
-@media (min-width:variables.$media-mobile) {
+@media (min-width:variables.$media-mobile+1) {
 
     body {
         background: variables.$black;
@@ -60,7 +60,7 @@
     }
 
     #pac-input::placeholder {
-        color: black;
+        color: rgba(black, 0.7);
     }
 
     #clear-button {
