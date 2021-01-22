@@ -16,6 +16,10 @@ import {
     loadingErrorDesktop,
     loadingError
 } from './loading-error-catch'
+import {
+    colorTransition
+} from './color-transition'
+
 
 let scoresArr = [];
 let totalRatingCount = 0;
@@ -170,19 +174,23 @@ export const renderResults = results => {
 
             let textColor = "#ffffff";
             let backgroundColor;
-            if (percentage > 85) {
-                backgroundColor = "#4c9f26"
-            } else if (percentage > 70) {
-                backgroundColor = "#ddee07"
-                textColor = "#444444"
-            } else if (percentage > 50) {
-                backgroundColor = "#d49520"
-            } else {
-                backgroundColor = "red"
-            }
 
-            ratingSummaryEl.style.backgroundColor = backgroundColor;
-            ratingSummaryEl.style.color = textColor;
+            colorTransition(ratingSummaryEl, percentage);
+            console.log('miki')
+
+            // if (percentage > 85) {
+            //     backgroundColor = "#4c9f26"
+            // } else if (percentage > 70) {
+            //     backgroundColor = "#ddee07"
+            //     textColor = "#444444"
+            // } else if (percentage > 50) {
+            //     backgroundColor = "#d49520"
+            // } else {
+            //     backgroundColor = "red"
+            // }
+
+            // ratingSummaryEl.style.backgroundColor = backgroundColor;
+            // ratingSummaryEl.style.color = textColor;
             ratingSummaryEl.innerHTML = `
             <p class="score-info">średnia ważona</p>
             <p class="score-percentage">${percentage}%</p>`
