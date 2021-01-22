@@ -126,5 +126,11 @@
     grid-area: sh;
   }
 }
+@media (min-width: 1170px) {
+  .grid-main {
+    margin: auto;
+    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1100px [content-end margin-right-start] 1fr [margin-right-end];
+  }
+}
 
 /*# sourceMappingURL=grid_desktop.css.map */

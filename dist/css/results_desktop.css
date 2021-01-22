@@ -28,49 +28,69 @@
     text-align: center;
   }
 
+  .score-info {
+    font-size: 1rem;
+    width: 80%;
+    margin: auto;
+  }
+
   .score-percentage {
     font-size: 4rem;
     font-weight: 600;
     font-style: italic;
     padding: 0 0 0 0;
   }
-
+}
+@media (min-width: 690px) and (max-width: 900px) {
+  .score-percentage {
+    font-size: 3rem;
+  }
+}
+@media (min-width: 690px) {
   .results-provider {
     text-align: center;
     margin: 2rem 0 3rem 0;
   }
-
+}
+@media (min-width: 690px) {
   .results-provider p {
     padding: 0.4rem 0 0 0;
   }
-
+}
+@media (min-width: 690px) {
   .provider-rating {
     color: #4c9f26;
     font-size: 2rem;
   }
-
+}
+@media (min-width: 690px) {
   .no-results-info {
     font-size: 0.8rem;
     margin: 0rem 1rem 1rem 1rem;
   }
-
+}
+@media (min-width: 690px) {
   .results-links {
     display: flex;
   }
-
+}
+@media (min-width: 690px) {
   .results-share {
     padding: 0 0 0 1rem;
   }
-
+}
+@media (min-width: 690px) {
   .results-link {
     padding: 0 0 0 1rem;
     cursor: pointer;
   }
-
+}
+@media (min-width: 690px) {
   .results-link-img {
     width: 1.3rem;
   }
-
+}
+@media (min-width: 690px) {
   .results-arrow {
     right: 0;
     bottom: 0;
@@ -78,30 +98,35 @@
     align-items: flex-end;
     justify-content: flex-start;
   }
-
+}
+@media (min-width: 690px) {
   .arrow-font {
     font-family: Caveat;
     font-size: 1.5rem;
     line-height: 1.5rem;
     color: #fff;
   }
-
+}
+@media (min-width: 690px) {
   h2.arrow-font {
     font-size: 2.5rem;
     line-height: 4rem;
   }
-
+}
+@media (min-width: 690px) {
   .results-arrow-info {
     transform: rotate(-2deg);
   }
-
+}
+@media (min-width: 690px) {
   .results-arrow-image {
     position: relative;
     top: 1.6em;
     right: 0.7em;
     width: 2rem;
   }
-
+}
+@media (min-width: 690px) {
   @keyframes rotation-preloader {
     from {
       transform: rotate(0deg);
@@ -110,13 +135,16 @@
       transform: rotate(359deg);
     }
   }
+}
+@media (min-width: 690px) {
   .results-preloader {
     animation: rotation-preloader 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     width: 20px;
   }
-
+}
+@media (min-width: 690px) {
   .results-preloader-container {
     height: 100%;
     display: flex;

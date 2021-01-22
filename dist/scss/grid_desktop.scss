@@ -150,3 +150,19 @@
     }
 
 }
+
+
+@media (min-width:variables.$media-desktop) {
+
+.grid-main {
+    margin: auto;
+    // width: 1100px;
+    grid-template-columns: [margin-left-start] 1fr [margin-left-end content-start] 1100px [content-end margin-right-start] 1fr [margin-right-end];
+
+}
+
+
+
+
+
+}

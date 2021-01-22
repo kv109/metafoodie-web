@@ -48,8 +48,11 @@
         text-align: center
     }
 
+
     .score-info {
-        // font-size: 0.7rem;
+        font-size: 1rem;
+        width: 80%;
+        margin: auto
     }
 
     .score-percentage {
@@ -59,10 +62,21 @@
         padding: 0 0 0 0;
     }
 
+    @media (max-width: 900px) {
+
+        .score-percentage {
+            font-size:3rem
+        }
+
+        
+    }
+
     .results-provider {
         text-align: center;
         margin: 2rem 0 variables.$results-average-bottom-margin 0
     }
+
+
 
     .results-provider p {
         padding: 0.4rem 0 0 0;

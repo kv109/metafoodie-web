@@ -1,16 +1,16 @@
 @media (min-width: 690px) {
   body {
-    background: #444444;
+    background: #333333;
   }
 
   .background-top {
-    background-color: #444444;
+    background-color: #333333;
     background-image: url(../img/background-top.jpg);
     background-size: cover;
   }
 
   .background-bottom {
-    background-color: #444444;
+    background-color: #333333;
     background-image: url(../img/background-bottom.jpg);
     background-size: cover;
   }
@@ -39,7 +39,7 @@ header {
 
   input,
 button {
-    color: #444444;
+    color: #333333;
   }
 
   #pac-input {
@@ -51,7 +51,7 @@ button {
     border-style: none;
     font-size: 1.2rem;
     padding: 0 0 0 1em;
-    color: #444444;
+    color: #333333;
     caret-color: #4c9f26;
   }
 

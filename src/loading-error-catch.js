@@ -16,6 +16,8 @@ export const loadingErrorMobile = (provider) => {
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
     <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
+    <p class="provider-rating-count no-results-info">Brak wyników</p></div>
+
 
     `
     }
