@@ -16,10 +16,6 @@
 
 <body>
 
-    <!-- <img src="img/share-link.svg"> -->
-    <!-- <div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${place.name}">Szukaj w google &#8594;</a></div>
-    <div class="results-link"><a class="results-link-a" data-clipboard-text="miki1">Skopiuj link do wyników</a></div> -->
-
 
     <!-- TOP NAV -->
 
@@ -28,9 +24,11 @@
         <div class="background-top"></div>
 
         <header>
+
             <a href="/"><img class="desktop" src="img/logo-light.svg" alt="metaFoodie - porównaj oceny restauracji"
                     class="logo">
-                <img class="mobile" src="img/logo-light.svg" alt="metaFoodie - porównaj oceny restauracji" class="logo"></a>
+                <img class="mobile" src="img/logo-light.svg" alt="metaFoodie - porównaj oceny restauracji"
+                    class="logo"></a>
             <!-- <img class="mobile" src="img/google_icon.png" alt="metaFoodie - porównaj oceny restauracji" class="logo"> -->
 
             <p class="tagline">Porównaj oceny restauracji i firm</p>
@@ -60,8 +58,8 @@
         <!-- MAP -->
 
         <section id="map" class="map ">
-            <div class="">
-                <div>mapa</div>
+            <div>
+                <div class="map-alt-text">Ładuję mapę...</div>
             </div>
         </section>
 
@@ -87,7 +85,8 @@
                     <div>
                         <img class="results-arrow-image" src="./img/arrow-white.svg" alt="kliknij tutaj">
                     </div>
-                    <p class="results-arrow-info arrow-font">kliknij na logo, aby zobaczyć restaurację na stronie oryginalnego serwisu</p>
+                    <p class="results-arrow-info arrow-font">kliknij na logo, aby zobaczyć restaurację na stronie
+                        oryginalnego serwisu</p>
 
                 </div>
                 <div class="results-average"></div>
@@ -106,12 +105,14 @@
         </main>
 
         <footer class="footer">
-            <p>&copy; 2021</p>  
-            <a href="https://walanus.pl" class="github-link" target="_blank">Mikołaj Walanus - programowanie i projekt graficzny</a>
+            <p>&copy; 2021</p>
+            <a href="https://walanus.pl" class="github-link" target="_blank">Mikołaj Walanus - programowanie i projekt
+                graficzny</a>
             <!-- <p>&</p> -->
-            <a href="https://github.com/kv109/" class="github-link" target="_blank">Kacper Walanus - koncepcja i programowanie podstawowej mechaniki</a>
+            <a href="https://github.com/kv109/" class="github-link" target="_blank">Kacper Walanus - koncepcja i
+                programowanie podstawowej mechaniki</a>
             <!-- <p>---</p> -->
-            <a href="https://github.com/kv109/metafoodie-web" class="github-link" target="_blank">Github projektu Metafoodie</a>
+            <!-- <a href="https://github.com/kv109/metafoodie-web" class="github-link" target="_blank">Github projektu Metafoodie</a> -->
         </footer>
     </div>
 
@@ -132,9 +133,6 @@
             console.info('Text:', e.text);
             console.info('Trigger:', e.trigger);
             e.clearSelection();
-
-
-
         });
 
         clipboard.on('error', function (e) {

@@ -19,6 +19,9 @@ import {
 import {
     colorTransition
 } from './color-transition'
+import {
+    Tooltip
+} from 'bootstrap'
 
 
 let scoresArr = [];
@@ -89,16 +92,77 @@ export const renderResults = results => {
         history.pushState({}, "", createShareLink());
     }
 
+    const mouseOver = (elementId, srcOver, srcOut) => {
+        let image = document.querySelector(`${elementId}`);
+        // console.log(elementId, srcOver, srcOut)
+        image.addEventListener("mouseover", _ => {
+            image.setAttribute('src', `${srcOver}`)
+        });
+        image.addEventListener("mouseout", _ => {
+            image.setAttribute('src', `${srcOut}`)
+        });
+        image.addEventListener("touchstart", _ => {
+            image.setAttribute('src', `${srcOver}`)
+        });
+        image.addEventListener("touchend", _ => {
+            image.setAttribute('src', `${srcOut}`)
+        });
+        image.addEventListener("touchmove", _ => {
+            image.setAttribute('src', `${srcOut}`)
+        });
+    }
+
+    const copySuccessToolip = _ => {
+        const resultsLinkEl = document.querySelector(".results-link");
+        const copySuccessEl = document.querySelector(".copy-success");
+        resultsLinkEl.addEventListener("click", _ => {
+            copySuccessEl.classList.remove("hidden");
+            copySuccessEl.classList.add("copy-success-anim");
+        })
+        resultsLinkEl.addEventListener("mouseout", _ => {
+                copySuccessEl.classList.remove("copy-success-anim");
+            copySuccessEl.classList.add("hidden");
+
+        })
+    }
+
     const renderNameAndLinks = _ => {
 
         if (place.website) {
-            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="${website}"><img class="results-link-img" src="img/website-link-green.svg" alt="Strona internetowa restauracji"></a></div>
-            <div class="results-link"><img src="img/share-link-green.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+            restaurantTitle.innerHTML = `${name}
+            
+            <div class="results-links">
+            
+            <div class="results-share"><a target="_blank" href="${website}"><img title="Strona internetowa restauracji '${name}'" class="results-link-img" id="website-link" src="img/website-link-grey.svg" alt="Strona internetowa restauracji"></a></div>
+
+            <div class="results-link"><img id="results-link-img" src="img/share-link-grey.svg" title="Skopiuj adres strony z wynikiami o '${name}' do schowka" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div>
+
+            <div class="copy-success hidden">Skopiowano do schowka</div>
+          
+            </div>`
+
             putShareLinkToAddressBar();
+            mouseOver('#website-link', 'img/website-link-green.svg', 'img/website-link-grey.svg');
+            mouseOver('#results-link-img', 'img/share-link-green.svg', 'img/share-link-grey.svg');
+            copySuccessToolip();
+
         } else {
-            restaurantTitle.innerHTML = `${name}<div class="results-links"><div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img class="results-link-img" src="img/google-search-green.svg" alt="Wyszukaj ${name} w Google"></a></div>
-            <div class="results-link"><img src="img/share-link-green.svg" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div></div>`;
+            restaurantTitle.innerHTML = `${name}
+            
+            <div class="results-links">
+            
+            <div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img title="Wyszukaj '${name}' w Google" class="results-link-img" id="google-search" src="img/google-search-grey.svg" alt="Wyszukaj ${name} w Google"></a></div>
+
+            <div class="results-link"><img id="results-link-img" src="img/share-link-grey.svg" title="Skopiuj adres strony z wynikami o '${name}' do schowka" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div>
+
+            <div class="copy-success hidden">Skopiowano do schowka</div>
+            
+            </div>`
+
             putShareLinkToAddressBar();
+            mouseOver('#google-search', 'img/google-search-green.svg', 'img/google-search-grey.svg');
+            mouseOver('#results-link-img', 'img/share-link-green.svg', 'img/share-link-grey.svg');
+            copySuccessToolip();
 
         }
 
@@ -176,7 +240,7 @@ export const renderResults = results => {
             let backgroundColor;
 
             colorTransition(ratingSummaryEl, percentage);
-            console.log('miki')
+            // console.log('miki')
 
             // if (percentage > 85) {
             //     backgroundColor = "#4c9f26"

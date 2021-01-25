@@ -167,4 +167,41 @@
         margin: 0rem 1rem 1rem 1rem
     }
 
+    @keyframes copy-success-anim {
+
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .copy-success-anim {
+    animation: copy-success-anim 0.3s;
+    animation-fill-mode: forwards;
+    }
+
+    .copy-success {
+        color: white;
+        opacity: 0;
+        $padding: 0.3rem;
+        font-size: 1.3rem;
+        z-index: 1;
+        position: relative;
+        background: variables.$green;
+        padding: $padding $padding $padding $padding;
+        border-radius: $padding;
+        // height: 1.3rem;
+        left: 0.5rem;
+        top: $padding;
+        display: block;
+
+    }
+
+    .move-results-top {
+        top: -500px;
+    }
+
 }

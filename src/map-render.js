@@ -20,7 +20,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
     const headerEl = document.querySelector("header");
     const inputEl = document.getElementById('pac-input');
-    
+
     const focusMobile = _ => {
         if (matchMediaMobile.matches) {
             inputEl.blur()
@@ -37,11 +37,33 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         }
     }
 
-    focusMobile(); focusTablet(); focusDesktop();
+    focusMobile();
+    focusTablet();
+    focusDesktop();
     matchMediaMobile.addListener(focusMobile);
     matchMediaTablet.addListener(focusTablet);
     matchMediaDesktop.addListener(focusDesktop);
-    
+
+    // SET MAP HEIGHT
+
+    const mapEl = document.getElementById('map');
+
+
+    const mapHeightDesktop = _ => {
+        
+        if (matchMediaDesktop.matches) {
+
+            mapEl.style.height = `${window.innerHeight*0.45}px`;
+            window.addEventListener("resize", _ => {
+                mapEl.style.height = `${window.innerHeight*0.45}px`;
+
+            })
+        }
+
+    }
+
+    mapHeightDesktop();
+    matchMediaDesktop.addListener(mapHeightDesktop);
 
     // CUSTOM MARKER
 
@@ -56,7 +78,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
     // INITIALIZING GOOGLE MAP
 
-    let map = new google.maps.Map(document.getElementById('map'), {
+    let map = new google.maps.Map(mapEl, {
         center: {
             lat: client_lat,
             lng: client_lon
@@ -96,6 +118,18 @@ export const mapRender = (client_lat, client_lon, zoom) => {
             placesService.getDetails({
                 placeId: event.placeId
             }, (place, status) => {
+
+
+                let mainEl = document.querySelector("main");
+                
+                let headerRect = document.querySelector("header").getBoundingClientRect();
+                let mainRect = mainEl.getBoundingClientRect();
+                console.log(mainRect.top)
+                // mainEl.style.backgroundColor = `#ff0000`
+                mainEl.style.top = `-${mainRect.top}px`
+                mainEl.style.height = `100vh`
+                mainEl.style.transition = `1s ease`
+                // mainEl.classList.add("move-results-top");
 
 
                 renderResults({

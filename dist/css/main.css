@@ -291,6 +291,37 @@
   }
 }
 @media (min-width: 691px) {
+  @keyframes copy-success-anim {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+@media (min-width: 691px) {
+  .copy-success-anim {
+    animation: copy-success-anim 0.3s;
+    animation-fill-mode: forwards;
+  }
+}
+@media (min-width: 691px) {
+  .copy-success {
+    opacity: 0;
+    font-size: 0.9rem;
+    z-index: 1;
+    position: relative;
+    background: #4c9f26;
+    padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+    border-radius: 0.3rem;
+    height: 1rem;
+    left: 0.5rem;
+    top: 0.3rem;
+    display: block;
+  }
+}
+@media (min-width: 691px) {
   header {
     padding: 1rem 0 0 0;
     display: flex;
@@ -429,6 +460,12 @@ button {
 
   #map #infowindow-content {
     display: inline;
+  }
+
+  .map-alt-text {
+    text-align: center;
+    padding-top: 2rem;
+    color: white;
   }
 }
 @media (min-width: 691px) {
@@ -668,6 +705,37 @@ button {
     font-size: 1rem;
     margin: 0rem 1rem 1rem 1rem;
   }
+
+  @keyframes copy-success-anim {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .copy-success-anim {
+    animation: copy-success-anim 0.3s;
+    animation-fill-mode: forwards;
+  }
+
+  .copy-success {
+    color: white;
+    opacity: 0;
+    font-size: 1.3rem;
+    z-index: 1;
+    position: relative;
+    background: #4c9f26;
+    padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+    border-radius: 0.3rem;
+    left: 0.5rem;
+    top: 0.3rem;
+    display: block;
+  }
+
+  .move-results-top {
+    top: -500px;
+  }
 }
 @media (max-width: 690px) {
   header {
@@ -756,6 +824,29 @@ button {
 button {
     color: #333333;
   }
+
+  .map-alt-text {
+    text-align: center;
+    padding-top: 2rem;
+    color: #333333;
+  }
+
+  main {
+    position: relative;
+    background: white;
+    z-index: 1;
+    transition: 1s ease;
+  }
+
+  .move-results-top {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .main-background {
+    display: none;
+  }
 }
 @media (max-width: 690px) {
   footer {
@@ -784,6 +875,11 @@ button {
 
   footer p:first-child {
     margin: 0.6rem 0 0 0;
+  }
+}
+@media only screen and (min-device-width: 480px) and (max-device-width: 700px) and (orientation: landscape) {
+  footer {
+    background: red;
   }
 }
 * {

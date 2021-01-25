@@ -66,10 +66,10 @@
     @media (max-width: 900px) {
 
         .score-percentage {
-            font-size:3rem
+            font-size: 3rem
         }
 
-        
+
     }
 
     .results-provider {
@@ -95,15 +95,13 @@
     //     // font-size: 2rem;
     // }
 
-   
+
     .provider-rating {
         color: variables.$green;
         font-size: 2rem;
     }
 
-    .no-results-icon {
-
-    }
+    .no-results-icon {}
 
     .no-results-info {
         font-size: 0.8rem;
@@ -120,6 +118,9 @@
     .results-share {
         // font-size: 1rem;
         padding: 0 0 0 1rem;
+        // width: 2rem;
+        // height: 2rem;
+        // background: url('/dist/img/google-search-red.svg') no-repeat;
         // display: flex;
         // align-items: center;
         // display: inline-block;
@@ -207,10 +208,40 @@
 
     .results-preloader-container {
         height: 100%;
-        display:flex;
+        display: flex;
         justify-content: center;
         align-items: center;
     }
 
+    @keyframes copy-success-anim {
 
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .copy-success-anim {
+    animation: copy-success-anim 0.3s;
+    animation-fill-mode: forwards;
+    }
+
+    .copy-success {
+        opacity: 0;
+        $padding: 0.3rem;
+        font-size: 0.9rem;
+        z-index: 1;
+        position: relative;
+        background: variables.$green;
+        padding: $padding $padding $padding $padding;
+        border-radius: $padding;
+        height: 1rem;
+        left: 0.5rem;
+        top: $padding;
+        display: block;
+
+    }
 }

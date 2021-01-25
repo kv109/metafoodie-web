@@ -77,6 +77,12 @@ button {
   #map #infowindow-content {
     display: inline;
   }
+
+  .map-alt-text {
+    text-align: center;
+    padding-top: 2rem;
+    color: white;
+  }
 }
 
 /*# sourceMappingURL=main_desktop.css.map */

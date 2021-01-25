@@ -29,4 +29,31 @@
         color: variables.$black
     }
 
+    .map-alt-text {
+        text-align: center;
+        padding-top: 2rem;
+        color: variables.$black;
+    }
+
+    main {
+        position: relative;
+        background: white;
+        z-index: 1;
+        // top: 0px;
+        transition: 1s ease;
+    }
+
+    .move-results-top {
+        // top: -500px;
+        position: relative;
+        height: 100vh;
+        // top:    0px;
+        width: 100vw;
+    }
+
+    .main-background {
+        display: none;
+    }
+
+
 }

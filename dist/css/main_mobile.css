@@ -23,6 +23,29 @@
 button {
     color: #333333;
   }
+
+  .map-alt-text {
+    text-align: center;
+    padding-top: 2rem;
+    color: #333333;
+  }
+
+  main {
+    position: relative;
+    background: white;
+    z-index: 1;
+    transition: 1s ease;
+  }
+
+  .move-results-top {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .main-background {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=main_mobile.css.map */
