@@ -5,21 +5,12 @@ import {
     renderResults
 } from './render-results'
 import {
-    matchMediaMobile,
-    matchMediaTablet,
-    matchMediaDesktop,
-} from './mediaqueries'
-import {
-    loadingErrorMobile,
-    loadingErrorTablet,
-    loadingErrorDesktop,
-    mediaQueryChange,
     loadingError
     // loadingErrorFoursquareNotFullObject
 } from './loading-error-catch'
-import {
-    data
-} from 'jquery'
+// import {
+//     data
+// } from 'jquery'
 
 
 

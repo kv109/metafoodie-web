@@ -576,8 +576,16 @@ button {
     font-family: Montserrat;
     font-weight: 600;
     font-size: 2.2rem;
-    padding: 1rem 0 0 0;
+    padding: 0 0 0 0;
     color: #333333;
+  }
+
+  .results-name::before {
+    content: "__";
+    position: relative;
+    display: block;
+    color: lightgray;
+    top: -0.7rem;
   }
 
   .results-share {
@@ -594,7 +602,7 @@ button {
   }
 
   .results-link {
-    display: inline;
+    display: none;
   }
 
   .results-link-img {
@@ -732,10 +740,6 @@ button {
     top: 0.3rem;
     display: block;
   }
-
-  .move-results-top {
-    top: -500px;
-  }
 }
 @media (max-width: 690px) {
   header {
@@ -835,7 +839,12 @@ button {
     position: relative;
     background: white;
     z-index: 1;
+    top: 0px;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
     transition: 1s ease;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 
   .move-results-top {

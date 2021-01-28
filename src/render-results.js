@@ -55,10 +55,16 @@ export const renderResults = results => {
         if (matchMediaMobile.matches) {
             providerTagEl.innerHTML = `<!--MOBILE -->
         
-                    <p class="provider-icon"><a href="${url}" target="_blank"><img class="icon" src="img/provider-${provider}-color.svg" alt="${provider}"></a></p>
+                    <p class="provider-icon-${provider}"><a href="${url}" target="_blank"><img class="icon" src="img/provider-${provider}-color.svg" alt="${provider}"></a></p>
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p>
                     `
+            
+                    let providerLinkEl = document.querySelector(`.provider-icon-${provider}`)
+                    providerLinkEl.addEventListener("touchend", _ => {
+                        window.open(url, '_blank')        
+                    })
+
         }
     }
 
@@ -110,7 +116,7 @@ export const renderResults = results => {
         image.addEventListener("touchmove", _ => {
             image.setAttribute('src', `${srcOut}`)
         });
-    }
+    } 
 
     const copySuccessToolip = _ => {
         const resultsLinkEl = document.querySelector(".results-link");
@@ -141,6 +147,11 @@ export const renderResults = results => {
           
             </div>`
 
+            let shareEl = document.querySelector(".results-share")
+            shareEl.addEventListener("touchend", _ => {
+                window.open(website, '_blank')        
+            })
+
             putShareLinkToAddressBar();
             mouseOver('#website-link', 'img/website-link-green.svg', 'img/website-link-grey.svg');
             mouseOver('#results-link-img', 'img/share-link-green.svg', 'img/share-link-grey.svg');
@@ -158,6 +169,11 @@ export const renderResults = results => {
             <div class="copy-success hidden">Skopiowano do schowka</div>
             
             </div>`
+
+            let shareEl = document.querySelector(".results-share")
+            shareEl.addEventListener("touchend", _ => {
+                window.open(`https://www.google.com/search?q=${name}`, '_blank')        
+            })
 
             putShareLinkToAddressBar();
             mouseOver('#google-search', 'img/google-search-green.svg', 'img/google-search-grey.svg');

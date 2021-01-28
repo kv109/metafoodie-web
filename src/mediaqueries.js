@@ -1,8 +1,5 @@
-  // MEDIA QUERIES
 
-  import {
-    map
-  } from "jquery";
+// MEDIA QUERIES
 
   export const matchMediaMobile = window.matchMedia("(max-width: 690px)");
   export const matchMediaTablet = window.matchMedia("");
@@ -10,23 +7,25 @@
   export const matchMediaDesktop = window.matchMedia("(min-width: 691px)");
   export let mediaQueryChange = false;
 
-  const headerEl = document.querySelector("header");
-  const gridMainEl = document.querySelector(".grid-main");
+  export const headerEl = document.querySelector("header");
+  export const gridMainEl = document.querySelector(".grid-main");
   const inputEl = document.getElementById('pac-input');
   const mapEl = document.getElementById('map');
 
 
   // HIDE HEADER WHEN INPUT CLICKED ON MOBILE
 
-  const hideHeader = _ => {
+  export const hideHeader = _ => {
     gridMainEl.style.top = `-${headerEl.offsetHeight}px`
     gridMainEl.classList.add("transition-style")
-    // gridMainEl.style.transition = "0.4s ease"
   }
 
   const mobileInputListener = _ => {
     if (matchMediaMobile.matches) {
-      inputEl.addEventListener("click", hideHeader);
+      inputEl.addEventListener("click", _ => {
+        hideHeader();
+        mapGrow();
+      });
     }
 
   }
@@ -48,18 +47,15 @@
 
   // MAP RESIZE ON CLICK
 
-  const mapGrow = _ => {
+  export const mapGrow = _ => {
     mapEl.style.height = "60vh";
     mapEl.classList.add("transition-style")
-    hideHeader()
-    // mapEl.style.transition = "1s ease";
+    hideHeader();
   }
 
   const mapDesktopSize = _ => {
     mapEl.style.height = "30vh";
-    // mapEl.style.transition = "0s"
     mapEl.classList.remove("transition-style")
-
   }
 
   const mapGrowMobileListener = _ => {
@@ -73,7 +69,6 @@
 
     if (matchMediaDesktop.matches) {
       mapEl.removeEventListener("click", mapGrow)
-      // window.addEventListener("resize", mapDesktopSize)
       mapDesktopSize();
     }
   }

@@ -29,8 +29,18 @@
         font-weight: 600;
         font-size: 2.2rem;
         // line-height: 2.5rem;
-        padding: 1rem 0 0 0;
+        padding: 0 0 0 0;
         color: variables.$black
+    }
+
+    .results-name::before {
+        content: '__';
+        position: relative;
+        display: block;
+        color: lightgray;
+        top: -0.7rem;
+        // padding-bottom: -1rem;
+        // margin-bottom: -0.5rem;
     }
 
     .results-share {
@@ -50,7 +60,8 @@
     }
 
     .results-link {
-        display: inline;
+        // display: inline;
+        display: none;
     }
 
     .results-link-img {
@@ -198,10 +209,6 @@
         top: $padding;
         display: block;
 
-    }
-
-    .move-results-top {
-        top: -500px;
     }
 
 }

@@ -8,8 +8,14 @@ import {
     matchMediaMobile,
     matchMediaTablet,
     matchMediaDesktop,
-    mediaQueryChange
+    mediaQueryChange,
+    hideHeader,
+    mapGrow
 } from './mediaqueries'
+import {
+    swipeResults
+} from './results-swipe'
+// import {hideHeader} from './mediaqueries'
 
 
 export const mapRender = (client_lat, client_lon, zoom) => {
@@ -50,7 +56,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
 
     const mapHeightDesktop = _ => {
-        
+
         if (matchMediaDesktop.matches) {
 
             mapEl.style.height = `${window.innerHeight*0.45}px`;
@@ -119,24 +125,11 @@ export const mapRender = (client_lat, client_lon, zoom) => {
                 placeId: event.placeId
             }, (place, status) => {
 
-
-                let mainEl = document.querySelector("main");
-                
-                let headerRect = document.querySelector("header").getBoundingClientRect();
-                let mainRect = mainEl.getBoundingClientRect();
-                console.log(mainRect.top)
-                // mainEl.style.backgroundColor = `#ff0000`
-                mainEl.style.top = `-${mainRect.top}px`
-                mainEl.style.height = `100vh`
-                mainEl.style.transition = `1s ease`
-                // mainEl.classList.add("move-results-top");
-
-
+                swipeResults();
                 renderResults({
                     data: [place],
                     provider: "google"
                 })
-
 
                 fetchResults(place);
                 inputEl.value = '';
@@ -188,6 +181,8 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         map.fitBounds(bounds);
         inputEl.value = '';
 
+        swipeResults();
+
         renderResults({
             data: [place],
             provider: "google"
@@ -222,12 +217,17 @@ export const mapRender = (client_lat, client_lon, zoom) => {
                 map.setCenter(place.geometry.location);
                 inputEl.value = '';
 
+                if (matchMediaMobile.matches) {
+                    mapGrow();
+                }
+                swipeResults();
                 renderResults({
                     data: [place],
                     provider: "google"
                 })
 
                 fetchResults(place);
+
             }
         });
 

@@ -2,8 +2,6 @@ require("./app")
 
 import {mapRender} from './map-render'
 
-
-
 // ------------------------------------------- APP INIT AND GEOLOCATION
 
 window.App.initAutocomplete = _ => {
@@ -31,4 +29,4 @@ window.App.initAutocomplete = _ => {
             mapRender(52.0730317, 16.624927, 5);
         })
 
-}
+} 
