@@ -1,10 +1,10 @@
 
 // MEDIA QUERIES
 
-  export const matchMediaMobile = window.matchMedia("(max-width: 690px)");
+  export const matchMediaMobile = window.matchMedia("(max-width: 900px)");
   export const matchMediaTablet = window.matchMedia("");
   // export const matchMediaTablet = window.matchMedia("(min-width: 691px) & (max-width:1169)");
-  export const matchMediaDesktop = window.matchMedia("(min-width: 691px)");
+  export const matchMediaDesktop = window.matchMedia("(min-width: 901px)");
   export let mediaQueryChange = false;
 
   export const headerEl = document.querySelector("header");
@@ -48,7 +48,7 @@
   // MAP RESIZE ON CLICK
 
   export const mapGrow = _ => {
-    mapEl.style.height = "60vh";
+    mapEl.style.height = "70vh";
     mapEl.classList.add("transition-style")
     hideHeader();
   }

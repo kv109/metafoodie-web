@@ -9,7 +9,7 @@ export const swipeResults = _ => {
     let yStartTouch, yEndTouch;
     const transitionDuration = 0.5;
 
-    mainEl.style.top = `-58vh`
+    mainEl.style.top = `-68vh`
     mainEl.style.transition = `${transitionDuration}s ease`;
 
     mainEl.addEventListener("touchstart", e => {

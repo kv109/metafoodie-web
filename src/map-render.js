@@ -8,8 +8,6 @@ import {
     matchMediaMobile,
     matchMediaTablet,
     matchMediaDesktop,
-    mediaQueryChange,
-    hideHeader,
     mapGrow
 } from './mediaqueries'
 import {
@@ -23,6 +21,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
+    let infoWindow;
 
     const headerEl = document.querySelector("header");
     const inputEl = document.getElementById('pac-input');
@@ -73,18 +72,20 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
     // CUSTOM MARKER
 
-    let icon = {
-        url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
-        size: new google.maps.Size(100, 132),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 66)
+    const icon = {
+
+        url: 'http://maps.gstatic.com/mapfiles/ms2/micons/green.png',
+        // url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
+        // size: new google.maps.Size(100, 132),
+        origin: new google.maps.Point(0, 0)
+        // anchor: new google.maps.Point(17, 34),
+        // scaledSize: new google.maps.Size(50,50)
     };
 
 
     // INITIALIZING GOOGLE MAP
 
-    let map = new google.maps.Map(mapEl, {
+    const map = new google.maps.Map(mapEl, {
         center: {
             lat: client_lat,
             lng: client_lon
@@ -161,15 +162,29 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         }
 
 
-
         // Create a marker for each place.
 
-        markers.push(new google.maps.Marker({
+        let marker = new google.maps.Marker({
             map,
             icon,
             title: place.name,
             position: place.geometry.location
-        }));
+        })
+
+        markers.push(marker);
+
+
+        // INFO WINDOW
+
+        infoWindow = new google.maps.InfoWindow({
+            content: `<p class="infowindow-title">${place.name}</p>
+            <p class="infowindow-text">${place.formatted_address}</p>
+            <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj w Google Maps</a></p>
+            `
+        });
+
+        infoWindow.open(map, marker);
+
 
         if (place.geometry.viewport) {
             // Only geocodes have viewport
@@ -237,6 +252,16 @@ export const mapRender = (client_lat, client_lon, zoom) => {
                 position: place.geometry.location,
                 icon
             });
+
+            infoWindow = new google.maps.InfoWindow({
+                content: `<p class="infowindow-title">${place.name}</p>
+                <p class="infowindow-text">${place.formatted_address}</p>
+                <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj w Google Maps</a></p>
+                `
+            });
+
+            infoWindow.open(map, marker);
+
         }
     }
 };

@@ -1,28 +1,16 @@
 import {
     matchMediaMobile,
-    matchMediaTablet,
     matchMediaDesktop,
-    mediaQueryChange
 } from './mediaqueries'
 import {
     printToHTML
 } from './print-to-html'
 import {
-    firstUpperCase
-} from './first-upper-case'
-import {
-    loadingErrorMobile,
-    loadingErrorTablet,
-    loadingErrorDesktop,
     loadingError
 } from './loading-error-catch'
 import {
     colorTransition
 } from './color-transition'
-import {
-    Tooltip
-} from 'bootstrap'
-
 
 let scoresArr = [];
 let totalRatingCount = 0;
@@ -141,7 +129,7 @@ export const renderResults = results => {
             
             <div class="results-share"><a target="_blank" href="${website}"><img title="Strona internetowa restauracji '${name}'" class="results-link-img" id="website-link" src="img/website-link-grey.svg" alt="Strona internetowa restauracji"></a></div>
 
-            <div class="results-link"><img id="results-link-img" src="img/share-link-grey.svg" title="Skopiuj adres strony z wynikiami o '${name}' do schowka" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div>
+            <div class="results-link"><img id="results-link-img" src="img/share-link-grey.svg" title="Skopiuj adres strony z wynikami o '${name}' do schowka" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div>
 
             <div class="copy-success hidden">Skopiowano do schowka</div>
           
@@ -158,11 +146,12 @@ export const renderResults = results => {
             copySuccessToolip();
 
         } else {
+
             restaurantTitle.innerHTML = `${name}
             
             <div class="results-links">
             
-            <div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}"><img title="Wyszukaj '${name}' w Google" class="results-link-img" id="google-search" src="img/google-search-grey.svg" alt="Wyszukaj ${name} w Google"></a></div>
+            <div class="results-share"><a target="_blank" href="https://www.google.com/search?q=${name}%20${address}"><img title="Wyszukaj '${name}' w Google" class="results-link-img" id="google-search" src="img/google-search-grey.svg" alt="Wyszukaj ${name} w Google"></a></div>
 
             <div class="results-link"><img id="results-link-img" src="img/share-link-grey.svg" title="Skopiuj adres strony z wynikami o '${name}' do schowka" alt="Skopiuj wyniki wyszukiwania" class="results-link-img" data-clipboard-text="${createShareLink()}"></div>
 
@@ -186,6 +175,8 @@ export const renderResults = results => {
 
     if (provider === 'google') {
 
+        document.title = `Metafoodie - ${place.name}`
+        
         // RESET OF WEIGHTED AVERAGE CALCULATIONS
 
         scoresArr = [];
