@@ -11,14 +11,15 @@ export const swipeResults = _ => {
     const transitionDuration = 0.5;
 
     mainEl.style.top = `-68vh`
-    // mainEl.style.transition = `${transitionDuration}s ease`;
 
-    // // SLIDE DOWN ON TOUCH OUTSIDE OF RESULTS AREA
+    // SLIDE DOWN ON TOUCH OUTSIDE OF RESULTS AREA
 
     window.addEventListener("touchend", e => {
         console.log(e.target);
-        if (e.target.matches("nav")) {}
-        // mainEl.style.top = `0px`}
+
+        if (!mainEl.contains(e.target)) {
+            mainEl.style.top = `0px`
+        }
     })
 
     // SLIDE ANIMATION OF RESULTS AREA IF ON MOBILE

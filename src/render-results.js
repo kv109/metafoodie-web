@@ -45,6 +45,8 @@ export const renderResults = results => {
                     <p class="provider-rating-count">${rating_count}</p>
                     `
 
+            // MAKE PROVIDER ICON TOUCHABLE
+
             let providerLinkEl = document.querySelector(`.provider-icon-${provider}`)
             providerLinkEl.addEventListener("touchend", _ => {
                 window.open(url, '_blank')
@@ -131,6 +133,8 @@ export const renderResults = results => {
           
             </div>`
 
+            // OPEN WEBSITE LINK ON TOUCH ON MOBILE
+
             let shareEl = document.querySelector(".results-share")
             shareEl.addEventListener("touchend", _ => {
                 window.open(website, '_blank')
@@ -154,6 +158,8 @@ export const renderResults = results => {
             <div class="copy-success hidden">Skopiowano do schowka</div>
             
             </div>`
+
+            // OPEN WEBSITE LINK ON TOUCH ON MOBILE
 
             let shareEl = document.querySelector(".results-share")
             shareEl.addEventListener("touchend", _ => {
@@ -240,8 +246,8 @@ export const renderResults = results => {
 
             // PRINTING AVERAGE SCORE BAR
 
-            let textColor = "#ffffff";
-            let backgroundColor;
+            // let textColor = "#ffffff";
+            // let backgroundColor;
 
             colorTransition(ratingSummaryEl, percentage);
             ratingSummaryEl.innerHTML = `
