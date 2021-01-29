@@ -18,6 +18,9 @@ export const foursquareFetch = (name, lat, lng) => {
     const params = `lat=${lat}&lng=${lng}&name=${name}`;
     const apiUrl = `https://5ysytaegql.execute-api.eu-north-1.amazonaws.com/search/${provider}?${params}`;
 
+    // console.log(apiUrl);
+
+
     preloader(provider);
 
     fetch(apiUrl)

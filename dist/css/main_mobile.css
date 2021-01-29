@@ -33,9 +33,10 @@ button {
   main {
     position: fixed;
     background: white;
-    z-index: 5;
-    top: 80vh;
+    z-index: 1;
+    top: 85vh;
     height: 100vh;
+    width: 100%;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }

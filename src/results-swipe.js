@@ -7,17 +7,20 @@ export const swipeResults = _ => {
 
     const mapEl = document.getElementById('map');
     let mainEl = document.querySelector("main");
+    let gridEl = document.querySelector(".grid-results");
     let yStartTouch, yEndTouch;
     const transitionDuration = 0.5;
-    const resultsTopPosition = 23;
+    // const resultsTopPosition = `23vh`;
+    let windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const resultsTopPosition = `${windowHeight-450}px`;
+    console.log(mainEl.offsetHeight);
+    console.log(getComputedStyle(mainEl).height)
     const resultsBottomPosition = 85;
-    // let resultsDown = false;
-    mainEl.style.top = `${resultsTopPosition}vh`
+    mainEl.style.top = resultsTopPosition
 
     // SLIDE DOWN ON TOUCH OUTSIDE OF RESULTS AREA
 
     window.addEventListener("touchend", e => {
-        // console.log(e.target);
 
         if (!mainEl.contains(e.target)) {
             mainEl.style.top = `${resultsBottomPosition}vh`
@@ -82,51 +85,14 @@ export const swipeResults = _ => {
 
         // SLIDE UP
         else if (yEndTouch < yStartTouch) {
-            mainEl.style.top = `${resultsTopPosition}vh`
+            mainEl.style.top = resultsTopPosition
         }
 
         // TOUCH WHEN RESULTS ARE IN THE BOTTOM
 
         else if ((yEndTouch === yStartTouch)) {
-            mainEl.style.top = `${resultsTopPosition}vh`
+            mainEl.style.top = resultsTopPosition
         }
-
-
-        // // SLIDE DOWN WHEN WINDOW ON THE TOP
-
-        // if (!resultsDown && (yEndTouch > yStartTouch)) {
-        //     mainEl.style.top = `0px`
-        //     resultsDown = true;
-        // } 
-
-        // // SLIDE DOWN WHEN WINDOW ON THE BOTTOM
-
-        // else if (resultsDown && (yEndTouch > yStartTouch)) {
-        //     // mainEl.style.top = `1110px`
-        //     mainEl.style.backgroundColor = `red`
-        //     resultsDown = true;
-        // }
-
-
-        // // SLIDE UP WHEN WINDOW ON THE BOTTOM
-
-        // else if (resultsDown && (yEndTouch < yStartTouch)) {
-        //     let mapRectHeight = mapEl.getBoundingClientRect().bottom - mapEl.getBoundingClientRect().top;
-        //     let yMain = mapRectHeight - 15;
-        //     mainEl.style.top = `-${yMain}px`
-        //     resultsDown = false;
-        // }
-
-        // // SLIDE UP WHEN WINDOW ON THE TOP
-
-        // else if (!resultsDown && (yEndTouch < yStartTouch)) {
-        //     let mapRectHeight = mapEl.getBoundingClientRect().bottom - mapEl.getBoundingClientRect().top;
-        //     let yMain = mapRectHeight - 15;
-        //     mainEl.style.top = `-${yMain}px`
-        //     resultsDown = false;
-        // }
-
-
 
     })
 }

@@ -188,6 +188,7 @@ export const renderResults = results => {
 
         rating_count = place.user_ratings_total; // <------ GOOGLE
 
+
         // RENDER NAME AND LINKS
 
         renderNameAndLinks();
@@ -213,8 +214,7 @@ export const renderResults = results => {
     if (place) {
 
         // AVERAGE SCORE PRESENTATION
-
-        if (isRatingNumber && place.user_ratings_total > 0) {
+        if (isRatingNumber && rating_count  > 0) {
 
             // RESULTS RENDER FOR MOBILE AND DESTKOP
 
@@ -254,7 +254,7 @@ export const renderResults = results => {
             <p class="score-info">ocena średnia</p>
             <p class="score-percentage">${percentage/20}</p>`
 
-        } else if (isRatingNumber && place.user_ratings_total === 0) {
+        } else if (isRatingNumber && rating_count === 0) {
 
             loadingError(provider);
 

@@ -92,7 +92,6 @@ export const yelpFetch = (name, lat, lng) => {
                 }
     
                 // RENDER RESULTS
-    
                 renderResults(yelpData);
     
             })
