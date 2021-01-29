@@ -13,11 +13,9 @@ import {
 import {
     swipeResults
 } from './results-swipe'
-// import {hideHeader} from './mediaqueries'
 
 
 export const mapRender = (client_lat, client_lon, zoom) => {
-    // console.log('mapRender start')
 
     let userQuery = window.location.search.slice((window.location.search.search('=') + 1));
     let markers = [];
@@ -179,7 +177,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         infoWindow = new google.maps.InfoWindow({
             content: `<p class="infowindow-title">${place.name}</p>
             <p class="infowindow-text">${place.formatted_address}</p>
-            <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj w Google Maps</a></p>
+            <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj informacji o '${place.name}' w Google</a></p>
             `
         });
 
@@ -256,7 +254,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
             infoWindow = new google.maps.InfoWindow({
                 content: `<p class="infowindow-title">${place.name}</p>
                 <p class="infowindow-text">${place.formatted_address}</p>
-                <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj w Google Maps</a></p>
+                <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj informacji o '${place.name}' w Google</a></p>
                 `
             });
 

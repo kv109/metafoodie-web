@@ -37,7 +37,6 @@ button {
     top: 0px;
     margin-top: 1rem;
     padding-bottom: 1rem;
-    transition: 1s ease;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }

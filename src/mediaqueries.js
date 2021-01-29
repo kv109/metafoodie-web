@@ -3,7 +3,6 @@
 
   export const matchMediaMobile = window.matchMedia("(max-width: 900px)");
   export const matchMediaTablet = window.matchMedia("");
-  // export const matchMediaTablet = window.matchMedia("(min-width: 691px) & (max-width:1169)");
   export const matchMediaDesktop = window.matchMedia("(min-width: 901px)");
   export let mediaQueryChange = false;
 

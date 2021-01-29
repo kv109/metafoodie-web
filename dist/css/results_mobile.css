@@ -76,13 +76,14 @@
 
   .score-info {
     font-size: 1.4rem;
-    padding: 0 0 0 0;
+    padding: 0 0.3rem 0 0.3rem;
   }
 
   .score-percentage {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 900;
-    padding: 0 1rem 0 0;
+    padding: 0 0 0 0;
+    margin-left: 1rem;
     font-style: italic;
   }
 
@@ -115,15 +116,26 @@
     line-height: 1.5rem;
   }
 
-  .results-arrow-info {
-    transform: rotate(-2deg);
+  .results-mobile-arrow-info p {
+    font-family: Montserrat;
+    font-size: 0.8rem;
+    padding-right: 0.7rem;
+    line-height: 1.2rem;
+  }
+
+  .results-mobile-arrow-info {
+    display: flex;
+    margin-top: 1rem;
+    background-color: rgba(51, 51, 51, 0.1);
+    border-radius: 1rem;
+    padding: 0.3rem 0.3rem 0.3rem 0.3rem;
   }
 
   .results-arrow-image {
     position: relative;
-    top: 1.6em;
-    right: 0.7em;
-    width: 2rem;
+    margin-top: 0.5rem;
+    width: 1.7rem;
+    transform: rotate(180deg);
   }
 
   img.icon {
@@ -158,7 +170,7 @@
   }
 
   .no-results-info {
-    font-size: 1rem;
+    font-size: 0.85rem;
     margin: 0rem 1rem 1rem 1rem;
   }
 

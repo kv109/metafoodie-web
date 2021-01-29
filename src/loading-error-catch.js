@@ -12,14 +12,11 @@ export const loadingErrorMobile = (provider) => {
 
     if (matchMediaMobile.matches) {
 
-        // console.log("loadingErrorMobile")
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
-    <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
-    <p class="provider-rating-count no-results-info">Brak wyników</p></div>
-
-
-    `
+            <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
+            <p class="provider-rating-count no-results-info">Brak danych</p></div>
+            `
     }
 }
 
@@ -27,26 +24,24 @@ export const loadingErrorTablet = (provider) => {
 
     if (matchMediaTablet.matches) {
 
-        // console.log("loadingErrorTablet")
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
-    <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
-
-    `
+            <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
+            <p class="provider-rating-count no-results-info">Brak danych</p></div>
+            `
     }
 }
 
 export const loadingErrorDesktop = (provider) => {
 
     if (matchMediaDesktop.matches) {
-        // console.log("loadingErrorDesktop")
 
         document.querySelector(`.results-provider-${provider}`).innerHTML =
             `           
             <div class="error-background">
-    <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
-    <!-- <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p> -->
-    <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></div>
+            <p class="provider-icon"><img class="icon" src="img/provider-${provider}-dim.svg" alt="${provider}"></p>
+            <!-- <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p> -->
+            <p class="provider-rating-count no-results-info">Brak wyników lub problem z usługą</p></div>
     `
     }
 }
@@ -55,32 +50,20 @@ export const loadingErrorEndOfAPICalls = (provider) => {
     document.querySelector(`.results-provider-${provider}`).innerHTML =
         `          
         <div class="error-background">
-    <p class="provider-name">${firstUpperCase(provider)}</p> 
-    <!-- <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p> -->
-    <p class="provider-rating-count no-results-info">Wyczerpany dzienny limit zapytań do API (500)</p></div>
+        <p class="provider-name">${firstUpperCase(provider)}</p> 
+        <!-- <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p> -->
+        <p class="provider-rating-count no-results-info">Wyczerpany dzienny limit zapytań do API (500)</p></div>
 
     `
 }
 
-// export const loadingErrorFoursquareNotFullObject = provider => {
-
-//     document.querySelector(`.results-provider-${provider}`).innerHTML =
-//     `          
-//     <p class="provider-icon"><img class="icon" src="img/${provider}_icon-dim.png" alt="${provider}"></p>
-//     <p class="no-results-icon"><img src="img/no-results.svg" alt="Przepraszamy!" width="40%"></p>
-//     <p class="provider-rating-count no-results-info">Brak firmy w bazie</p></a>
-
-// `
-
-// }
-
 export const loadingError = provider => {
     loadingErrorMobile(provider)
-    loadingErrorTablet(provider)
+    // loadingErrorTablet(provider)
     loadingErrorDesktop(provider)
     if (!mediaQueryChange) {
         matchMediaMobile.addListener(_ => loadingErrorMobile(provider))
-        matchMediaTablet.addListener(_ => loadingErrorTablet(provider))
+        // matchMediaTablet.addListener(_ => loadingErrorTablet(provider))
         matchMediaDesktop.addListener(_ => loadingErrorDesktop(provider))
     }
 }

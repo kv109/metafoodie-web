@@ -18,14 +18,10 @@ let totalRatingCount = 0;
 
 export const renderResults = results => {
 
-    // console.log('renderResults -> results')
-    // console.log(results)
-
     const place = results.data[0];
     const name = place.name;
     const provider = results.provider;
     const url = place.url;
-    // const rating = place.rating;
     const website = place.website;
     const address = place.formatted_address;
     const rating = parseFloat(place.rating);
@@ -37,6 +33,7 @@ export const renderResults = results => {
     const restaurantAddress = document.querySelector(".results-address");
     const ratingSummaryEl = document.querySelector(".results-average");
     const resultsArrowEl = document.querySelector('.results-arrow');
+    const resultsMobileArrowEl = document.querySelector('.results-mobile-arrow-info');
     const providerTagEl = document.querySelector(`.results-provider-${provider}`);
 
     const printResultsForMobile = (url, provider, rating, rating_count) => {
@@ -47,11 +44,11 @@ export const renderResults = results => {
                     <p class="provider-rating">${rating}</p>
                     <p class="provider-rating-count">${rating_count}</p>
                     `
-            
-                    let providerLinkEl = document.querySelector(`.provider-icon-${provider}`)
-                    providerLinkEl.addEventListener("touchend", _ => {
-                        window.open(url, '_blank')        
-                    })
+
+            let providerLinkEl = document.querySelector(`.provider-icon-${provider}`)
+            providerLinkEl.addEventListener("touchend", _ => {
+                window.open(url, '_blank')
+            })
 
         }
     }
@@ -88,7 +85,6 @@ export const renderResults = results => {
 
     const mouseOver = (elementId, srcOver, srcOut) => {
         let image = document.querySelector(`${elementId}`);
-        // console.log(elementId, srcOver, srcOut)
         image.addEventListener("mouseover", _ => {
             image.setAttribute('src', `${srcOver}`)
         });
@@ -104,7 +100,7 @@ export const renderResults = results => {
         image.addEventListener("touchmove", _ => {
             image.setAttribute('src', `${srcOut}`)
         });
-    } 
+    }
 
     const copySuccessToolip = _ => {
         const resultsLinkEl = document.querySelector(".results-link");
@@ -114,7 +110,7 @@ export const renderResults = results => {
             copySuccessEl.classList.add("copy-success-anim");
         })
         resultsLinkEl.addEventListener("mouseout", _ => {
-                copySuccessEl.classList.remove("copy-success-anim");
+            copySuccessEl.classList.remove("copy-success-anim");
             copySuccessEl.classList.add("hidden");
 
         })
@@ -137,7 +133,7 @@ export const renderResults = results => {
 
             let shareEl = document.querySelector(".results-share")
             shareEl.addEventListener("touchend", _ => {
-                window.open(website, '_blank')        
+                window.open(website, '_blank')
             })
 
             putShareLinkToAddressBar();
@@ -161,7 +157,7 @@ export const renderResults = results => {
 
             let shareEl = document.querySelector(".results-share")
             shareEl.addEventListener("touchend", _ => {
-                window.open(`https://www.google.com/search?q=${name}`, '_blank')        
+                window.open(`https://www.google.com/search?q=${name}`, '_blank')
             })
 
             putShareLinkToAddressBar();
@@ -176,7 +172,7 @@ export const renderResults = results => {
     if (provider === 'google') {
 
         document.title = `Metafoodie - ${place.name}`
-        
+
         // RESET OF WEIGHTED AVERAGE CALCULATIONS
 
         scoresArr = [];
@@ -203,15 +199,16 @@ export const renderResults = results => {
 
     }
 
-    // REMOVE ARROW INFO
+    // SHOW ARROW INFO
 
     resultsArrowEl.classList.remove("hidden");
+    resultsMobileArrowEl.classList.remove("hidden");
 
     if (place) {
 
         // AVERAGE SCORE PRESENTATION
 
-        if (isRatingNumber) {
+        if (isRatingNumber && place.user_ratings_total > 0) {
 
             // RESULTS RENDER FOR MOBILE AND DESTKOP
 
@@ -247,28 +244,24 @@ export const renderResults = results => {
             let backgroundColor;
 
             colorTransition(ratingSummaryEl, percentage);
-            // console.log('miki')
-
-            // if (percentage > 85) {
-            //     backgroundColor = "#4c9f26"
-            // } else if (percentage > 70) {
-            //     backgroundColor = "#ddee07"
-            //     textColor = "#444444"
-            // } else if (percentage > 50) {
-            //     backgroundColor = "#d49520"
-            // } else {
-            //     backgroundColor = "red"
-            // }
-
-            // ratingSummaryEl.style.backgroundColor = backgroundColor;
-            // ratingSummaryEl.style.color = textColor;
             ratingSummaryEl.innerHTML = `
-            <p class="score-info">średnia ważona</p>
-            <p class="score-percentage">${percentage}%</p>`
+            <p class="score-info">ocena średnia</p>
+            <p class="score-percentage">${percentage/20}</p>`
+
+        } else if (isRatingNumber && place.user_ratings_total === 0) {
+
+            loadingError(provider);
+
+            colorTransition(ratingSummaryEl, '1');
+
+            ratingSummaryEl.innerHTML = `
+            <p class="zero-score-warning">Obiekt ma zero ocen w bazie Google</p>
+            `
+
+
 
         } else {
 
-            // console.log('złoty groń 2')
             loadingError(provider)
 
         }

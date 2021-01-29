@@ -5,15 +5,6 @@ import {
     renderResults
 } from './render-results'
 import {
-    matchMediaMobile,
-    matchMediaTablet,
-    matchMediaDesktop,
-} from './mediaqueries'
-import {
-    loadingErrorMobile,
-    loadingErrorTablet,
-    loadingErrorDesktop,
-    mediaQueryChange,
     loadingError
 } from './loading-error-catch'
 
@@ -110,52 +101,3 @@ export const yelpFetch = (name, lat, lng) => {
             })
     
     }
-
-// const yelpEndpoint = 'https://api.yelp.com/v3'
-// const CORS = 'https://cors-anywhere.herokuapp.com/'
-
-//     const yelpURL = `${CORS}${yelpEndpoint}/businesses/search?term=${yelpName}&latitude=${lat}&longitude=${lng}&limit=3&radius=100`
-
-//     fetch(yelpURL, {
-//             headers: {
-//                 'Authorization': 'Bearer eUOzyXXUDELRannD8wqSnnZPs9cyKPqOsJBaFoBELGTTyghw1gL47dIPKLGb2HpFd_tDo0Z4TxJrd2Tv39b4dG_qjf7wMBU-sqUnjQY5kHOdXXDM-R50tLY5tETrX3Yx'
-//             }
-//         })
-//         .then(response => response.json())
-//         .then(yelpObject => {
-//             console.log('yelpObject pre')
-//             console.log(yelpObject)
-
-//             yelpData = {
-//                 data: [{
-//                     name: yelpObject.businesses[0].name,
-//                     rating: yelpObject.businesses[0].rating,
-//                     rating_count: yelpObject.businesses[0].review_count,
-//                     url: yelpObject.businesses[0].url
-//                 }],
-//                 provider: 'yelp'
-//             }
-
-//             // APPEND RESULTS
-//             console.log('yelpObject post')
-//             console.log(yelpObject)
-
-
-//             renderResults(yelpData);
-
-//         })
-//         .catch(err => {
-
-//             // if (getIdObject.meta.code === 429) {
-//             //     loadingErrorEndOfAPICalls('yelp')
-//             // } else if (getIdObject.meta.code === 404) {
-//             //     loadingError('yelp')
-//             // } else {
-//             loadingError('yelp')
-//             // }
-//             console.log(err);
-
-//         });
-// }
-
-// END YELP FETCH

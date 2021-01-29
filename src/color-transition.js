@@ -55,13 +55,6 @@ export const colorTransition = (element, percentage) => {
 
     element.style.color = `#${textColor}`;
 
-    // console.log('r,g,b');
-    // console.log(r, g, b);
-    // console.log('rEnd,gEnd,bEnd');
-    // console.log(rEnd, gEnd, bEnd);
-    // console.log('rDiff,gDiff,bDiff');
-    // console.log(rDiff, gDiff, bDiff);
-
     let change = setInterval(_ => {
 
         if (step < 100) {

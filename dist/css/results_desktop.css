@@ -184,5 +184,10 @@
     display: block;
   }
 }
+@media (min-width: 901px) {
+  .results-mobile-arrow-info {
+    display: none;
+  }
+}
 
 /*# sourceMappingURL=results_desktop.css.map */
