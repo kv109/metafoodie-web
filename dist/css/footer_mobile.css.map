@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../scss/footer_mobile.scss","../scss/variables.scss"],"names":[],"mappings":"AAGA;EAEI;IACI;IAEA;IACA;IACA;IACA;IACA;;;EAGJ;IACI;IACA;IACA;;;EAGJ;IACI,OCpBA;;;EDuBJ;IACI;IACA;;;EAIJ;IACI","file":"footer_mobile.css"}
+{"version":3,"sourceRoot":"","sources":["../scss/footer_mobile.scss","../scss/variables.scss"],"names":[],"mappings":"AAGA;EAEI;IACI;IACA;IAEA;IAEA;IACA;IACA;IACA;IACA;;;EAGJ;IACI;IACA;IACA;;;EAGJ;IACI,OCvBA;;;ED0BJ;IACI;IACA;;;EAIJ;IACI","file":"footer_mobile.css"}

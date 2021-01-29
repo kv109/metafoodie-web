@@ -561,16 +561,16 @@ button {
     margin-bottom: 2rem;
   }
 
-  .results-empty h2.arrow-font {
+  .results-empty :first-child {
     font-family: Montserrat;
-    font-size: 1.7rem;
-    margin: 1rem 0 1rem 0;
-    line-height: 2rem;
+    font-size: 1rem;
+    font-weight: bold;
   }
 
-  .results-empty p.arrow-font {
+  .results-empty :nth-child(2) {
     font-family: Montserrat;
-    font-size: 1.3rem;
+    font-size: 0.8rem;
+    line-height: 1rem;
   }
 
   .results-empty-arrow-image {
@@ -580,30 +580,20 @@ button {
   .results-name {
     font-family: Montserrat;
     font-weight: 600;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
+    margin: 0 0 0 0;
+    display: inline;
     padding: 0 0 0 0;
     color: #333333;
   }
 
   .results-name::before {
-    content: "__";
+    content: "____";
     position: relative;
     display: block;
     color: lightgray;
     top: -0.7rem;
-  }
-
-  .results-share {
-    display: inline;
-  }
-
-  .results-share a {
-    color: #4c9f26;
-    text-decoration: none;
-  }
-
-  .results-share a:hover {
-    text-decoration: underline;
+    height: 1.5rem;
   }
 
   .results-link {
@@ -611,7 +601,7 @@ button {
   }
 
   .results-link-img {
-    width: 1.7rem;
+    width: 1.5rem;
     padding: 0.8rem 0.3rem 0 0.3rem;
   }
 
@@ -632,12 +622,12 @@ button {
   }
 
   .score-info {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     padding: 0 0.3rem 0 0.3rem;
   }
 
   .score-percentage {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: 900;
     padding: 0 0 0 0;
     margin-left: 1rem;
@@ -760,7 +750,7 @@ button {
 }
 @media (max-width: 900px) {
   header {
-    padding: 1rem 0 1rem 0;
+    padding: 1rem 0.5rem 1rem 0.5rem;
     background: #333333;
     color: #fff;
     line-height: 1.5rem;
@@ -833,7 +823,7 @@ button {
   }
 
   #map {
-    height: 25vh;
+    height: 55vh;
     margin-top: 2rem;
   }
 
@@ -853,12 +843,11 @@ button {
   }
 
   main {
-    position: relative;
+    position: fixed;
     background: white;
-    z-index: 1;
-    top: 0px;
-    margin-top: 1rem;
-    padding-bottom: 1rem;
+    z-index: 5;
+    top: 80vh;
+    height: 100vh;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
@@ -875,7 +864,9 @@ button {
 }
 @media (max-width: 900px) {
   footer {
+    display: none;
     height: 3rem;
+    padding-bottom: 2rem;
     align-items: center;
     justify-content: center;
     color: #333333;

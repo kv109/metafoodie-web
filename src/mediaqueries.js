@@ -40,7 +40,7 @@
   matchMediaMobile.addListener(mobileInputListener)
 
   desktopInputListener()
-  matchMediaDesktop.addListener(desktopInputListener)
+  matchMediaDesktop.addListener(desktopInputListener);
 
 
 
@@ -60,14 +60,14 @@
   const mapGrowMobileListener = _ => {
 
     if (matchMediaMobile.matches) {
-      mapEl.addEventListener("click", mapGrow)
+      mapEl.addEventListener("touchend", mapGrow)
     }
   }
 
   const mapGrowDesktopListener = _ => {
 
     if (matchMediaDesktop.matches) {
-      mapEl.removeEventListener("click", mapGrow)
+      mapEl.removeEventListener("touchend", mapGrow)
       mapDesktopSize();
     }
   }

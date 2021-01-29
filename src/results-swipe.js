@@ -9,16 +9,18 @@ export const swipeResults = _ => {
     let mainEl = document.querySelector("main");
     let yStartTouch, yEndTouch;
     const transitionDuration = 0.5;
-
-    mainEl.style.top = `-68vh`
+    const resultsTopPosition = 23;
+    const resultsBottomPosition = 85;
+    // let resultsDown = false;
+    mainEl.style.top = `${resultsTopPosition}vh`
 
     // SLIDE DOWN ON TOUCH OUTSIDE OF RESULTS AREA
 
     window.addEventListener("touchend", e => {
-        console.log(e.target);
+        // console.log(e.target);
 
         if (!mainEl.contains(e.target)) {
-            mainEl.style.top = `0px`
+            mainEl.style.top = `${resultsBottomPosition}vh`
         }
     })
 
@@ -72,14 +74,59 @@ export const swipeResults = _ => {
 
         yEndTouch = e.changedTouches[0].clientY;
 
+        // SLIDE DOWN 
+
         if (yEndTouch > yStartTouch) {
-            mainEl.style.top = `0px`
-        } else if (yEndTouch < yStartTouch) {
-            let mapRectHeight = mapEl.getBoundingClientRect().bottom - mapEl.getBoundingClientRect().top;
-            let yMain = mapRectHeight - 15;
-            mainEl.style.top = `-${yMain}px`
+            mainEl.style.top = `${resultsBottomPosition}vh`
         }
 
-    })
+        // SLIDE UP
+        else if (yEndTouch < yStartTouch) {
+            mainEl.style.top = `${resultsTopPosition}vh`
+        }
 
+        // TOUCH WHEN RESULTS ARE IN THE BOTTOM
+
+        else if ((yEndTouch === yStartTouch)) {
+            mainEl.style.top = `${resultsTopPosition}vh`
+        }
+
+
+        // // SLIDE DOWN WHEN WINDOW ON THE TOP
+
+        // if (!resultsDown && (yEndTouch > yStartTouch)) {
+        //     mainEl.style.top = `0px`
+        //     resultsDown = true;
+        // } 
+
+        // // SLIDE DOWN WHEN WINDOW ON THE BOTTOM
+
+        // else if (resultsDown && (yEndTouch > yStartTouch)) {
+        //     // mainEl.style.top = `1110px`
+        //     mainEl.style.backgroundColor = `red`
+        //     resultsDown = true;
+        // }
+
+
+        // // SLIDE UP WHEN WINDOW ON THE BOTTOM
+
+        // else if (resultsDown && (yEndTouch < yStartTouch)) {
+        //     let mapRectHeight = mapEl.getBoundingClientRect().bottom - mapEl.getBoundingClientRect().top;
+        //     let yMain = mapRectHeight - 15;
+        //     mainEl.style.top = `-${yMain}px`
+        //     resultsDown = false;
+        // }
+
+        // // SLIDE UP WHEN WINDOW ON THE TOP
+
+        // else if (!resultsDown && (yEndTouch < yStartTouch)) {
+        //     let mapRectHeight = mapEl.getBoundingClientRect().bottom - mapEl.getBoundingClientRect().top;
+        //     let yMain = mapRectHeight - 15;
+        //     mainEl.style.top = `-${yMain}px`
+        //     resultsDown = false;
+        // }
+
+
+
+    })
 }

@@ -11,7 +11,7 @@
   }
 
   #map {
-    height: 25vh;
+    height: 55vh;
     margin-top: 2rem;
   }
 
@@ -31,12 +31,11 @@ button {
   }
 
   main {
-    position: relative;
+    position: fixed;
     background: white;
-    z-index: 1;
-    top: 0px;
-    margin-top: 1rem;
-    padding-bottom: 1rem;
+    z-index: 5;
+    top: 80vh;
+    height: 100vh;
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }

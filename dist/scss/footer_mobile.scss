@@ -4,7 +4,10 @@
 @media (max-width:variables.$media-mobile) {
 
     footer {
+        display: none;
         height: 3rem;
+        // margin-bottom: 1rem;
+        padding-bottom: 2rem;
         // display: flex;
         align-items: center;
         justify-content: center;

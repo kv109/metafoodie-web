@@ -7,16 +7,18 @@
         margin-bottom: 2rem;
     }
 
-    .results-empty h2.arrow-font {
+    .results-empty :first-child {
         font-family: Montserrat;
-        font-size: 1.7rem;
-        margin: 1rem 0 1rem 0;
-        line-height: 2rem;
+        font-size: 1rem;
+        font-weight: bold;
+        // margin: -1rem 0 0 0;
+        // line-height: 2rem;
     }
 
-    .results-empty p.arrow-font {
+    .results-empty :nth-child(2) {
         font-family: Montserrat;
-        font-size: 1.3rem;
+        font-size: 0.8rem;
+        line-height: 1rem;
         // margin: 1rem 0 1rem 0;
     }
 
@@ -27,37 +29,47 @@
     .results-name {
         font-family: Montserrat;
         font-weight: 600;
-        font-size: 2.2rem;
+        font-size: 1.6rem;
+        margin: 0 0 0 0;
         // line-height: 2.5rem;
+        display: inline;
         padding: 0 0 0 0;
         color: variables.$black
     }
 
     .results-name::before {
-        content: '__';
+        content: '____';
         position: relative;
         display: block;
         color: lightgray;
         top: -0.7rem;
+        height: 1.5rem
         // padding-bottom: -1rem;
         // margin-bottom: -0.5rem;
+    }
+
+    .results-links {
+        // display: inline;
+        // display: inline;
+        // align-items: center;
+
     }
 
     .results-share {
         // display: none;
         // font-size: 1rem;
         // padding: 0 0 0 1rem;
-        display: inline;
+        // display: inline;
     }
 
-    .results-share a {
-        color: variables.$green;
-        text-decoration: none;
-    }
+    // .results-share a {
+    //     color: variables.$green;
+    //     text-decoration: none;
+    // }
 
-    .results-share a:hover {
-        text-decoration: underline;
-    }
+    // .results-share a:hover {
+    //     text-decoration: underline;
+    // }
 
     .results-link {
         // display: inline;
@@ -65,7 +77,7 @@
     }
 
     .results-link-img {
-        width: 1.7rem;
+        width: 1.5rem;
         padding: 0.8rem 0.3rem 0 0.3rem
     }
 
@@ -87,12 +99,12 @@
     }
 
     .score-info {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         padding: 0 0.3rem 0 0.3rem;
     }
 
     .score-percentage {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
         font-weight: 900;
         padding: 0 0 0 0;
         margin-left: 1rem;

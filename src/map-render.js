@@ -23,29 +23,31 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
     const headerEl = document.querySelector("header");
     const inputEl = document.getElementById('pac-input');
+// console.log(inputEl);
+    inputEl.blur();
 
-    const focusMobile = _ => {
-        if (matchMediaMobile.matches) {
-            inputEl.blur()
-        }
-    }
-    const focusTablet = _ => {
-        if (matchMediaTablet.matches) {
-            inputEl.focus()
-        }
-    }
-    const focusDesktop = _ => {
-        if (matchMediaDesktop.matches) {
-            inputEl.focus()
-        }
-    }
+    // const focusMobile = _ => {
+    //     if (matchMediaMobile.matches) {
+    //         inputEl.blur()
+    //     }
+    // }
+    // const focusTablet = _ => {
+    //     if (matchMediaTablet.matches) {
+    //         inputEl.focus()
+    //     }
+    // }
+    // const focusDesktop = _ => {
+    //     if (matchMediaDesktop.matches) {
+    //         inputEl.focus()
+    //     }
+    // }
 
-    focusMobile();
-    focusTablet();
-    focusDesktop();
-    matchMediaMobile.addListener(focusMobile);
-    matchMediaTablet.addListener(focusTablet);
-    matchMediaDesktop.addListener(focusDesktop);
+    // focusMobile();
+    // focusTablet();
+    // focusDesktop();
+    // matchMediaMobile.addListener(focusMobile);
+    // matchMediaTablet.addListener(focusTablet);
+    // matchMediaDesktop.addListener(focusDesktop);
 
     // SET MAP HEIGHT
 
@@ -72,7 +74,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
     const icon = {
 
-        url: 'http://maps.gstatic.com/mapfiles/ms2/micons/green.png',
+        url: 'https://maps.gstatic.com/mapfiles/ms2/micons/green.png',
         // url: 'https://walanus.pl/metafoodie/img/marker-icon/noun_Map%20Marker_22297C.png',
         // size: new google.maps.Size(100, 132),
         origin: new google.maps.Point(0, 0)

@@ -135,7 +135,7 @@ export const renderResults = results => {
 
             // OPEN WEBSITE LINK ON TOUCH ON MOBILE
 
-            let shareEl = document.querySelector(".results-share")
+            let shareEl = document.querySelector(".results-share a")
             shareEl.addEventListener("touchend", _ => {
                 window.open(website, '_blank')
             })
@@ -161,7 +161,7 @@ export const renderResults = results => {
 
             // OPEN WEBSITE LINK ON TOUCH ON MOBILE
 
-            let shareEl = document.querySelector(".results-share")
+            let shareEl = document.querySelector(".results-share a")
             shareEl.addEventListener("touchend", _ => {
                 window.open(`https://www.google.com/search?q=${name}`, '_blank')
             })
