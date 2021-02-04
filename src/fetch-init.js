@@ -19,7 +19,7 @@ export const fetchResults = place => {
     const lng = location.lng()
 
     zomatoFetch(name, lat, lng); // 1000 API calls daily
-    foursquareFetch(name, lat, lng); // 500 API calls daily
+    // foursquareFetch(name, lat, lng); // 500 API calls daily
     yelpFetch(name, lat, lng) // 5000 API calls daily
 
 }

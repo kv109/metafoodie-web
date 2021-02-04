@@ -2,28 +2,71 @@ import {
     matchMediaMobile,
     matchMediaDesktop
 } from './mediaqueries'
+// import {getResultsHeight} from './render-results'
 
-export const swipeResults = _ => {
 
+export const swipeResults = map => {
+
+    // DOM CACHE
+    
     const mapEl = document.getElementById('map');
-    let mainEl = document.querySelector("main");
-    let gridEl = document.querySelector(".grid-results");
+    const mainEl = document.querySelector("main");
+    const gridEl = document.querySelector(".grid-results");
+    // const resultsNameEl = document.querySelector(".results-name");
+    // const resultsLinksEl = document.querySelector(".results-link");
+    // const resultsAddressEl = document.querySelector(".results-address");
+    // const resultsAverageEl = document.querySelector(".results-average");
+    // const resultsProvidersEl = document.querySelector(".results-providers-wrapper");
+    // const resultsMobileArrowInfoEl = document.querySelector(".results-mobile-arrow-info");
+
+    // let totalResultsHeight = resultsLinksEl.offsetHeight;
+    // let totalResultsHeight = resultsNameEl.offsetHeight;
+
+    // console.log(totalResultsHeight);
+
+    // console.log('resultsHeight(gridEl)')
+    // console.log(getResultsHeight(gridEl))
+    
+
+    // VARIABLES
+
     let yStartTouch, yEndTouch;
-    const transitionDuration = 0.5;
-    // const resultsTopPosition = `23vh`;
     let windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    const transitionDuration = 0.5;
+
     const resultsTopPosition = `${windowHeight-450}px`;
-    console.log(mainEl.offsetHeight);
-    console.log(getComputedStyle(mainEl).height)
     const resultsBottomPosition = 85;
-    mainEl.style.top = resultsTopPosition
+
+    // ALLOW OR DISALLOW CLICKING ON MARKERS
+
+    const clickableMarkers = boolean => {
+        map.setOptions({
+            clickableIcons: boolean
+        })
+    }
+
+    // INITIAL SETUP
+
+    mainEl.style.top = resultsTopPosition;
+    
+    const clickableMarkersMobile = _ => {
+        if (matchMediaMobile.matches) {
+            clickableMarkers(false);
+        }
+    }
+
+    clickableMarkersMobile(false);
+    matchMediaMobile.addListener(clickableMarkersMobile(false))
+
 
     // SLIDE DOWN ON TOUCH OUTSIDE OF RESULTS AREA
 
     window.addEventListener("touchend", e => {
 
         if (!mainEl.contains(e.target)) {
-            mainEl.style.top = `${resultsBottomPosition}vh`
+            mainEl.style.top = `${resultsBottomPosition}vh`;
+            clickableMarkers(true);
         }
     })
 
@@ -80,18 +123,24 @@ export const swipeResults = _ => {
         // SLIDE DOWN 
 
         if (yEndTouch > yStartTouch) {
-            mainEl.style.top = `${resultsBottomPosition}vh`
+            mainEl.style.top = `${resultsBottomPosition}vh`;
+            clickableMarkers(true);
+
         }
 
         // SLIDE UP
         else if (yEndTouch < yStartTouch) {
-            mainEl.style.top = resultsTopPosition
+            mainEl.style.top = resultsTopPosition;
+            // console.log(map);
+            clickableMarkers(false);
+
         }
 
         // TOUCH WHEN RESULTS ARE IN THE BOTTOM
-
         else if ((yEndTouch === yStartTouch)) {
-            mainEl.style.top = resultsTopPosition
+            mainEl.style.top = resultsTopPosition;
+            clickableMarkers(false);
+
         }
 
     })

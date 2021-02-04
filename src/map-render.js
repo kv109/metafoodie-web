@@ -21,38 +21,52 @@ export const mapRender = (client_lat, client_lon, zoom) => {
     let markers = [];
     let infoWindow;
 
+    const placeMarker = place => {
+
+        markers.forEach(marker => {
+            marker.setMap(null);
+        });
+        markers = [];
+
+
+        let marker = new google.maps.Marker({
+            map,
+            icon,
+            title: place.name,
+            position: place.geometry.location
+        })
+    
+        markers.push(marker);
+
+        infoWindow = new google.maps.InfoWindow({
+            content: `<p class="infowindow-title">${place.name}</p>
+            <p class="infowindow-text">${place.formatted_address}</p>
+            <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj informacji o '${place.name}' w Google</a></p>
+            `
+        });
+
+        // SHOW INFOWINDOW ONLY ON DESKTOP
+
+        const infoWindowDesktop = _ => {
+            if (matchMediaDesktop.matches) {
+                infoWindow.open(map, marker);
+            }
+        }
+
+        infoWindowDesktop();
+        matchMediaDesktop.addListener(infoWindowDesktop);
+
+
+    }
+
     const headerEl = document.querySelector("header");
     const inputEl = document.getElementById('pac-input');
-// console.log(inputEl);
     inputEl.blur();
 
-    // const focusMobile = _ => {
-    //     if (matchMediaMobile.matches) {
-    //         inputEl.blur()
-    //     }
-    // }
-    // const focusTablet = _ => {
-    //     if (matchMediaTablet.matches) {
-    //         inputEl.focus()
-    //     }
-    // }
-    // const focusDesktop = _ => {
-    //     if (matchMediaDesktop.matches) {
-    //         inputEl.focus()
-    //     }
-    // }
-
-    // focusMobile();
-    // focusTablet();
-    // focusDesktop();
-    // matchMediaMobile.addListener(focusMobile);
-    // matchMediaTablet.addListener(focusTablet);
-    // matchMediaDesktop.addListener(focusDesktop);
 
     // SET MAP HEIGHT
 
     const mapEl = document.getElementById('map');
-
 
     const mapHeightDesktop = _ => {
 
@@ -64,7 +78,6 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
             })
         }
-
     }
 
     mapHeightDesktop();
@@ -94,8 +107,10 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         mapTypeId: 'roadmap',
         mapTypeControl: false,
         streetViewControl: false,
-        mapId: '33280f2f68566682',
+        mapId: '33280f2f68566682'
+
     });
+
 
     // INITIALIZING GOOGLE PLACES SERVICE
 
@@ -126,7 +141,11 @@ export const mapRender = (client_lat, client_lon, zoom) => {
                 placeId: event.placeId
             }, (place, status) => {
 
-                swipeResults();
+
+
+                placeMarker(place);
+
+                swipeResults(map);
                 renderResults({
                     data: [place],
                     provider: "google"
@@ -146,12 +165,6 @@ export const mapRender = (client_lat, client_lon, zoom) => {
             return;
         }
 
-        // Clear out the old markers.
-        markers.forEach(marker => {
-            marker.setMap(null);
-        });
-        markers = [];
-
         // For each place, get the icon, name and location.
         let bounds = new google.maps.LatLngBounds();
         let place = places;
@@ -164,26 +177,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
         // Create a marker for each place.
 
-        let marker = new google.maps.Marker({
-            map,
-            icon,
-            title: place.name,
-            position: place.geometry.location
-        })
-
-        markers.push(marker);
-
-
-        // INFO WINDOW
-
-        infoWindow = new google.maps.InfoWindow({
-            content: `<p class="infowindow-title">${place.name}</p>
-            <p class="infowindow-text">${place.formatted_address}</p>
-            <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj informacji o '${place.name}' w Google</a></p>
-            `
-        });
-
-        infoWindow.open(map, marker);
+        placeMarker(place);
 
 
         if (place.geometry.viewport) {
@@ -196,7 +190,7 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         map.fitBounds(bounds);
         inputEl.value = '';
 
-        swipeResults();
+        swipeResults(map);
 
         renderResults({
             data: [place],
@@ -219,23 +213,26 @@ export const mapRender = (client_lat, client_lon, zoom) => {
         const request = {
             query: decodedUserQuery,
             fields: ["name", "geometry", "type", "rating", "user_ratings_total", "formatted_address"]
-            // 'geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'url', 'website'
         };
 
         placesService.findPlaceFromQuery(request, (results, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                for (let i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
-                }
+                // for (let i = 0; i < results.length; i++) {
+                //     createMarker(results[i]);
+                // }              
 
                 let place = results[0];
                 map.setCenter(place.geometry.location);
+                map.setOptions({
+                    zoom: 16
+                })
                 inputEl.value = '';
 
                 if (matchMediaMobile.matches) {
                     mapGrow();
                 }
-                swipeResults();
+
+                swipeResults(map);
                 renderResults({
                     data: [place],
                     provider: "google"
@@ -243,25 +240,10 @@ export const mapRender = (client_lat, client_lon, zoom) => {
 
                 fetchResults(place);
 
+                placeMarker(place);
+
             }
         });
 
-        const createMarker = place => {
-            const marker = new google.maps.Marker({
-                map,
-                position: place.geometry.location,
-                icon
-            });
-
-            infoWindow = new google.maps.InfoWindow({
-                content: `<p class="infowindow-title">${place.name}</p>
-                <p class="infowindow-text">${place.formatted_address}</p>
-                <p class="infowindow-link"><a href="https://www.google.com/search?q=${place.name}%20${place.formatted_address}" target="_blank">Szukaj informacji o '${place.name}' w Google</a></p>
-                `
-            });
-
-            infoWindow.open(map, marker);
-
-        }
     }
 };

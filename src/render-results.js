@@ -14,7 +14,13 @@ import {
 
 let scoresArr = [];
 let totalRatingCount = 0;
+// let resultsHeight;
 // let summary = 0;
+
+// export const getResultsHeight = element => {
+//     return element.offsetHeight;
+// }
+
 
 export const renderResults = results => {
 
@@ -200,6 +206,7 @@ export const renderResults = results => {
     }
 
     // RATING'S COUNT FOR OTHER PROVIDERS
+
     else {
 
         rating_count = place.rating_count;
@@ -214,11 +221,18 @@ export const renderResults = results => {
     if (place) {
 
         // AVERAGE SCORE PRESENTATION
-        if (isRatingNumber && rating_count  > 0) {
+        if (isRatingNumber && rating_count > 0) {
 
             // RESULTS RENDER FOR MOBILE AND DESTKOP
 
-            printResultsForMobile(url, provider, rating, rating_count)
+            printResultsForMobile(url, provider, rating, rating_count);
+
+            // const gridEl = document.querySelector(".grid-results");
+            // console.log('render resultsHeight(gridEl)');
+            // console.log(getResultsHeight(gridEl));
+            
+            // resultsHeight(gridEl)
+
             printResultsForDesktop(url, provider, rating, rating_count)
 
             matchMediaMobile.addListener(_ => printResultsForMobile(url, provider, rating, rating_count))
@@ -254,7 +268,7 @@ export const renderResults = results => {
             <p class="score-info">ocena średnia</p>
             <p class="score-percentage">${percentage/20}</p>`
 
-        } else if (isRatingNumber && rating_count === 0) {
+        } else if (isRatingNumber && provider === 'google' && rating_count === 0) {
 
             loadingError(provider);
 
@@ -263,9 +277,6 @@ export const renderResults = results => {
             ratingSummaryEl.innerHTML = `
             <p class="zero-score-warning">Obiekt ma zero ocen w bazie Google</p>
             `
-
-
-
         } else {
 
             loadingError(provider)
@@ -273,11 +284,11 @@ export const renderResults = results => {
         }
     }
 
-    // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
-    else {
+    // // IF SCORE NOT AVAILABLE FOR THE PLACE, PRINTS "Couldn't find"
+    // else {
 
-        printToHTML(provider, ':(');
-        printToHTML(provider, `Couldn't find`);
-    }
+    //     printToHTML(provider, ':(');
+    //     printToHTML(provider, `Couldn't find`);
+    // }
 
 }
