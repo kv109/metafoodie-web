@@ -141,8 +141,6 @@ export const mapRender = (client_lat, client_lon, zoom) => {
                 placeId: event.placeId
             }, (place, status) => {
 
-
-
                 placeMarker(place);
 
                 swipeResults(map);
