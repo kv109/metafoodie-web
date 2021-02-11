@@ -1,12 +1,12 @@
 import {
     preloader
-} from './preloader'
+} from './preloader.js'
 import {
     renderResults
-} from './render-results'
+} from './render-results.js'
 import {
     loadingError
-} from './loading-error-catch'
+} from './loading-error-catch.js'
 
 
 

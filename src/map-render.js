@@ -1,18 +1,18 @@
 import {
     renderResults
-} from './render-results'
+} from './render-results.js'
 import {
     fetchResults
-} from './fetch-init'
+} from './fetch-init.js'
 import {
     matchMediaMobile,
     matchMediaTablet,
     matchMediaDesktop,
     mapGrow
-} from './mediaqueries'
+} from './mediaqueries.js'
 import {
     swipeResults
-} from './results-swipe'
+} from './results-swipe.js'
 
 
 export const mapRender = (client_lat, client_lon, zoom) => {

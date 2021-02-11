@@ -19,7 +19,18 @@ let r = rStart;
 let g = gStart;
 let b = bStart;
 
+// console.log('Start')
+
+// console.log(rStart)
+// console.log(gStart)
+// console.log(bStart)
+
 export const colorTransition = (element, percentage) => {
+
+// console.log('percentage')
+// console.log(percentage)
+
+    // if (percentage > 0) {
 
     for (let i = 0; percentage < colorsArr[i][0]; i++) {
         
@@ -28,11 +39,22 @@ export const colorTransition = (element, percentage) => {
         bEnd = colorsArr[i+1][3];
         textColor = colorsArr[i+1][4];
 
+    // console.log('End')
+        
+    //     console.log(rEnd)
+    //     console.log(gEnd)
+    //     console.log(bEnd)
+
     }
 
     let rDiff = Number(parseFloat((rEnd - r) / 100).toFixed(2));
     let gDiff = Number(parseFloat((gEnd - g) / 100).toFixed(2));
     let bDiff = Number(parseFloat((bEnd - b) / 100).toFixed(2));
+
+    // console.log('diff')
+    // console.log(rDiff)
+    // console.log(gDiff)
+    // console.log(bDiff)
 
     step = 0;
 
@@ -46,6 +68,10 @@ export const colorTransition = (element, percentage) => {
             r = Number(parseFloat(r + rDiff).toFixed(2));
             g = Number(parseFloat(g + gDiff).toFixed(2));
             b = Number(parseFloat(b + bDiff).toFixed(2));
+            // console.log('r,g,b')
+            // console.log(r)
+            // console.log(g)
+            // console.log(b)
             step++;
         } else {
             clearInterval(change);
@@ -53,4 +79,8 @@ export const colorTransition = (element, percentage) => {
 
     }, 7);
 
+
 }
+// else {console.log('brak percentage')}
+
+// }

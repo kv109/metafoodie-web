@@ -1,12 +1,12 @@
 import {
     yelpFetch
-} from './fetch-yelp'
+} from './fetch-yelp.js'
 import {
     zomatoFetch
-} from './fetch-zomato'
+} from './fetch-zomato.js'
 import {
     foursquareFetch
-} from './fetch-foursquare'
+} from './fetch-foursquare.js'
 
 
 // ------------------------------------------- FETCH FROM PROVIDERS

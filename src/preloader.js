@@ -1,6 +1,6 @@
 import {
     firstUpperCase
-} from './first-upper-case'
+} from './first-upper-case.js'
 
 
 // PRELOADER -> ROTATING ARROW

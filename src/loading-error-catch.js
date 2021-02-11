@@ -1,12 +1,12 @@
 import {
     firstUpperCase
-} from './first-upper-case'
+} from './first-upper-case.js'
 import {
     matchMediaMobile,
     matchMediaTablet,
     matchMediaDesktop,
     mediaQueryChange
-} from './mediaqueries'
+} from './mediaqueries.js'
 
 export const loadingErrorMobile = (provider) => {
 

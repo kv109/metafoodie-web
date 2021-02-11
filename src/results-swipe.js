@@ -1,7 +1,7 @@
 import {
     matchMediaMobile,
     matchMediaDesktop
-} from './mediaqueries'
+} from './mediaqueries.js'
 // import {getResultsHeight} from './render-results'
 
 

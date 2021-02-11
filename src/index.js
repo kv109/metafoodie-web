@@ -1,6 +1,6 @@
 require("./app")
 
-import {mapRender} from './map-render'
+import {mapRender} from './map-render.js'
 
 // ------------------------------------------- APP INIT AND GEOLOCATION
 

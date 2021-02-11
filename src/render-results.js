@@ -1,16 +1,16 @@
 import {
     matchMediaMobile,
     matchMediaDesktop,
-} from './mediaqueries'
+} from './mediaqueries.js'
 import {
     printToHTML
-} from './print-to-html'
+} from './print-to-html.js'
 import {
     loadingError
-} from './loading-error-catch'
+} from './loading-error-catch.js'
 import {
     colorTransition
-} from './color-transition'
+} from './color-transition.js'
 
 let scoresArr = [];
 let totalRatingCount = 0;
