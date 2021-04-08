@@ -73,6 +73,36 @@ export const renderResults = results => {
         }
     }
 
+    const printFBForDesktop = _ => {
+        if (matchMediaDesktop.matches) {
+            // providerTagEl.classList.add("results-provider-hover")
+            document.querySelector('.results-provider-facebook').innerHTML = `<!--DESKTOP -->
+                    
+            <a href="" target="_blank" class="provider-background cancel-pointer">
+                    <p class="provider-icon"><img class="icon" src="img/provider-facebook-dim.svg" alt="fb"></p>
+                    <p class="provider-rating-count no-results-info">available soon</p></div>
+                    `
+        }
+    }
+
+    const printFBForMobile = _ => {
+        if (matchMediaMobile.matches) {
+            // providerTagEl.classList.add("results-provider-hover")
+            document.querySelector('.results-provider-facebook').innerHTML = `<!--MOBILE-->
+                    
+            <p class="provider-icon"><img class="icon" src="img/provider-facebook-dim.svg" alt="facebook"></p>
+            <p class="provider-rating-count no-results-info">avail-</br>able soon</p></div>
+
+                    `
+        }
+    }
+
+    if (matchMediaDesktop.matches) {printFBForDesktop();}
+    if (matchMediaMobile.matches) {printFBForMobile();}
+
+    matchMediaMobile.addListener(printFBForMobile);
+matchMediaDesktop.addListener(printFBForDesktop);
+
     const createShareLink = _ => {
         if (window.location.href.indexOf('?query') < 1) {
             shareEndpoint = `${window.location.href.slice(0,window.location.href.indexOf('?query'))}/?query=`
@@ -123,6 +153,12 @@ export const renderResults = results => {
 
         })
     }
+
+    // console.log(provider)
+
+    // if (provider === 'fb') {
+    //     printFBForDesktop();
+    // }
 
     const renderNameAndLinks = _ => {
 

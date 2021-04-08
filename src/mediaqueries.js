@@ -76,4 +76,4 @@ mapGrowMobileListener();
 mapGrowDesktopListener();
 
 matchMediaMobile.addListener(mapGrowMobileListener);
-matchMediaMobile.addListener(mapGrowDesktopListener);
+matchMediaDesktop.addListener(mapGrowDesktopListener);

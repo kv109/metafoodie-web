@@ -6,7 +6,7 @@ import {mapRender} from './map-render.js'
 
 window.App.initAutocomplete = _ => {
 
-    // IP GEOLOCATION 1. HTML5 geolocation 2. IP geolocation, 3. Predefined location
+    // IP GEOLOCATION 1. IP geolocation, 2. HTML5 geolocation, 3. Predefined location
 
     fetch('https://ipinfo.io/?token=76daefe47a48fd')
         .then(response => response.json())

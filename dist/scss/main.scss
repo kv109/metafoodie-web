@@ -50,9 +50,15 @@
 
 .infowindow-text {}
 
-.infowindow-link a {text-decoration: none;}
+.infowindow-link a {
+    text-decoration: none;
+}
 
 .zero-score-warning {
     padding: 1rem 1rem 1rem 1rem;
     font-weight: bold;
+}
+
+.cancel-pointer {
+    cursor: default;
 }
